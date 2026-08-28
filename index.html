@@ -44,7 +44,7 @@
 
   .card{background:var(--card);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(20,30,50,0.06);}
   .card h2{margin:0 0 4px;font-size:15px;color:var(--navy);}
-  .muted{color:var(--muted);font-size:13px;}
+  .muted{color:var(--muted);font-size:13.5px;}
 
   .ring-wrap{display:flex;flex-direction:column;align-items:center;padding:22px 18px 6px;}
   .ring-svg{width:180px;height:180px;}
@@ -58,21 +58,17 @@
   .ring-phase-chip{margin-top:14px;background:var(--teal);color:#fff;font-size:13px;font-weight:700;padding:7px 16px;border-radius:999px;text-align:center;}
   .ring-phase-desc{font-size:13px;color:var(--muted);text-align:center;margin-top:8px;padding:0 12px;line-height:1.5;}
   .edit-date{border:none;background:none;color:var(--care);font-size:12px;font-weight:600;margin-top:10px;cursor:pointer;text-decoration:underline;font-family:var(--font);}
-  .goal-item{display:flex;gap:9px;font-size:13.5px;color:#262626;line-height:1.55;margin-bottom:8px;align-items:flex-start;}
+  .goal-item{display:flex;gap:9px;font-size:14px;color:#262626;line-height:1.55;margin-bottom:8px;align-items:flex-start;}
   .goal-num{width:20px;height:20px;border-radius:50%;background:var(--teal);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
 
-  .checkin-status{font-size:12.5px;color:var(--teal);font-weight:700;margin-bottom:14px;}
-  .checkin-status.pending{color:var(--muted);font-weight:600;}
-  .checkin-validation{font-size:12px;color:var(--danger);margin-top:10px;min-height:14px;}
-  .checkin-privacy{font-size:11px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5;}
   .card .primary-btn{margin-top:14px;}
 
   /* UCLA option lists */
   .ucla-block{margin-bottom:22px;}
-  .ucla-q{font-size:13.5px;font-weight:700;margin-bottom:3px;}
-  .ucla-sub{font-size:12px;color:var(--muted);line-height:1.45;margin-bottom:10px;}
+  .ucla-q{font-size:15px;font-weight:700;margin-bottom:3px;}
+  .ucla-sub{font-size:13px;color:var(--muted);line-height:1.45;margin-bottom:10px;}
   .ucla-opts{display:flex;flex-direction:column;gap:7px;}
-  .ucla-opt{display:flex;align-items:flex-start;gap:10px;border:1.5px solid var(--border);background:#fff;border-radius:var(--radius-sm);padding:12px 13px;font-size:13px;line-height:1.45;font-family:var(--font);color:var(--text);text-align:left;cursor:pointer;transition:.15s;width:100%;}
+  .ucla-opt{display:flex;align-items:flex-start;gap:10px;border:1.5px solid var(--border);background:#fff;border-radius:var(--radius-sm);padding:14px 13px;font-size:14px;line-height:1.45;font-family:var(--font);color:var(--text);text-align:left;cursor:pointer;transition:.15s;width:100%;}
   .ucla-opt:hover{border-color:#C6CDD8;}
   .ucla-opt.selected{border-color:var(--teal);border-width:2px;background:var(--ok-bg);font-weight:600;}
   .ucla-opt.locked{cursor:default;opacity:.5;}
@@ -80,15 +76,6 @@
   .ucla-pts{flex-shrink:0;min-width:30px;height:24px;border-radius:7px;background:#EEF1F5;color:var(--muted);font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;}
   .ucla-opt.selected .ucla-pts{background:var(--teal);color:#fff;}
 
-  .settle-opts{display:flex;flex-direction:column;gap:8px;}
-  .settle-opt{display:flex;align-items:center;gap:10px;border:1.5px solid var(--border);background:#fff;border-radius:var(--radius-sm);padding:12px 14px;font-size:13.5px;font-family:var(--font);color:var(--text);text-align:left;cursor:pointer;transition:.15s;width:100%;}
-  .settle-opt .sdot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-  .settle-opt.selected{border-width:2px;font-weight:700;}
-  .settle-opt.selected.g{border-color:var(--ok-border);background:var(--ok-bg);}
-  .settle-opt.selected.y{border-color:var(--warn-border);background:var(--warn-bg);}
-  .settle-opt.selected.r{border-color:#E68A84;background:var(--danger-bg);}
-  .settle-opt.locked{cursor:default;opacity:.55;}
-  .settle-opt.locked.selected{opacity:1;}
 
   .home-footer{text-align:center;padding:18px 12px 6px;}
   .surgeon-credit{font-size:12.5px;color:var(--muted);margin-bottom:10px;}
@@ -123,23 +110,16 @@
   .ex-icon{width:46px;height:46px;border-radius:12px;background:#EAF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .ex-icon svg{width:28px;height:28px;stroke:var(--care);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
   .ex-body{flex:1;min-width:0;}
-  .ex-name{font-weight:700;font-size:13.5px;margin-bottom:2px;}
+  .ex-name{font-weight:700;font-size:14.5px;margin-bottom:2px;}
   .ex-name.checked-text{text-decoration:line-through;color:var(--muted);}
-  .ex-desc{font-size:12.5px;color:var(--muted);line-height:1.45;}
-  .ex-dose{font-size:11.5px;color:var(--teal);font-weight:700;margin-top:4px;}
-  .ex-cue{font-size:12px;color:var(--care);line-height:1.45;margin-top:5px;font-style:italic;}
+  .ex-desc{font-size:13.5px;color:var(--muted);line-height:1.45;}
+  .ex-dose{font-size:12.5px;color:var(--teal);font-weight:700;margin-top:4px;}
+  .ex-cue{font-size:13px;color:var(--care);line-height:1.45;margin-top:5px;font-style:italic;}
   .ex-phase-def{background:#EAF0F6;color:var(--care);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:12px;font-size:13px;line-height:1.5;}
   .ex-phase-def strong{display:block;margin-bottom:3px;font-size:13.5px;}
   .ex-caution{display:flex;gap:8px;background:var(--warn-bg);color:var(--warn-text);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:12px;font-size:13px;line-height:1.5;font-weight:600;}
 
   /* video slots */
-  .vid-slot{margin-top:9px;}
-  .vid-btn{display:flex;align-items:center;gap:8px;width:100%;border:1.5px dashed #C6CDD8;background:#FAFBFC;border-radius:10px;padding:9px 12px;font-size:12.5px;font-weight:600;color:var(--care);cursor:pointer;font-family:var(--font);text-align:left;}
-  .vid-btn:hover{border-color:var(--care);background:#F3F7FB;}
-  .vid-btn svg{width:15px;height:15px;fill:var(--care);flex-shrink:0;}
-  .vid-slot video{width:100%;border-radius:10px;background:#000;display:block;}
-  .vid-missing{font-size:11.5px;color:var(--muted);background:#F5F7FA;border-radius:10px;padding:10px 12px;line-height:1.5;}
-  .vid-missing code{font-size:11px;color:var(--care);word-break:break-all;}
 
   .zone-row{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border);}
   .zone-row:last-child{border-bottom:none;}
@@ -177,7 +157,7 @@
   .sleep-icon{width:52px;height:52px;border-radius:14px;background:#EAF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:24px;}
   .sleep-card.avoid .sleep-icon{background:var(--danger-bg);}
   .sleep-title{font-weight:700;font-size:14px;margin-bottom:3px;}
-  .sleep-desc{font-size:13px;color:var(--muted);line-height:1.5;}
+  .sleep-desc{font-size:13.5px;color:var(--muted);line-height:1.5;}
 
   .sos-banner{background:linear-gradient(135deg,var(--danger),#8f241d);color:#fff;border-radius:var(--radius);padding:18px;margin-bottom:16px;}
   .sos-banner h2{margin:0 0 6px;font-size:16px;color:#fff;}
@@ -186,12 +166,10 @@
   .flag-section-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--danger-dark);margin:4px 0 10px;}
   .flag-item{display:flex;gap:10px;background:var(--danger-bg);border-radius:var(--radius-sm);padding:13px 14px;margin-bottom:9px;align-items:flex-start;}
   .flag-dot{width:8px;height:8px;border-radius:50%;background:var(--danger);margin-top:6px;flex-shrink:0;}
-  .flag-text{font-size:13.5px;color:var(--danger-dark);line-height:1.45;}
+  .flag-text{font-size:14px;color:var(--danger-dark);line-height:1.45;}
   .call-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--danger);color:#fff;border:none;border-radius:999px;padding:16px;font-size:15px;font-weight:700;margin:16px 0 8px;cursor:pointer;text-decoration:none;}
   .call-btn svg{width:18px;height:18px;fill:#fff;}
-  .call-btn.emergency{background:#7A1D17;margin-top:10px;}
   .app-disclaimer{font-size:11px;color:var(--muted);text-align:center;line-height:1.55;margin-top:16px;padding:0 4px;}
-  .emergency-note{font-size:12px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5;}
 
   nav.tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--border);display:flex;padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));z-index:30;}
   .tab-btn{flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 1px;cursor:pointer;color:var(--muted);font-family:var(--font);min-width:0;}
@@ -262,8 +240,8 @@
   .res-card.video .res-icon{background:#FDECEC;}
   .res-card.video .res-icon svg{stroke:var(--danger);}
   .res-body{flex:1;min-width:0;}
-  .res-title{font-weight:700;font-size:13.5px;line-height:1.35;margin-bottom:3px;}
-  .res-desc{font-size:12.5px;color:var(--muted);line-height:1.45;}
+  .res-title{font-weight:700;font-size:14.5px;line-height:1.35;margin-bottom:3px;}
+  .res-desc{font-size:13px;color:var(--muted);line-height:1.45;}
   .res-meta{display:flex;align-items:center;gap:7px;margin-top:7px;flex-wrap:wrap;}
   .res-src{font-size:10.5px;font-weight:700;color:var(--care);background:#EAF0F6;border-radius:5px;padding:3px 7px;}
   .res-lang{font-size:10.5px;font-weight:700;color:var(--muted);border:1px solid var(--border);border-radius:5px;padding:2px 6px;}
@@ -271,6 +249,37 @@
   .res-arrow svg{width:17px;height:17px;stroke:#C6CDD8;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
   .res-note{background:#EAF0F6;color:var(--care);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:18px;font-size:12.5px;line-height:1.55;}
 
+  /* weekly assessment reminder */
+  .weekly{border-radius:var(--radius);padding:16px 18px;margin-bottom:14px;border-left:5px solid;}
+  .weekly.due{background:var(--warn-bg);border-color:var(--warn-border);}
+  .weekly.done{background:var(--ok-bg);border-color:var(--ok-border);}
+  .weekly-kicker{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;opacity:.75;margin-bottom:5px;}
+  .weekly-title{font-size:15.5px;font-weight:800;margin-bottom:5px;}
+  .weekly-body{font-size:13px;line-height:1.55;}
+  .weekly.due .weekly-kicker,.weekly.due .weekly-title,.weekly.due .weekly-body{color:var(--warn-text);}
+  .weekly.done .weekly-kicker,.weekly.done .weekly-title,.weekly.done .weekly-body{color:var(--ok-text);}
+  .weekly .primary-btn{margin-top:12px;}
+  .weekly.done .primary-btn{background:#fff;color:var(--ok-text);border:1.5px solid var(--ok-border);}
+
+  /* general-guidance note on Home */
+  .scope-note{display:flex;gap:11px;align-items:flex-start;background:#EAF0F6;color:var(--care);border-radius:var(--radius);padding:15px 16px;margin-bottom:14px;font-size:12.5px;line-height:1.6;}
+  .scope-icon{font-size:16px;flex-shrink:0;line-height:1.3;}
+
+  /* media (image and/or video) attached to an exercise or sleep item */
+  .media{margin-top:11px;}
+  .media img{width:100%;border-radius:10px;display:block;background:var(--bg);}
+  .media video{width:100%;border-radius:10px;background:#000;display:block;}
+  .media-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:none;background:var(--care);color:#fff;border-radius:10px;padding:11px 12px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);margin-top:8px;}
+  .media-btn svg{width:15px;height:15px;fill:#fff;flex-shrink:0;}
+
+  /* chart axis + plain-language read-out */
+  .chart-axis{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin-top:5px;}
+  .chart-read{font-size:12.5px;line-height:1.5;margin-top:9px;padding-top:9px;border-top:1px solid var(--border);color:var(--muted);}
+  .chart-read b{color:var(--text);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+  }
   .hidden{display:none !important;}
   ::-webkit-scrollbar{width:0;height:0;}
 </style>
@@ -295,7 +304,7 @@
   <main>
     <!-- HOME -->
     <section class="view active" id="view-home">
-      <div class="card" style="padding-bottom:6px;">
+      <div class="card" style="padding-bottom:16px;">
         <div class="ring-wrap">
           <svg class="ring-svg" viewBox="0 0 160 160">
             <circle class="ring-bg" cx="80" cy="80" r="70"></circle>
@@ -303,14 +312,19 @@
           </svg>
           <div class="ring-center">
             <div class="ring-day" id="ring-day">—</div>
-            <div class="ring-daylabel" id="ring-daylabel">UCLA</div>
+            <div class="ring-daylabel" id="ring-daylabel"></div>
             <div class="ring-grade" id="ring-grade"></div>
           </div>
           <div class="ring-phase-chip" id="ring-phase-chip">—</div>
           <div class="ring-phase-desc" id="ring-phase-desc"></div>
-          <button class="edit-date" onclick="openMeasure()" data-t="remeasureBtn">Update my assessment</button>
         </div>
+        <hr style="border:0;border-top:1px solid var(--border);margin:16px 0 14px;">
+        <h2 data-t="roadmapTitle">Your Recovery Roadmap</h2>
+        <div class="stepper" id="home-stepper" style="margin-top:14px;"></div>
+        <p class="muted" data-t="roadmapNote" style="margin-top:14px;line-height:1.55;"></p>
       </div>
+
+      <div id="weekly-reminder"></div>
 
       <div class="card">
         <h2 id="goals-title">Your goals right now</h2>
@@ -319,23 +333,13 @@
       </div>
 
       <div class="card">
-        <h2 data-t="roadmapTitle">Your Recovery Roadmap</h2>
-        <div class="stepper" id="home-stepper"></div>
-        <p class="muted" data-t="roadmapNote" style="margin-top:14px;line-height:1.55;"></p>
-      </div>
-
-      <div class="card">
         <h2 data-t="todayTitle">Today's Reminders</h2>
         <p class="muted" id="today-reminders" style="line-height:1.6;font-size:13.5px;color:#3a3a3a;"></p>
       </div>
 
-      <div class="card" id="checkin-card">
-        <h2 data-t="checkinTitle">Daily Check-in</h2>
-        <div class="checkin-status" id="checkin-status"></div>
-        <div id="checkin-body"></div>
-        <div class="checkin-validation" id="checkin-validation"></div>
-        <button class="primary-btn" id="checkin-submit-btn" onclick="handleSubmitCheckin()" data-t="checkinSubmitBtn">Submit Today's Check-in</button>
-        <div class="checkin-privacy" data-t="checkinPrivacyNote"></div>
+      <div class="scope-note">
+        <div class="scope-icon">ℹ️</div>
+        <div data-t="scopeNote"></div>
       </div>
 
       <div class="home-footer">
@@ -379,6 +383,12 @@
       </div>
       <div class="res-note" data-t="resNote"></div>
       <div id="res-list"></div>
+      <div class="card" style="margin-top:22px;">
+        <h2 data-t="escalateTitle">What your doctor might add</h2>
+        <p class="muted" data-t="escalateIntro" style="line-height:1.55;"></p>
+        <div id="escalate-list" style="margin-top:12px;"></div>
+        <p class="muted" data-t="escalateNoDose" style="margin-top:12px;font-size:11.5px;"></p>
+      </div>
     </section>
 
     <!-- ALERT -->
@@ -393,17 +403,6 @@
         <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8z"/></svg>
         <span id="call-btn-text"></span>
       </a>
-      <a class="call-btn emergency" href="tel:1669">
-        <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8z"/></svg>
-        <span data-t="emergencyCallBtn"></span>
-      </a>
-      <p class="emergency-note" data-t="emergencyNote"></p>
-      <div class="card" style="margin-top:18px;">
-        <h2 data-t="escalateTitle">What your doctor might add</h2>
-        <p class="muted" data-t="escalateIntro" style="line-height:1.55;"></p>
-        <div id="escalate-list" style="margin-top:12px;"></div>
-        <p class="muted" data-t="escalateNoDose" style="margin-top:12px;font-size:11.5px;"></p>
-      </div>
       <p class="app-disclaimer" data-t="appDisclaimer"></p>
     </section>
   </main>
@@ -481,6 +480,7 @@
     <div id="measure-body"></div>
     <button class="primary-btn" id="measure-next" onclick="measureNext()">Next</button>
     <button class="skip-link" id="measure-back" onclick="measureBack()"></button>
+    <button class="skip-link" id="measure-cancel" onclick="cancelMeasure()"></button>
   </div>
 </div>
 
@@ -583,18 +583,20 @@ en: {
     ["Keep stretching — range you stop using, you lose","Add resistance gradually: assisted, then active, then resisted","Rebuild shoulder-blade control so the arm feels steady","Trust the shoulder with real loads again"],
     ["Use the arm normally without planning around it","Return to work, sport and hobbies at full effort","Keep a short maintenance routine going","Catch any stiffness creeping back early"]
   ],
-  checkinTitle:"Daily Check-in",
-  checkinSubmitBtn:"Submit Today's Check-in",
-  checkinLockedNote:"you can check in again tomorrow",
-  checkinSubmittedPrefix:"Submitted today at ",
-  checkinNotSubmitted:"Not yet submitted today",
-  checkinValidationPain:"Please answer the pain question.",
-  checkinValidationFunc:"Please answer the function question.",
-  checkinSettleValidation:"Please answer how your shoulder felt the next morning.",
-  checkinPrivacyNote:"Your responses help your care team follow your recovery.",
-  settleLabel:"How was your shoulder the morning after your last session?",
-  settleHint:"A shoulder that settles overnight can be pushed a little further.",
-  settleOpts:["Back to its usual self","A bit sore, then fine","Still clearly worse"],
+  weeklyDueKicker:"Weekly assessment",
+  weeklyDueTitle:"Time for this week's assessment",
+  weeklyDueBody:"Once a week is enough. It takes about two minutes and it is what keeps your programme matched to your shoulder.",
+  weeklyDueBtn:"Start this week's assessment",
+  weeklyOverdueTitle:"Your assessment is {n} weeks overdue",
+  weeklyOverdueBody:"Your programme is still showing results from your last assessment, so it may no longer match how your shoulder is now.",
+  weeklyDoneKicker:"Weekly assessment",
+  weeklyDoneTitle:"Done for this week",
+  weeklyDoneBody:"Recorded {d}. Your next one is due {next}. Keep doing your exercises daily in the meantime.",
+  weeklyDoneBtn:"Update it anyway",
+  weeklyNoneTitle:"Start with your first assessment",
+  weeklyNoneBody:"The app needs one assessment before it can show you the right programme.",
+  measureValidation:"Please answer both questions before continuing.",
+  scopeNote:"This app gives general guidance for frozen shoulder. Every shoulder recovers at its own pace, and your own condition may differ from what is described here. Where your doctor's advice differs from this app, follow your doctor.",
   surgeonLabel:"Your doctor",
   resetBtn:"Reset App Data",
   resetConfirm:"This will erase your HN, assessments, exercise progress and check-ins on this device. This can't be undone. Continue?",
@@ -607,7 +609,7 @@ en: {
      languages so a link only has to be changed once. */
   resTitle:"Learn more",
   resIntro:"Trusted background reading and video on frozen shoulder. These open outside the app.",
-  resNote:"These are for general understanding. Your own programme in this app is the one to follow.",
+  resNote:"These are for general understanding.",
   resGroupVideo:"Video",
   resGroupArticle:"Reading",
   resLangEn:"English", resLangTh:"ไทย",
@@ -693,34 +695,32 @@ en: {
 
   exPhaseDefTitle:"What this stage is for",
   exCaution:"Stretch to tension, not to pain. If it is still worse the next morning, you went too far.",
-  videoBtn:"Watch how to do it",
-  videoMissing:"Video not uploaded yet. Place the clip at ",
   exercises:[
     [
-      {id:"p1_1", ic:"pendulum", vid:"fs-01-pendulum.mp4", name:"Pendulum swing", dose:"10 each direction", desc:"Lean forward and let the arm hang completely loose. Small circles, then small forward-and-back swings.", cue:"If your shoulder is working, you are doing it too big."},
-      {id:"p1_2", ic:"wallwalk", vid:"fs-02-finger-walk.mp4", name:"Finger walk up the wall", dose:"5 slow reps", desc:"Face the wall and walk your fingers upward until you feel a stretch. Hold, then walk back down.", cue:"Stop at a stretch, not at a sting."},
-      {id:"p1_3", ic:"extrot", vid:"fs-03-assisted-external-rotation.mp4", name:"Assisted outward rotation", dose:"8 reps, hold 5 sec", desc:"Elbow tucked at your side and bent to 90°. Use a stick or your other hand to turn the forearm outward.", cue:"The elbow stays against your ribs the whole time."},
-      {id:"p1_4", ic:"scapula", vid:"fs-04-scapular-setting.mp4", name:"Shoulder-blade setting", dose:"10 reps", desc:"Gently draw the shoulder blades back and down. Small movement, no shrugging.", cue:"Your neck should stay relaxed."}
+      {id:"p1_1", ic:"pendulum", img:"fs-01-pendulum.jpg", vid:"fs-01-pendulum.mp4", name:"Pendulum swing", dose:"10 each direction", desc:"Lean forward and let the arm hang completely loose. Small circles, then small forward-and-back swings.", cue:"If your shoulder is working, you are doing it too big."},
+      {id:"p1_2", ic:"wallwalk", img:"fs-02-finger-walk.jpg", vid:"fs-02-finger-walk.mp4", name:"Finger walk up the wall", dose:"5 slow reps", desc:"Face the wall and walk your fingers upward until you feel a stretch. Hold, then walk back down.", cue:"Stop at a stretch, not at a sting."},
+      {id:"p1_3", ic:"extrot", img:"fs-03-assisted-external-rotation.jpg", vid:"fs-03-assisted-external-rotation.mp4", name:"Assisted outward rotation", dose:"8 reps, hold 5 sec", desc:"Elbow tucked at your side and bent to 90°. Use a stick or your other hand to turn the forearm outward.", cue:"The elbow stays against your ribs the whole time."},
+      {id:"p1_4", ic:"scapula", img:"fs-04-scapular-setting.jpg", vid:"fs-04-scapular-setting.mp4", name:"Shoulder-blade setting", dose:"10 reps", desc:"Gently draw the shoulder blades back and down. Small movement, no shrugging.", cue:"Your neck should stay relaxed."}
     ],
     [
-      {id:"p2_1", ic:"wallslide", vid:"fs-05-wall-slide.mp4", name:"Wall slide", dose:"8 reps", desc:"Forearm on the wall, slide it upward as far as is comfortable. Note the highest point you reach.", cue:"Log your best height — it is the clearest sign of progress."},
-      {id:"p2_2", ic:"stick", vid:"fs-06-stick-assisted-elevation.mp4", name:"Assisted overhead reach", dose:"8 reps, hold 10 sec", desc:"Hold a stick with both hands and use the good arm to push the stiff arm upward.", cue:"Breathe out as you move into the stretch."},
-      {id:"p2_3", ic:"extrot", vid:"fs-07-external-rotation-stretch.mp4", name:"Outward rotation stretch", dose:"5 reps, hold 20 sec", desc:"Elbow supported at your side, rotate outward and hold at the end of the comfortable range.", cue:"This is the movement that stays stuck longest. Be patient with it."},
-      {id:"p2_4", ic:"crossbody", vid:"fs-08-cross-body-stretch.mp4", name:"Cross-body stretch", dose:"5 reps, hold 20 sec", desc:"Bring the arm across your chest, supporting it with the other hand above the elbow.", cue:"Pull at the upper arm, never at the wrist."},
-      {id:"p2_5", ic:"towel", vid:"fs-09-towel-internal-rotation.mp4", name:"Towel stretch behind the back", dose:"6 reps, hold 10 sec", desc:"Towel over the good shoulder. Grip the low end with the stiff arm and gently pull it upward.", cue:"This is what gets you back into a jacket."}
+      {id:"p2_1", ic:"wallslide", img:"fs-05-wall-slide.jpg", vid:"fs-05-wall-slide.mp4", name:"Wall slide", dose:"8 reps", desc:"Forearm on the wall, slide it upward as far as is comfortable. Note the highest point you reach.", cue:"Log your best height — it is the clearest sign of progress."},
+      {id:"p2_2", ic:"stick", img:"fs-06-stick-assisted-elevation.jpg", vid:"fs-06-stick-assisted-elevation.mp4", name:"Assisted overhead reach", dose:"8 reps, hold 10 sec", desc:"Hold a stick with both hands and use the good arm to push the stiff arm upward.", cue:"Breathe out as you move into the stretch."},
+      {id:"p2_3", ic:"extrot", img:"fs-07-external-rotation-stretch.jpg", vid:"fs-07-external-rotation-stretch.mp4", name:"Outward rotation stretch", dose:"5 reps, hold 20 sec", desc:"Elbow supported at your side, rotate outward and hold at the end of the comfortable range.", cue:"This is the movement that stays stuck longest. Be patient with it."},
+      {id:"p2_4", ic:"crossbody", img:"fs-08-cross-body-stretch.jpg", vid:"fs-08-cross-body-stretch.mp4", name:"Cross-body stretch", dose:"5 reps, hold 20 sec", desc:"Bring the arm across your chest, supporting it with the other hand above the elbow.", cue:"Pull at the upper arm, never at the wrist."},
+      {id:"p2_5", ic:"towel", img:"fs-09-towel-internal-rotation.jpg", vid:"fs-09-towel-internal-rotation.mp4", name:"Towel stretch behind the back", dose:"6 reps, hold 10 sec", desc:"Towel over the good shoulder. Grip the low end with the stiff arm and gently pull it upward.", cue:"This is what gets you back into a jacket."}
     ],
     [
-      {id:"p3_1", ic:"bander", vid:"fs-10-band-external-rotation.mp4", name:"Band outward rotation", dose:"2 sets of 12", desc:"Band anchored at waist height, elbow at your side, rotate the forearm outward against the band.", cue:"Slow on the way back is where the strength comes from."},
-      {id:"p3_2", ic:"bandir", vid:"fs-11-band-internal-rotation.mp4", name:"Band inward rotation", dose:"2 sets of 12", desc:"Same setup, rotating the forearm in toward your stomach.", cue:"Keep a rolled towel under the elbow if it drifts."},
-      {id:"p3_3", ic:"row", vid:"fs-12-band-row.mp4", name:"Band row", dose:"2 sets of 12", desc:"Pull both elbows back past your ribs, squeezing the shoulder blades together.", cue:"Lead with the elbows, not the hands."},
-      {id:"p3_4", ic:"raise", vid:"fs-13-light-forward-raise.mp4", name:"Light forward raise", dose:"2 sets of 10", desc:"Light weight or no weight. Raise the arm forward to shoulder height and lower slowly.", cue:"Add weight only once this is easy without a shrug."},
-      {id:"p3_5", ic:"carry", vid:"fs-14-loaded-carry.mp4", name:"Loaded carry", dose:"3 x 30 sec", desc:"Carry a bag or weight at your side, walking tall.", cue:"The most useful strength exercise there is."}
+      {id:"p3_1", ic:"bander", img:"fs-10-band-external-rotation.jpg", vid:"fs-10-band-external-rotation.mp4", name:"Band outward rotation", dose:"2 sets of 12", desc:"Band anchored at waist height, elbow at your side, rotate the forearm outward against the band.", cue:"Slow on the way back is where the strength comes from."},
+      {id:"p3_2", ic:"bandir", img:"fs-11-band-internal-rotation.jpg", vid:"fs-11-band-internal-rotation.mp4", name:"Band inward rotation", dose:"2 sets of 12", desc:"Same setup, rotating the forearm in toward your stomach.", cue:"Keep a rolled towel under the elbow if it drifts."},
+      {id:"p3_3", ic:"row", img:"fs-12-band-row.jpg", vid:"fs-12-band-row.mp4", name:"Band row", dose:"2 sets of 12", desc:"Pull both elbows back past your ribs, squeezing the shoulder blades together.", cue:"Lead with the elbows, not the hands."},
+      {id:"p3_4", ic:"raise", img:"fs-13-light-forward-raise.jpg", vid:"fs-13-light-forward-raise.mp4", name:"Light forward raise", dose:"2 sets of 10", desc:"Light weight or no weight. Raise the arm forward to shoulder height and lower slowly.", cue:"Add weight only once this is easy without a shrug."},
+      {id:"p3_5", ic:"carry", img:"fs-14-loaded-carry.jpg", vid:"fs-14-loaded-carry.mp4", name:"Loaded carry", dose:"3 x 30 sec", desc:"Carry a bag or weight at your side, walking tall.", cue:"The most useful strength exercise there is."}
     ],
     [
-      {id:"p4_1", ic:"selfcare", vid:"fs-15-level1-self-care.mp4", name:"Level 1 — self-care", dose:"Daily", desc:"Put on a shirt, wash your face, comb your hair — without planning around the shoulder.", cue:""},
-      {id:"p4_2", ic:"reach", vid:"fs-16-level2-everyday-reach.mp4", name:"Level 2 — everyday reach", dose:"Daily", desc:"Reach a shelf, put on a seatbelt, reach behind your back.", cue:""},
-      {id:"p4_3", ic:"load", vid:"fs-17-level3-load.mp4", name:"Level 3 — load", dose:"3 times a week", desc:"Carry a full bag, lift overhead, do resistance work.", cue:""},
-      {id:"p4_4", ic:"life", vid:"fs-18-level4-return-to-life.mp4", name:"Level 4 — your life", dose:"As before", desc:"Back to the gym, the sport, or the specific thing your job asks of your shoulder.", cue:""}
+      {id:"p4_1", ic:"selfcare", img:"fs-15-level1-self-care.jpg", vid:"fs-15-level1-self-care.mp4", name:"Level 1 — self-care", dose:"Daily", desc:"Put on a shirt, wash your face, comb your hair — without planning around the shoulder.", cue:""},
+      {id:"p4_2", ic:"reach", img:"fs-16-level2-everyday-reach.jpg", vid:"fs-16-level2-everyday-reach.mp4", name:"Level 2 — everyday reach", dose:"Daily", desc:"Reach a shelf, put on a seatbelt, reach behind your back.", cue:""},
+      {id:"p4_3", ic:"load", img:"fs-17-level3-load.jpg", vid:"fs-17-level3-load.mp4", name:"Level 3 — load", dose:"3 times a week", desc:"Carry a full bag, lift overhead, do resistance work.", cue:""},
+      {id:"p4_4", ic:"life", img:"fs-18-level4-return-to-life.jpg", vid:"fs-18-level4-return-to-life.mp4", name:"Level 4 — your life", dose:"As before", desc:"Back to the gym, the sport, or the specific thing your job asks of your shoulder.", cue:""}
     ]
   ],
 
@@ -744,7 +744,7 @@ en: {
     {key:"ir",        name:"Reach behind your back", clin:"Internal rotation", max:8, unit:"", scored:false}
   ],
   irLandmarks:["Outer thigh","Buttock","Back pocket","Sacrum","Waistband","Low back","Mid back","Shoulder blade","Between blades"],
-  measureNext:"Next", measureFinish:"Save my assessment", measureBack:"Back",
+  measureNext:"Next", measureFinish:"Save my assessment", measureBack:"Back", measureCancel:"Close without saving",
 
   progNoData:"No assessment yet",
   progNoDataBody:"Complete your first assessment and this page will graph every parameter as it changes.",
@@ -763,21 +763,26 @@ en: {
     strength:{title:"Strength", sub:"manual muscle grade, 0 to 5"}
   },
   deltaSince:"since you started",
+  chartUp:"Up <b>{d}</b> from <b>{a}</b> at your first assessment to <b>{b}</b> now. That is progress.",
+  chartDown:"Down from <b>{a}</b> at your first assessment to <b>{b}</b> now. Mention this at your next visit.",
+  chartFlat:"Unchanged at <b>{b}</b> since your first assessment.",
+  chartNeedTwo:"Two assessments and this graph appears.",
+  mediaWatch:"Watch the video",
 
   sleepTitle:"Sleeping With a Frozen Shoulder",
   sleepIntro:"Night pain is the hardest part of the painful stage for most people. These positions help while it settles.",
   sleep:[
-    {icon:"🛏️", vid:"fs-sleep-01-back-supported.mp4", title:"On your back, arm supported", desc:"Lie on your back with a pillow under the affected forearm so the arm is not hanging or dropping backwards.", avoid:false},
-    {icon:"↔️", vid:"fs-sleep-02-side-lying-pillow.mp4", title:"On the good side, hugging a pillow", desc:"Lie on the unaffected side and rest the sore arm forward on a pillow at chest height.", avoid:false},
-    {icon:"🪑", vid:"fs-sleep-03-propped-upright.mp4", title:"Propped up", desc:"A recliner or a wedge of pillows often hurts less than lying flat in the painful stage.", avoid:false},
-    {icon:"🌙", vid:"fs-sleep-04-night-waking-mobility.mp4", title:"If stiffness wakes you", desc:"Do a few gentle pendulum swings or slow movements rather than lying still and waiting it out.", avoid:false},
-    {icon:"🚫", vid:"", title:"Do not lie on the painful shoulder", desc:"Direct pressure on the affected shoulder is the most common cause of night waking.", avoid:true}
+    {icon:"🛏️", img:"fs-sleep-01-back-supported.jpg", vid:"fs-sleep-01-back-supported.mp4", title:"On your back, arm supported", desc:"Lie on your back with a pillow under the affected forearm so the arm is not hanging or dropping backwards.", avoid:false},
+    {icon:"↔️", img:"fs-sleep-02-side-lying-pillow.jpg", vid:"fs-sleep-02-side-lying-pillow.mp4", title:"On the good side, hugging a pillow", desc:"Lie on the unaffected side and rest the sore arm forward on a pillow at chest height.", avoid:false},
+    {icon:"🪑", img:"fs-sleep-03-propped-upright.jpg", vid:"fs-sleep-03-propped-upright.mp4", title:"Propped up", desc:"A recliner or a wedge of pillows often hurts less than lying flat in the painful stage.", avoid:false},
+    {icon:"🌙", img:"fs-sleep-04-night-waking-mobility.jpg", vid:"fs-sleep-04-night-waking-mobility.mp4", title:"If stiffness wakes you", desc:"Do a few gentle pendulum swings or slow movements rather than lying still and waiting it out.", avoid:false},
+    {icon:"🚫", img:"", vid:"", title:"Do not lie on the painful shoulder", desc:"Direct pressure on the affected shoulder is the most common cause of night waking.", avoid:true}
   ],
 
   sosTitle:"When to Get Help",
   sosSub:"If you notice any of the signs below, contact your care team right away.",
   sosInfoNote:"Frozen shoulder is painful and slow, but it is not dangerous. The signs below are not part of the usual pattern — they mean something else may be going on.",
-  flagsHardLabel:"Contact your care team now",
+  flagsHardLabel:"See your doctor before your next appointment",
   flagsHard:[
     "New weakness — the arm gives way or cannot lift",
     "Fever, redness or marked swelling around the joint",
@@ -791,8 +796,6 @@ en: {
     "Other injectable options where a steroid is not suitable"
   ],
   escalateNoDose:"This app gives no medication or dosing advice.",
-  emergencyNote:"For a life-threatening emergency, call 1669 (Thailand emergency medical services) immediately.",
-  emergencyCallBtn:"Emergency — Call 1669",
   appDisclaimer:"This app provides general guidance only and does not replace advice from your doctor or physiotherapist. Always follow the instructions given by your care team.",
   callBtnPrefix:"Call ",
 
@@ -803,6 +806,7 @@ en: {
   onboardHNLabel:"Hospital Number (HN)",
   onboardHNHint:"Helps hospital staff find your records quickly.",
   monthNames:["January","February","March","April","May","June","July","August","September","October","November","December"],
+  monthNamesShort:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
   selectMonth:"Month", selectYear:"Year",
   consentTitle:"Your Privacy",
   consentText:"By continuing, you agree that your HN, UCLA shoulder scores, movement measurements and exercise progress will be recorded and shared with your care team to support your recovery, in line with Thailand's Personal Data Protection Act (PDPA).",
@@ -845,18 +849,20 @@ th: {
     ["ยืดต่อไป พิสัยที่หยุดใช้จะหายไป","เพิ่มแรงต้านทีละน้อย จากมีคนช่วย เป็นทำเอง แล้วจึงมีแรงต้าน","ฟื้นการควบคุมสะบักเพื่อให้แขนรู้สึกมั่นคง","กลับมาไว้ใจไหล่กับน้ำหนักจริงอีกครั้ง"],
     ["ใช้แขนได้ตามปกติโดยไม่ต้องคอยหลบ","กลับไปทำงาน เล่นกีฬา และงานอดิเรกได้เต็มที่","คงท่าบริหารสั้น ๆ ไว้อย่างสม่ำเสมอ","สังเกตอาการติดที่อาจกลับมาตั้งแต่เนิ่น ๆ"]
   ],
-  checkinTitle:"บันทึกอาการประจำวัน",
-  checkinSubmitBtn:"ส่งบันทึกของวันนี้",
-  checkinLockedNote:"บันทึกได้อีกครั้งในวันพรุ่งนี้",
-  checkinSubmittedPrefix:"ส่งแล้ววันนี้เวลา ",
-  checkinNotSubmitted:"ยังไม่ได้ส่งบันทึกของวันนี้",
-  checkinValidationPain:"กรุณาตอบคำถามเรื่องความปวด",
-  checkinValidationFunc:"กรุณาตอบคำถามเรื่องการใช้งาน",
-  checkinSettleValidation:"กรุณาตอบว่าเช้าวันถัดไปไหล่เป็นอย่างไร",
-  checkinPrivacyNote:"ข้อมูลของคุณช่วยให้ทีมผู้ดูแลติดตามการฟื้นตัวได้",
-  settleLabel:"เช้าวันถัดจากที่คุณออกกำลังกายครั้งล่าสุด ไหล่เป็นอย่างไร",
-  settleHint:"ถ้าไหล่กลับมาเป็นปกติภายในเช้าวันถัดไป แสดงว่าเพิ่มระดับได้อีกเล็กน้อย",
-  settleOpts:["กลับมาเป็นปกติเหมือนเดิม","ปวดเล็กน้อย แล้วก็หายไป","ยังแย่กว่าเดิมอย่างชัดเจน"],
+  weeklyDueKicker:"แบบประเมินประจำสัปดาห์",
+  weeklyDueTitle:"ถึงเวลาทำแบบประเมินของสัปดาห์นี้",
+  weeklyDueBody:"ทำสัปดาห์ละครั้งก็เพียงพอ ใช้เวลาประมาณ 2 นาที และเป็นสิ่งที่ทำให้โปรแกรมของคุณตรงกับอาการไหล่ในปัจจุบัน",
+  weeklyDueBtn:"เริ่มทำแบบประเมินของสัปดาห์นี้",
+  weeklyOverdueTitle:"เลยกำหนดแบบประเมินมาแล้ว {n} สัปดาห์",
+  weeklyOverdueBody:"โปรแกรมที่แสดงอยู่ยังอ้างอิงผลประเมินครั้งล่าสุด จึงอาจไม่ตรงกับอาการไหล่ของคุณในตอนนี้",
+  weeklyDoneKicker:"แบบประเมินประจำสัปดาห์",
+  weeklyDoneTitle:"ทำครบแล้วสำหรับสัปดาห์นี้",
+  weeklyDoneBody:"บันทึกเมื่อ {d} ครั้งถัดไปกำหนด {next} ระหว่างนี้ให้ทำท่าบริหารทุกวันตามปกติ",
+  weeklyDoneBtn:"แก้ไขผลประเมิน",
+  weeklyNoneTitle:"เริ่มจากแบบประเมินครั้งแรก",
+  weeklyNoneBody:"แอปต้องมีผลประเมินหนึ่งครั้งก่อน จึงจะแสดงโปรแกรมที่เหมาะกับคุณได้",
+  measureValidation:"กรุณาตอบทั้งสองคำถามก่อนไปต่อ",
+  scopeNote:"แอปนี้ให้คำแนะนำทั่วไปสำหรับภาวะข้อไหล่ติด ผู้ป่วยแต่ละคนฟื้นตัวด้วยความเร็วต่างกัน และอาการของคุณอาจต่างจากที่อธิบายไว้ที่นี่ หากคำแนะนำของแพทย์ต่างจากในแอป ให้ยึดตามคำแนะนำของแพทย์เป็นหลัก",
   surgeonLabel:"แพทย์ผู้ดูแล",
   resetBtn:"ล้างข้อมูลแอป",
   resetConfirm:"การทำเช่นนี้จะลบ HN ผลการประเมิน ความก้าวหน้าการออกกำลังกาย และบันทึกประจำวันบนอุปกรณ์นี้ ไม่สามารถย้อนกลับได้ ต้องการดำเนินการต่อหรือไม่",
@@ -865,7 +871,7 @@ th: {
 
   resTitle:"ความรู้เพิ่มเติม",
   resIntro:"แหล่งข้อมูลและวิดีโอที่เชื่อถือได้เกี่ยวกับภาวะข้อไหล่ติด ลิงก์เหล่านี้จะเปิดนอกแอป",
-  resNote:"ข้อมูลเหล่านี้ใช้เพื่อความเข้าใจทั่วไป โปรแกรมของคุณในแอปนี้คือสิ่งที่ควรยึดเป็นหลัก",
+  resNote:"ข้อมูลเหล่านี้ใช้เพื่อความเข้าใจทั่วไป",
   resGroupVideo:"วิดีโอ",
   resGroupArticle:"บทความ",
   resLangEn:"English", resLangTh:"ไทย",
@@ -950,34 +956,32 @@ th: {
 
   exPhaseDefTitle:"ระยะนี้มีไว้เพื่ออะไร",
   exCaution:"ยืดจนรู้สึกตึง ไม่ใช่จนปวด ถ้าเช้าวันถัดไปยังแย่กว่าเดิม แสดงว่าทำมากเกินไป",
-  videoBtn:"ดูวิธีทำ",
-  videoMissing:"ยังไม่ได้อัปโหลดวิดีโอ กรุณาวางไฟล์ไว้ที่ ",
   exercises:[
     [
-      {id:"p1_1", ic:"pendulum", vid:"fs-01-pendulum.mp4", name:"แกว่งแขนแบบลูกตุ้ม", dose:"10 ครั้งต่อทิศทาง", desc:"โน้มตัวไปข้างหน้าและปล่อยแขนห้อยให้ผ่อนคลายเต็มที่ แกว่งเป็นวงกลมเล็ก ๆ แล้วแกว่งหน้า-หลังเบา ๆ", cue:"ถ้ารู้สึกว่าไหล่ต้องออกแรง แสดงว่าแกว่งกว้างเกินไป"},
-      {id:"p1_2", ic:"wallwalk", vid:"fs-02-finger-walk.mp4", name:"ไต่นิ้วขึ้นผนัง", dose:"5 ครั้ง ช้า ๆ", desc:"หันหน้าเข้าผนัง ไต่นิ้วขึ้นไปจนรู้สึกตึง ค้างไว้ แล้วไต่กลับลงมา", cue:"หยุดที่ความตึง ไม่ใช่ที่ความปวด"},
-      {id:"p1_3", ic:"extrot", vid:"fs-03-assisted-external-rotation.mp4", name:"หมุนแขนออกโดยมีตัวช่วย", dose:"8 ครั้ง ค้าง 5 วินาที", desc:"หนีบข้อศอกไว้ข้างลำตัวและงอ 90 องศา ใช้ไม้หรือมือข้างที่ดีช่วยหมุนแขนออกด้านนอก", cue:"ข้อศอกต้องแนบชายโครงตลอดเวลา"},
-      {id:"p1_4", ic:"scapula", vid:"fs-04-scapular-setting.mp4", name:"จัดตำแหน่งสะบัก", dose:"10 ครั้ง", desc:"ค่อย ๆ ดึงสะบักไปด้านหลังและลงล่าง ขยับเล็กน้อย ไม่ยักไหล่", cue:"คอต้องผ่อนคลายอยู่ตลอด"}
+      {id:"p1_1", ic:"pendulum", img:"fs-01-pendulum.jpg", vid:"fs-01-pendulum.mp4", name:"แกว่งแขนแบบลูกตุ้ม", dose:"10 ครั้งต่อทิศทาง", desc:"โน้มตัวไปข้างหน้าและปล่อยแขนห้อยให้ผ่อนคลายเต็มที่ แกว่งเป็นวงกลมเล็ก ๆ แล้วแกว่งหน้า-หลังเบา ๆ", cue:"ถ้ารู้สึกว่าไหล่ต้องออกแรง แสดงว่าแกว่งกว้างเกินไป"},
+      {id:"p1_2", ic:"wallwalk", img:"fs-02-finger-walk.jpg", vid:"fs-02-finger-walk.mp4", name:"ไต่นิ้วขึ้นผนัง", dose:"5 ครั้ง ช้า ๆ", desc:"หันหน้าเข้าผนัง ไต่นิ้วขึ้นไปจนรู้สึกตึง ค้างไว้ แล้วไต่กลับลงมา", cue:"หยุดที่ความตึง ไม่ใช่ที่ความปวด"},
+      {id:"p1_3", ic:"extrot", img:"fs-03-assisted-external-rotation.jpg", vid:"fs-03-assisted-external-rotation.mp4", name:"หมุนแขนออกโดยมีตัวช่วย", dose:"8 ครั้ง ค้าง 5 วินาที", desc:"หนีบข้อศอกไว้ข้างลำตัวและงอ 90 องศา ใช้ไม้หรือมือข้างที่ดีช่วยหมุนแขนออกด้านนอก", cue:"ข้อศอกต้องแนบชายโครงตลอดเวลา"},
+      {id:"p1_4", ic:"scapula", img:"fs-04-scapular-setting.jpg", vid:"fs-04-scapular-setting.mp4", name:"จัดตำแหน่งสะบัก", dose:"10 ครั้ง", desc:"ค่อย ๆ ดึงสะบักไปด้านหลังและลงล่าง ขยับเล็กน้อย ไม่ยักไหล่", cue:"คอต้องผ่อนคลายอยู่ตลอด"}
     ],
     [
-      {id:"p2_1", ic:"wallslide", vid:"fs-05-wall-slide.mp4", name:"ไถแขนขึ้นผนัง", dose:"8 ครั้ง", desc:"วางท่อนแขนบนผนัง ไถขึ้นไปให้สูงที่สุดเท่าที่ยังสบาย จดจุดสูงสุดที่ทำได้", cue:"จดความสูงที่ดีที่สุด เป็นสัญญาณความก้าวหน้าที่ชัดที่สุด"},
-      {id:"p2_2", ic:"stick", vid:"fs-06-stick-assisted-elevation.mp4", name:"ยกแขนเหนือศีรษะโดยมีตัวช่วย", dose:"8 ครั้ง ค้าง 10 วินาที", desc:"จับไม้ด้วยมือทั้งสองข้าง ใช้แขนข้างที่ดีดันแขนข้างที่ติดขึ้นไป", cue:"หายใจออกขณะดันเข้าสู่ช่วงที่ตึง"},
-      {id:"p2_3", ic:"extrot", vid:"fs-07-external-rotation-stretch.mp4", name:"ยืดหมุนแขนออก", dose:"5 ครั้ง ค้าง 20 วินาที", desc:"ประคองข้อศอกไว้ข้างลำตัว หมุนแขนออกและค้างไว้ที่ปลายพิสัยที่ยังสบาย", cue:"ท่านี้มักติดนานที่สุด ต้องใจเย็น"},
-      {id:"p2_4", ic:"crossbody", vid:"fs-08-cross-body-stretch.mp4", name:"ยืดแขนข้ามลำตัว", dose:"5 ครั้ง ค้าง 20 วินาที", desc:"นำแขนพาดข้ามหน้าอก ใช้มืออีกข้างประคองเหนือข้อศอก", cue:"ดึงที่ต้นแขน ห้ามดึงที่ข้อมือ"},
-      {id:"p2_5", ic:"towel", vid:"fs-09-towel-internal-rotation.mp4", name:"ยืดด้วยผ้าขนหนูไพล่หลัง", dose:"6 ครั้ง ค้าง 10 วินาที", desc:"พาดผ้าขนหนูข้ามไหล่ข้างที่ดี ใช้แขนข้างที่ติดจับปลายล่างแล้วค่อย ๆ ดึงขึ้น", cue:"ท่านี้คือท่าที่ทำให้คุณกลับมาใส่เสื้อแขนยาวได้"}
+      {id:"p2_1", ic:"wallslide", img:"fs-05-wall-slide.jpg", vid:"fs-05-wall-slide.mp4", name:"ไถแขนขึ้นผนัง", dose:"8 ครั้ง", desc:"วางท่อนแขนบนผนัง ไถขึ้นไปให้สูงที่สุดเท่าที่ยังสบาย จดจุดสูงสุดที่ทำได้", cue:"จดความสูงที่ดีที่สุด เป็นสัญญาณความก้าวหน้าที่ชัดที่สุด"},
+      {id:"p2_2", ic:"stick", img:"fs-06-stick-assisted-elevation.jpg", vid:"fs-06-stick-assisted-elevation.mp4", name:"ยกแขนเหนือศีรษะโดยมีตัวช่วย", dose:"8 ครั้ง ค้าง 10 วินาที", desc:"จับไม้ด้วยมือทั้งสองข้าง ใช้แขนข้างที่ดีดันแขนข้างที่ติดขึ้นไป", cue:"หายใจออกขณะดันเข้าสู่ช่วงที่ตึง"},
+      {id:"p2_3", ic:"extrot", img:"fs-07-external-rotation-stretch.jpg", vid:"fs-07-external-rotation-stretch.mp4", name:"ยืดหมุนแขนออก", dose:"5 ครั้ง ค้าง 20 วินาที", desc:"ประคองข้อศอกไว้ข้างลำตัว หมุนแขนออกและค้างไว้ที่ปลายพิสัยที่ยังสบาย", cue:"ท่านี้มักติดนานที่สุด ต้องใจเย็น"},
+      {id:"p2_4", ic:"crossbody", img:"fs-08-cross-body-stretch.jpg", vid:"fs-08-cross-body-stretch.mp4", name:"ยืดแขนข้ามลำตัว", dose:"5 ครั้ง ค้าง 20 วินาที", desc:"นำแขนพาดข้ามหน้าอก ใช้มืออีกข้างประคองเหนือข้อศอก", cue:"ดึงที่ต้นแขน ห้ามดึงที่ข้อมือ"},
+      {id:"p2_5", ic:"towel", img:"fs-09-towel-internal-rotation.jpg", vid:"fs-09-towel-internal-rotation.mp4", name:"ยืดด้วยผ้าขนหนูไพล่หลัง", dose:"6 ครั้ง ค้าง 10 วินาที", desc:"พาดผ้าขนหนูข้ามไหล่ข้างที่ดี ใช้แขนข้างที่ติดจับปลายล่างแล้วค่อย ๆ ดึงขึ้น", cue:"ท่านี้คือท่าที่ทำให้คุณกลับมาใส่เสื้อแขนยาวได้"}
     ],
     [
-      {id:"p3_1", ic:"bander", vid:"fs-10-band-external-rotation.mp4", name:"หมุนแขนออกด้วยยางยืด", dose:"2 เซต เซตละ 12 ครั้ง", desc:"ยึดยางยืดระดับเอว ข้อศอกแนบลำตัว หมุนท่อนแขนออกต้านยางยืด", cue:"ความแข็งแรงเกิดจากการผ่อนกลับอย่างช้า ๆ"},
-      {id:"p3_2", ic:"bandir", vid:"fs-11-band-internal-rotation.mp4", name:"หมุนแขนเข้าด้วยยางยืด", dose:"2 เซต เซตละ 12 ครั้ง", desc:"ท่าตั้งต้นเหมือนเดิม แต่หมุนท่อนแขนเข้าหาหน้าท้อง", cue:"ถ้าข้อศอกเลื่อนออก ให้หนีบผ้าขนหนูม้วนไว้"},
-      {id:"p3_3", ic:"row", vid:"fs-12-band-row.mp4", name:"ดึงยางยืดเข้าหาลำตัว", dose:"2 เซต เซตละ 12 ครั้ง", desc:"ดึงข้อศอกทั้งสองข้างไปด้านหลังเลยชายโครง พร้อมบีบสะบักเข้าหากัน", cue:"นำด้วยข้อศอก ไม่ใช่มือ"},
-      {id:"p3_4", ic:"raise", vid:"fs-13-light-forward-raise.mp4", name:"ยกแขนไปข้างหน้าแบบเบา", dose:"2 เซต เซตละ 10 ครั้ง", desc:"ใช้น้ำหนักเบาหรือไม่ใช้เลย ยกแขนไปข้างหน้าถึงระดับไหล่แล้วค่อย ๆ ลดลง", cue:"เพิ่มน้ำหนักเมื่อทำได้สบายโดยไม่ต้องยักไหล่"},
-      {id:"p3_5", ic:"carry", vid:"fs-14-loaded-carry.mp4", name:"ถือของเดิน", dose:"3 ครั้ง ครั้งละ 30 วินาที", desc:"ถือกระเป๋าหรือน้ำหนักไว้ข้างลำตัว เดินตัวตรง", cue:"เป็นท่าสร้างความแข็งแรงที่ใช้ได้จริงที่สุด"}
+      {id:"p3_1", ic:"bander", img:"fs-10-band-external-rotation.jpg", vid:"fs-10-band-external-rotation.mp4", name:"หมุนแขนออกด้วยยางยืด", dose:"2 เซต เซตละ 12 ครั้ง", desc:"ยึดยางยืดระดับเอว ข้อศอกแนบลำตัว หมุนท่อนแขนออกต้านยางยืด", cue:"ความแข็งแรงเกิดจากการผ่อนกลับอย่างช้า ๆ"},
+      {id:"p3_2", ic:"bandir", img:"fs-11-band-internal-rotation.jpg", vid:"fs-11-band-internal-rotation.mp4", name:"หมุนแขนเข้าด้วยยางยืด", dose:"2 เซต เซตละ 12 ครั้ง", desc:"ท่าตั้งต้นเหมือนเดิม แต่หมุนท่อนแขนเข้าหาหน้าท้อง", cue:"ถ้าข้อศอกเลื่อนออก ให้หนีบผ้าขนหนูม้วนไว้"},
+      {id:"p3_3", ic:"row", img:"fs-12-band-row.jpg", vid:"fs-12-band-row.mp4", name:"ดึงยางยืดเข้าหาลำตัว", dose:"2 เซต เซตละ 12 ครั้ง", desc:"ดึงข้อศอกทั้งสองข้างไปด้านหลังเลยชายโครง พร้อมบีบสะบักเข้าหากัน", cue:"นำด้วยข้อศอก ไม่ใช่มือ"},
+      {id:"p3_4", ic:"raise", img:"fs-13-light-forward-raise.jpg", vid:"fs-13-light-forward-raise.mp4", name:"ยกแขนไปข้างหน้าแบบเบา", dose:"2 เซต เซตละ 10 ครั้ง", desc:"ใช้น้ำหนักเบาหรือไม่ใช้เลย ยกแขนไปข้างหน้าถึงระดับไหล่แล้วค่อย ๆ ลดลง", cue:"เพิ่มน้ำหนักเมื่อทำได้สบายโดยไม่ต้องยักไหล่"},
+      {id:"p3_5", ic:"carry", img:"fs-14-loaded-carry.jpg", vid:"fs-14-loaded-carry.mp4", name:"ถือของเดิน", dose:"3 ครั้ง ครั้งละ 30 วินาที", desc:"ถือกระเป๋าหรือน้ำหนักไว้ข้างลำตัว เดินตัวตรง", cue:"เป็นท่าสร้างความแข็งแรงที่ใช้ได้จริงที่สุด"}
     ],
     [
-      {id:"p4_1", ic:"selfcare", vid:"fs-15-level1-self-care.mp4", name:"ระดับ 1 — ดูแลตัวเอง", dose:"ทุกวัน", desc:"ใส่เสื้อ ล้างหน้า หวีผม โดยไม่ต้องวางแผนหลบไหล่", cue:""},
-      {id:"p4_2", ic:"reach", vid:"fs-16-level2-everyday-reach.mp4", name:"ระดับ 2 — เอื้อมในชีวิตประจำวัน", dose:"ทุกวัน", desc:"หยิบของบนชั้นสูง คาดเข็มขัดนิรภัย เอื้อมไพล่หลัง", cue:""},
-      {id:"p4_3", ic:"load", vid:"fs-17-level3-load.mp4", name:"ระดับ 3 — ลงน้ำหนัก", dose:"สัปดาห์ละ 3 ครั้ง", desc:"ถือกระเป๋าที่มีของเต็ม ยกของเหนือศีรษะ ออกกำลังกายแบบมีแรงต้าน", cue:""},
-      {id:"p4_4", ic:"life", vid:"fs-18-level4-return-to-life.mp4", name:"ระดับ 4 — ชีวิตของคุณ", dose:"เหมือนเดิม", desc:"กลับไปเข้ายิม เล่นกีฬา หรือทำสิ่งที่งานของคุณต้องใช้ไหล่", cue:""}
+      {id:"p4_1", ic:"selfcare", img:"fs-15-level1-self-care.jpg", vid:"fs-15-level1-self-care.mp4", name:"ระดับ 1 — ดูแลตัวเอง", dose:"ทุกวัน", desc:"ใส่เสื้อ ล้างหน้า หวีผม โดยไม่ต้องวางแผนหลบไหล่", cue:""},
+      {id:"p4_2", ic:"reach", img:"fs-16-level2-everyday-reach.jpg", vid:"fs-16-level2-everyday-reach.mp4", name:"ระดับ 2 — เอื้อมในชีวิตประจำวัน", dose:"ทุกวัน", desc:"หยิบของบนชั้นสูง คาดเข็มขัดนิรภัย เอื้อมไพล่หลัง", cue:""},
+      {id:"p4_3", ic:"load", img:"fs-17-level3-load.jpg", vid:"fs-17-level3-load.mp4", name:"ระดับ 3 — ลงน้ำหนัก", dose:"สัปดาห์ละ 3 ครั้ง", desc:"ถือกระเป๋าที่มีของเต็ม ยกของเหนือศีรษะ ออกกำลังกายแบบมีแรงต้าน", cue:""},
+      {id:"p4_4", ic:"life", img:"fs-18-level4-return-to-life.jpg", vid:"fs-18-level4-return-to-life.mp4", name:"ระดับ 4 — ชีวิตของคุณ", dose:"เหมือนเดิม", desc:"กลับไปเข้ายิม เล่นกีฬา หรือทำสิ่งที่งานของคุณต้องใช้ไหล่", cue:""}
     ]
   ],
 
@@ -1001,7 +1005,7 @@ th: {
     {key:"ir",        name:"เอื้อมไพล่หลัง", clin:"หมุนเข้า", max:8, unit:"", scored:false}
   ],
   irLandmarks:["ต้นขาด้านนอก","สะโพก","กระเป๋ากางเกงหลัง","กระเบนเหน็บ","ขอบเอว","หลังส่วนล่าง","กลางหลัง","สะบัก","ระหว่างสะบัก"],
-  measureNext:"ถัดไป", measureFinish:"บันทึกผลการประเมิน", measureBack:"ย้อนกลับ",
+  measureNext:"ถัดไป", measureFinish:"บันทึกผลการประเมิน", measureBack:"ย้อนกลับ", measureCancel:"ปิดโดยไม่บันทึก",
 
   progNoData:"ยังไม่มีผลการประเมิน",
   progNoDataBody:"ทำแบบประเมินครั้งแรก แล้วหน้านี้จะแสดงกราฟของแต่ละตัวชี้วัดตามการเปลี่ยนแปลง",
@@ -1020,21 +1024,26 @@ th: {
     strength:{title:"กำลัง", sub:"เกรดกำลังกล้ามเนื้อ 0 ถึง 5"}
   },
   deltaSince:"ตั้งแต่เริ่ม",
+  chartUp:"เพิ่มขึ้น <b>{d}</b> จาก <b>{a}</b> ในการประเมินครั้งแรก เป็น <b>{b}</b> ในปัจจุบัน ถือว่าดีขึ้น",
+  chartDown:"ลดลงจาก <b>{a}</b> ในการประเมินครั้งแรก เหลือ <b>{b}</b> ในปัจจุบัน ควรแจ้งแพทย์ในการนัดครั้งถัดไป",
+  chartFlat:"คงที่ที่ <b>{b}</b> ตั้งแต่การประเมินครั้งแรก",
+  chartNeedTwo:"เมื่อมีผลประเมินสองครั้ง กราฟนี้จะปรากฏขึ้น",
+  mediaWatch:"ดูวิดีโอ",
 
   sleepTitle:"การนอนเมื่อมีภาวะข้อไหล่ติด",
   sleepIntro:"สำหรับคนส่วนใหญ่ ความปวดตอนกลางคืนคือส่วนที่ยากที่สุดของระยะปวด ท่าเหล่านี้ช่วยได้ระหว่างรออาการสงบ",
   sleep:[
-    {icon:"🛏️", vid:"fs-sleep-01-back-supported.mp4", title:"นอนหงาย มีหมอนรองแขน", desc:"นอนหงายและวางหมอนรองใต้ท่อนแขนข้างที่มีอาการ เพื่อไม่ให้แขนห้อยหรือตกไปด้านหลัง", avoid:false},
-    {icon:"↔️", vid:"fs-sleep-02-side-lying-pillow.mp4", title:"นอนตะแคงข้างที่ดี กอดหมอน", desc:"นอนตะแคงทับข้างที่ไม่มีอาการ และวางแขนข้างที่ปวดไว้บนหมอนด้านหน้าระดับอก", avoid:false},
-    {icon:"🪑", vid:"fs-sleep-03-propped-upright.mp4", title:"นอนหนุนสูง", desc:"เก้าอี้ปรับเอนหรือหมอนหนุนเป็นชั้น ๆ มักปวดน้อยกว่านอนราบในระยะที่ปวดมาก", avoid:false},
-    {icon:"🌙", vid:"fs-sleep-04-night-waking-mobility.mp4", title:"ถ้าอาการติดทำให้ตื่น", desc:"ลองแกว่งแขนแบบลูกตุ้มเบา ๆ หรือขยับช้า ๆ ดีกว่านอนนิ่งรอให้หายเอง", avoid:false},
-    {icon:"🚫", vid:"", title:"อย่านอนทับไหล่ข้างที่ปวด", desc:"การกดทับไหล่ข้างที่มีอาการโดยตรงเป็นสาเหตุที่พบบ่อยที่สุดของการตื่นกลางดึก", avoid:true}
+    {icon:"🛏️", img:"fs-sleep-01-back-supported.jpg", vid:"fs-sleep-01-back-supported.mp4", title:"นอนหงาย มีหมอนรองแขน", desc:"นอนหงายและวางหมอนรองใต้ท่อนแขนข้างที่มีอาการ เพื่อไม่ให้แขนห้อยหรือตกไปด้านหลัง", avoid:false},
+    {icon:"↔️", img:"fs-sleep-02-side-lying-pillow.jpg", vid:"fs-sleep-02-side-lying-pillow.mp4", title:"นอนตะแคงข้างที่ดี กอดหมอน", desc:"นอนตะแคงทับข้างที่ไม่มีอาการ และวางแขนข้างที่ปวดไว้บนหมอนด้านหน้าระดับอก", avoid:false},
+    {icon:"🪑", img:"fs-sleep-03-propped-upright.jpg", vid:"fs-sleep-03-propped-upright.mp4", title:"นอนหนุนสูง", desc:"เก้าอี้ปรับเอนหรือหมอนหนุนเป็นชั้น ๆ มักปวดน้อยกว่านอนราบในระยะที่ปวดมาก", avoid:false},
+    {icon:"🌙", img:"fs-sleep-04-night-waking-mobility.jpg", vid:"fs-sleep-04-night-waking-mobility.mp4", title:"ถ้าอาการติดทำให้ตื่น", desc:"ลองแกว่งแขนแบบลูกตุ้มเบา ๆ หรือขยับช้า ๆ ดีกว่านอนนิ่งรอให้หายเอง", avoid:false},
+    {icon:"🚫", img:"", vid:"", title:"อย่านอนทับไหล่ข้างที่ปวด", desc:"การกดทับไหล่ข้างที่มีอาการโดยตรงเป็นสาเหตุที่พบบ่อยที่สุดของการตื่นกลางดึก", avoid:true}
   ],
 
   sosTitle:"เมื่อไรควรขอความช่วยเหลือ",
   sosSub:"หากคุณสังเกตเห็นอาการใดด้านล่างนี้ ให้ติดต่อทีมผู้ดูแลทันที",
   sosInfoNote:"ภาวะข้อไหล่ติดทำให้ปวดและใช้เวลานาน แต่ไม่ใช่ภาวะอันตราย อาการด้านล่างนี้ไม่ใช่รูปแบบปกติของโรค และอาจหมายถึงมีปัญหาอื่นเกิดขึ้น",
-  flagsHardLabel:"ติดต่อทีมผู้ดูแลทันที",
+  flagsHardLabel:"ควรมาพบแพทย์ก่อนนัด",
   flagsHard:[
     "อ่อนแรงที่เพิ่งเกิดขึ้น แขนตกหรือยกไม่ขึ้น",
     "มีไข้ ผิวแดง หรือบวมมากรอบข้อไหล่",
@@ -1048,8 +1057,6 @@ th: {
     "ทางเลือกยาฉีดชนิดอื่นในกรณีที่ไม่เหมาะกับสเตียรอยด์"
   ],
   escalateNoDose:"แอปนี้ไม่ให้คำแนะนำเรื่องยาหรือขนาดยา",
-  emergencyNote:"หากเป็นเหตุฉุกเฉินที่อันตรายถึงชีวิต ให้โทร 1669 (บริการการแพทย์ฉุกเฉินแห่งชาติ) ทันที",
-  emergencyCallBtn:"ฉุกเฉิน — โทร 1669",
   appDisclaimer:"แอปนี้ให้คำแนะนำทั่วไปเท่านั้น ไม่สามารถใช้แทนคำแนะนำจากแพทย์หรือนักกายภาพบำบัดของคุณได้ กรุณาปฏิบัติตามคำแนะนำของทีมผู้ดูแลเสมอ",
   callBtnPrefix:"โทร ",
 
@@ -1060,6 +1067,7 @@ th: {
   onboardHNLabel:"เลขประจำตัวผู้ป่วย (HN)",
   onboardHNHint:"ช่วยให้เจ้าหน้าที่ค้นหาเวชระเบียนของคุณได้เร็วขึ้น",
   monthNames:["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"],
+  monthNamesShort:["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."],
   selectMonth:"เดือน", selectYear:"ปี",
   consentTitle:"ความเป็นส่วนตัวของคุณ",
   consentText:"เมื่อดำเนินการต่อ ถือว่าคุณยินยอมให้บันทึก HN คะแนนไหล่ UCLA ผลการวัดการเคลื่อนไหว และความก้าวหน้าการออกกำลังกายของคุณ และแบ่งปันกับทีมผู้ดูแลเพื่อสนับสนุนการฟื้นตัว ตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล (PDPA)",
@@ -1076,13 +1084,32 @@ th: {
 
 /* ============================= STATE ============================= */
 let STATE = {
-  lang:"en", hn:"", onsetMonth:null, onsetYear:null, consentGiven:false,
-  logDate:null, doneIds:[], checkins:{}, measures:[], homeScreenPromptShown:false
+  lang:"th", hn:"", onsetMonth:null, onsetYear:null, consentGiven:false,
+  logDate:null, doneIds:[], adherence:{}, measures:[], homeScreenPromptShown:false
 };
 let currentExPhase = 0;
-let draftCheckin = { pain:null, func:null, settle:null };
 
+/* =====================================================================
+   MEDIA MANIFEST
+   List only the files you have actually uploaded. Anything not listed
+   here shows no image and no video button at all — no empty boxes, no
+   broken players. Add a filename the moment you upload it.
+
+   Images go in  images/   Videos go in  videos/
+   An item may have an image, a video, both, or neither.
+   ===================================================================== */
+const MEDIA = {
+  images: [
+    // "fs-01-pendulum.jpg",
+  ],
+  videos: [
+    // "fs-01-pendulum.mp4",
+  ]
+};
+const IMAGE_DIR = "images/";
 const VIDEO_DIR = "videos/";
+const hasImage = f => !!f && MEDIA.images.indexOf(f) !== -1;
+const hasVideo = f => !!f && MEDIA.videos.indexOf(f) !== -1;
 
 function todayISO(){ return new Date().toISOString().slice(0,10); }
 function checkDayRollover(){
@@ -1106,7 +1133,6 @@ function handleResetApp(){
 }
 document.addEventListener('visibilitychange', ()=>{
   if(!document.hidden && checkDayRollover()){
-    draftCheckin = { pain:null, func:null, settle:null };
     saveState(); renderAll();
   }
 });
@@ -1168,16 +1194,42 @@ function closeAddHomePrompt(){
    full assessment because they need the arc and a strength grade. */
 function latestMeasure(){ return STATE.measures.length ? STATE.measures[STATE.measures.length-1] : null; }
 function baselineMeasure(){ return STATE.measures.length ? STATE.measures[0] : null; }
-function sortedCheckins(){ return Object.keys(STATE.checkins).sort().map(k=>STATE.checkins[k]); }
 
+/* The UCLA scale is completed once a week, not daily. Everything the app
+   shows comes from the most recent weekly assessment. */
 function effectiveUcla(){
   const m = latestMeasure();
   if(!m) return null;
-  const u = { pain:m.ucla.pain, func:m.ucla.func, strength:m.ucla.strength, satisfaction:m.ucla.satisfaction };
-  const cs = sortedCheckins();
-  const last = cs[cs.length-1];
-  if(last && last.date >= m.date){ u.pain = last.painScore; u.func = last.funcScore; }
-  return { u:u, flexionDeg:m.rom.flexion };
+  return { u:m.ucla, flexionDeg:m.rom.flexion };
+}
+
+const DAY_MS = 86400000;
+function daysSinceLastMeasure(){
+  const m = latestMeasure();
+  if(!m) return null;
+  const then = new Date(m.date + 'T00:00:00');
+  const now = new Date(todayISO() + 'T00:00:00');
+  return Math.round((now - then) / DAY_MS);
+}
+/** Due once seven days have passed since the last assessment. */
+function assessmentDue(){
+  const d = daysSinceLastMeasure();
+  return d === null ? true : d >= 7;
+}
+function weeksOverdue(){
+  const d = daysSinceLastMeasure();
+  return d === null ? 0 : Math.max(0, Math.floor(d / 7));
+}
+function formatDate(iso){
+  const c = CONTENT[STATE.lang];
+  const dt = new Date(iso + 'T00:00:00');
+  return dt.getDate() + ' ' + c.monthNamesShort[dt.getMonth()];
+}
+function nextDueDate(){
+  const m = latestMeasure();
+  if(!m) return '';
+  const dt = new Date(new Date(m.date + 'T00:00:00').getTime() + 7*DAY_MS);
+  return formatDate(dt.toISOString().slice(0,10));
 }
 function currentTotal(){
   const e = effectiveUcla();
@@ -1213,23 +1265,23 @@ function arcSvg(frac, key, max){
 }
 function moveValueLabel(m, v){ return m.key === 'ir' ? t('irLandmarks')[v] : (v + m.unit); }
 
-/* ============================= VIDEO SLOTS ============================= */
-function videoSlot(file){
-  if(!file) return '';
-  return `<div class="vid-slot">
-    <button class="vid-btn" onclick="playVideo(this,'${file}')">
-      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>${t('videoBtn')}
-    </button>
+/* ============================= MEDIA SLOTS =============================
+   Renders nothing unless the file is listed in MEDIA above, so an item
+   without media takes up no space at all. */
+function mediaSlot(imgFile, vidFile){
+  const img = hasImage(imgFile), vid = hasVideo(vidFile);
+  if(!img && !vid) return '';
+  return `<div class="media">
+    ${img ? `<img src="${IMAGE_DIR}${imgFile}" alt="" loading="lazy">` : ''}
+    ${vid ? `<button class="media-btn" onclick="playVideo(this,'${vidFile}')">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>${t('mediaWatch')}
+      </button>` : ''}
   </div>`;
 }
 function playVideo(btn, file){
-  const slot = btn.parentElement;
-  const src = VIDEO_DIR + file;
-  slot.innerHTML = `<video controls playsinline preload="metadata" src="${src}"></video>`;
-  const v = slot.querySelector('video');
-  v.addEventListener('error', ()=>{
-    slot.innerHTML = `<div class="vid-missing">${t('videoMissing')}<code>${src}</code></div>`;
-  });
+  const wrap = btn.parentElement;
+  wrap.innerHTML = `<video controls playsinline preload="metadata" src="${VIDEO_DIR}${file}"></video>`;
+  const v = wrap.querySelector('video');
   v.play().catch(()=>{});
 }
 
@@ -1302,10 +1354,46 @@ function renderHome(){
   document.getElementById('header-hn').textContent = STATE.hn ? (c.hnPrefix + STATE.hn) : '';
   document.getElementById('surgeon-name').textContent = c.surgeonName;
 
-  renderCheckin();
+  renderWeeklyReminder();
 }
 
-/* ============================= CHECK-IN ============================= */
+/* The one nudge in the app: the weekly UCLA assessment. Green once it is
+   done, amber once seven days have passed. */
+function renderWeeklyReminder(){
+  const c = CONTENT[STATE.lang];
+  const wrap = document.getElementById('weekly-reminder');
+  const m = latestMeasure();
+
+  if(!m){
+    wrap.innerHTML = `<div class="weekly due">
+      <div class="weekly-kicker">${c.weeklyDueKicker}</div>
+      <div class="weekly-title">${c.weeklyNoneTitle}</div>
+      <div class="weekly-body">${c.weeklyNoneBody}</div>
+      <button class="primary-btn" onclick="openMeasure()">${c.weeklyDueBtn}</button>
+    </div>`;
+    return;
+  }
+  if(assessmentDue()){
+    const over = weeksOverdue();
+    const title = over >= 2 ? c.weeklyOverdueTitle.replace('{n}', over) : c.weeklyDueTitle;
+    const body  = over >= 2 ? c.weeklyOverdueBody : c.weeklyDueBody;
+    wrap.innerHTML = `<div class="weekly due">
+      <div class="weekly-kicker">${c.weeklyDueKicker}</div>
+      <div class="weekly-title">${title}</div>
+      <div class="weekly-body">${body}</div>
+      <button class="primary-btn" onclick="openMeasure()">${c.weeklyDueBtn}</button>
+    </div>`;
+    return;
+  }
+  wrap.innerHTML = `<div class="weekly done">
+    <div class="weekly-kicker">${c.weeklyDoneKicker}</div>
+    <div class="weekly-title">${c.weeklyDoneTitle}</div>
+    <div class="weekly-body">${c.weeklyDoneBody.replace('{d}', formatDate(m.date)).replace('{next}', nextDueDate())}</div>
+    <button class="primary-btn" onclick="openMeasure()">${c.weeklyDoneBtn}</button>
+  </div>`;
+}
+
+/* ===================== SHARED UCLA OPTION LIST ===================== */
 function uclaOptionList(opts, selected, handler, locked){
   return `<div class="ucla-opts">` + opts.map(o=>
     `<button class="ucla-opt ${selected===o.v?'selected':''} ${locked?'locked':''}"
@@ -1314,94 +1402,8 @@ function uclaOptionList(opts, selected, handler, locked){
   ).join('') + `</div>`;
 }
 
-function renderCheckin(){
-  const c = CONTENT[STATE.lang];
-  const submitted = STATE.checkins[todayISO()];
-  const statusEl = document.getElementById('checkin-status');
-  const btn = document.getElementById('checkin-submit-btn');
-
-  if(submitted){
-    const time = new Date(submitted.submittedAt).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-    statusEl.textContent = c.checkinSubmittedPrefix + time + " — " + c.checkinLockedNote;
-    statusEl.classList.remove('pending');
-    btn.classList.add('hidden');
-  } else {
-    statusEl.textContent = c.checkinNotSubmitted;
-    statusEl.classList.add('pending');
-    btn.classList.remove('hidden');
-  }
-
-  const pain = submitted ? submitted.painScore : draftCheckin.pain;
-  const func = submitted ? submitted.funcScore : draftCheckin.func;
-  const settle = submitted ? submitted.settle : draftCheckin.settle;
-  const lock = !!submitted;
-
-  const keys = ['settled','sore','worse'], cls = ['g','y','r'], dots = ['#8FC9A8','#E8B860','#E68A84'];
-  document.getElementById('checkin-body').innerHTML = `
-    <div class="ucla-block">
-      <div class="ucla-q">${c.uclaPainQ}</div>
-      <div class="ucla-sub">${c.uclaPainSub}</div>
-      ${uclaOptionList(c.uclaPainOpts, pain, 'setCheckinPain', lock)}
-    </div>
-    <div class="ucla-block">
-      <div class="ucla-q">${c.uclaFuncQ}</div>
-      <div class="ucla-sub">${c.uclaFuncSub}</div>
-      ${uclaOptionList(c.uclaFuncOpts, func, 'setCheckinFunc', lock)}
-    </div>
-    <div class="ucla-block" style="margin-bottom:0;">
-      <div class="ucla-q">${c.settleLabel}</div>
-      <div class="ucla-sub">${c.settleHint}</div>
-      <div class="settle-opts">${c.settleOpts.map((label,i)=>
-        `<button class="settle-opt ${cls[i]} ${settle===keys[i]?'selected':''} ${lock?'locked':''}"
-          ${lock?'':`onclick="setCheckinSettle('${keys[i]}')"`}>
-          <span class="sdot" style="background:${dots[i]}"></span>${label}</button>`
-      ).join('')}</div>
-    </div>`;
-}
-function setCheckinPain(v){ draftCheckin.pain = v; clearVal(); renderCheckin(); }
-function setCheckinFunc(v){ draftCheckin.func = v; clearVal(); renderCheckin(); }
-function setCheckinSettle(k){ draftCheckin.settle = k; clearVal(); renderCheckin(); }
-function clearVal(){ document.getElementById('checkin-validation').textContent = ''; }
-
-async function handleSubmitCheckin(){
-  const c = CONTENT[STATE.lang];
-  if(STATE.checkins[todayISO()]) return;
-  if(!STATE.consentGiven){ openOnboard(true); return; }
-  const val = document.getElementById('checkin-validation');
-  if(draftCheckin.pain === null){ val.textContent = c.checkinValidationPain; return; }
-  if(draftCheckin.func === null){ val.textContent = c.checkinValidationFunc; return; }
-  if(draftCheckin.settle === null){ val.textContent = c.checkinSettleValidation; return; }
-
-  const stage = currentStageIndex();
-  const list = EXERCISE_SOURCES[stage].flatMap(src => c.exercises[src]);
-  const doneSet = new Set(STATE.doneIds);
-  const doneToday = list.filter(x=>doneSet.has(x.id));
-  const m = latestMeasure();
-
-  const payload = {
-    date: todayISO(),
-    submittedAt: new Date().toISOString(),
-    hn: STATE.hn || "",
-    onsetMonthYear: (STATE.onsetMonth && STATE.onsetYear) ? (STATE.onsetYear + "-" + String(STATE.onsetMonth).padStart(2,'0')) : "",
-    stage: CONTENT.en.phaseNames[stage] + " - " + CONTENT.en.phaseTitles[stage],
-    painScore: draftCheckin.pain,
-    funcScore: draftCheckin.func,
-    settle: draftCheckin.settle,
-    uclaTotal: currentTotal(),
-    flexionDeg: m ? m.rom.flexion : "",
-    exercisesDoneCount: doneToday.length,
-    exercisesTotalCount: list.length,
-    exercisesDoneNames: doneToday.map(x=>x.name).join("; ")
-  };
-
-  STATE.checkins[payload.date] = Object.assign({}, payload, { synced:false });
-  draftCheckin = { pain:null, func:null, settle:null };
-  saveState(); renderAll();
-  await syncOne('checkins', payload.date);
-}
-
 async function syncOne(bucket, key){
-  const entry = bucket === 'checkins' ? STATE.checkins[key] : STATE.measures[key];
+  const entry = STATE.measures[key];
   if(!entry || entry.synced) return;
   if(!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL.indexOf("PASTE_YOUR") === 0) return;
   try{
@@ -1415,7 +1417,6 @@ async function syncOne(bucket, key){
   }catch(err){ console.warn('Sync failed, will retry next app load:', err); }
 }
 async function trySyncPending(){
-  for(const k in STATE.checkins){ if(!STATE.checkins[k].synced) await syncOne('checkins', k); }
   for(let i=0;i<STATE.measures.length;i++){ if(!STATE.measures[i].synced) await syncOne('measures', i); }
 }
 
@@ -1452,19 +1453,21 @@ function renderExerciseList(){
     document.getElementById('ex-progress-label').textContent = `${doneCount} / ${list.length}`;
   }
 
+  // Ticking is only offered for the stage the patient is actually in.
+  // Other stages are shown for reference, with no checkbox.
   document.getElementById('ex-list').innerHTML = list.map(x=>{
-    const done = doneSet.has(x.id);
+    const done = isCurrent && doneSet.has(x.id);
     return `<div class="ex-row">
-      <div class="ex-check ${done?'checked':''}" onclick="toggleExercise('${x.id}')">
+      ${isCurrent ? `<div class="ex-check ${done?'checked':''}" onclick="toggleExercise('${x.id}')">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg>
-      </div>
+      </div>` : ''}
       <div class="ex-icon">${icon(x.ic)}</div>
       <div class="ex-body">
         <div class="ex-name ${done?'checked-text':''}">${x.name}</div>
         <div class="ex-desc">${x.desc}</div>
         <div class="ex-dose">${x.dose}</div>
         ${x.cue ? `<div class="ex-cue">${x.cue}</div>` : ''}
-        ${videoSlot(x.vid)}
+        ${mediaSlot(x.img, x.vid)}
       </div>
     </div>`;
   }).join('');
@@ -1477,7 +1480,38 @@ function toggleExercise(id){
   const s = new Set(STATE.doneIds);
   s.has(id) ? s.delete(id) : s.add(id);
   STATE.doneIds = [...s];
+  recordAdherence();
   saveState(); renderExerciseList();
+}
+
+/* Daily exercise completion is kept on the device and summarised into the
+   weekly assessment, so the patient never has to submit anything daily. */
+function recordAdherence(){
+  const c = CONTENT[STATE.lang];
+  const stage = currentStageIndex();
+  const list = EXERCISE_SOURCES[stage].flatMap(src => c.exercises[src]);
+  const doneSet = new Set(STATE.doneIds);
+  STATE.adherence[todayISO()] = {
+    done: list.filter(x=>doneSet.has(x.id)).length,
+    total: list.length
+  };
+  // keep the map small
+  const keys = Object.keys(STATE.adherence).sort();
+  while(keys.length > 60){ delete STATE.adherence[keys.shift()]; }
+}
+/** Days in the last 7 on which at least one exercise was ticked. */
+function adherenceSummary(){
+  const now = new Date(todayISO() + 'T00:00:00').getTime();
+  let daysActive = 0, doneSum = 0, totalSum = 0;
+  for(const d in STATE.adherence){
+    const age = (now - new Date(d + 'T00:00:00').getTime()) / DAY_MS;
+    if(age >= 0 && age < 7){
+      const a = STATE.adherence[d];
+      if(a.done > 0) daysActive++;
+      doneSum += a.done; totalSum += a.total;
+    }
+  }
+  return { daysActive, doneSum, totalSum };
 }
 
 /* ============================= PROGRESS CHARTS ============================= */
@@ -1509,14 +1543,30 @@ function lineChart(vals, opts){
 function chartCard(cfg){
   const c = CONTENT[STATE.lang];
   const vals = cfg.vals.filter(v=>v!==null && v!==undefined && !isNaN(v));
+  const fmt = v => cfg.fmt ? cfg.fmt(v) : (v===null ? '—' : v);
   const now = vals.length ? vals[vals.length-1] : null;
   const first = vals.length ? vals[0] : null;
-  let delta = '', dcls = 'flat';
+
+  let delta = '', dcls = 'flat', readout = '';
   if(vals.length >= 2){
-    const d = now - first;
+    const d = Math.round((now - first) * 10) / 10;
     dcls = d > 0 ? 'up' : (d < 0 ? 'down' : 'flat');
-    delta = `${d>0?'+':''}${Math.round(d*10)/10} ${c.deltaSince}`;
+    delta = `${d>0?'+':''}${d} ${c.deltaSince}`;
+    // Plain-language line so the graph is readable without interpreting it.
+    const tpl = d > 0 ? c.chartUp : (d < 0 ? c.chartDown : c.chartFlat);
+    readout = `<div class="chart-read">${tpl
+      .replace('{d}', Math.abs(d) + (cfg.suffix || ''))
+      .replace('{a}', fmt(first) + (cfg.suffix || ''))
+      .replace('{b}', fmt(now) + (cfg.suffix || ''))}</div>`;
+  } else {
+    readout = `<div class="chart-read">${c.chartNeedTwo}</div>`;
   }
+
+  // date axis: first and latest assessment
+  const axis = (cfg.dates && cfg.dates.length >= 2)
+    ? `<div class="chart-axis"><span>${formatDate(cfg.dates[0])}</span><span>${formatDate(cfg.dates[cfg.dates.length-1])}</span></div>`
+    : '';
+
   return `<div class="chart-card">
     <div class="chart-head">
       <div>
@@ -1524,11 +1574,13 @@ function chartCard(cfg){
         <div class="chart-sub">${cfg.sub}</div>
       </div>
       <div style="text-align:right;">
-        <div class="chart-now">${cfg.fmt ? cfg.fmt(now) : (now===null?'—':now)}${cfg.suffix?`<small>${cfg.suffix}</small>`:''}</div>
+        <div class="chart-now">${fmt(now)}${cfg.suffix?`<small>${cfg.suffix}</small>`:''}</div>
         ${delta?`<div class="chart-delta ${dcls}">${delta}</div>`:''}
       </div>
     </div>
     ${lineChart(vals, cfg)}
+    ${axis}
+    ${readout}
   </div>`;
 }
 
@@ -1547,12 +1599,9 @@ function renderProgress(){
   }
 
   const stage = currentStageIndex();
-  const cs = sortedCheckins();
-  // Pain and function are captured daily as well as at assessment, so use the
-  // denser check-in series when there is one.
-  const painSeries = cs.length >= 2 ? cs.map(x=>x.painScore) : ms.map(m=>m.ucla.pain);
-  const funcSeries = cs.length >= 2 ? cs.map(x=>x.funcScore) : ms.map(m=>m.ucla.func);
+  const dates = ms.map(m=>m.date);
   const CH = c.charts;
+  const chart = (cfg) => chartCard(Object.assign({ dates:dates }, cfg));
 
   // Headline UCLA score, with the five domains broken out beneath it.
   const e = effectiveUcla();
@@ -1590,15 +1639,15 @@ function renderProgress(){
       <p class="muted" style="margin-top:12px;font-size:12px;">${c.progCount.replace('{n}', ms.length)}</p>
       <button class="primary-btn" onclick="openMeasure()">${c.remeasureBtn}</button>
     </div>
-    ${chartCard({ ...CH.total, vals: ms.map(m=>uclaTotal(m.ucla, m.rom.flexion)), max:35, suffix:' / 35', color:'#1F3864' })}
-    ${chartCard({ ...CH.pain, vals: painSeries, max:10, suffix:' / 10', color:'#E8B860' })}
-    ${chartCard({ ...CH.func, vals: funcSeries, max:10, suffix:' / 10', color:'#2C5F8A' })}
-    ${chartCard({ ...CH.flexdeg, vals: ms.map(m=>m.rom.flexion), max:180, suffix:'°', color:'#2E7D6E' })}
-    ${chartCard({ ...CH.abduction, vals: ms.map(m=>m.rom.abduction), max:180, suffix:'°', color:'#2E7D6E' })}
-    ${chartCard({ ...CH.er, vals: ms.map(m=>m.rom.er), max:90, suffix:'°', color:'#3f9a89' })}
-    ${chartCard({ ...CH.ir, vals: ms.map(m=>m.rom.ir), max:8, color:'#3f9a89',
-                  fmt:v=> v===null?'—':t('irLandmarks')[v] })}
-    ${chartCard({ ...CH.strength, vals: ms.map(m=>m.ucla.strength), max:5, suffix:' / 5', color:'#2C5F8A' })}
+    ${chart({ ...CH.total, vals: ms.map(m=>uclaTotal(m.ucla, m.rom.flexion)), max:35, suffix:' / 35', color:'#1F3864' })}
+    ${chart({ ...CH.pain, vals: ms.map(m=>m.ucla.pain), max:10, suffix:' / 10', color:'#E8B860' })}
+    ${chart({ ...CH.func, vals: ms.map(m=>m.ucla.func), max:10, suffix:' / 10', color:'#2C5F8A' })}
+    ${chart({ ...CH.flexdeg, vals: ms.map(m=>m.rom.flexion), max:180, suffix:'°', color:'#2E7D6E' })}
+    ${chart({ ...CH.abduction, vals: ms.map(m=>m.rom.abduction), max:180, suffix:'°', color:'#2E7D6E' })}
+    ${chart({ ...CH.er, vals: ms.map(m=>m.rom.er), max:90, suffix:'°', color:'#3f9a89' })}
+    ${chart({ ...CH.ir, vals: ms.map(m=>m.rom.ir), max:8, color:'#3f9a89',
+              fmt:v=> v===null?'—':t('irLandmarks')[v] })}
+    ${chart({ ...CH.strength, vals: ms.map(m=>m.ucla.strength), max:5, suffix:' / 5', color:'#2C5F8A' })}
     <p class="app-disclaimer">${c.progFooter}</p>`;
 }
 
@@ -1621,6 +1670,9 @@ function renderResources(){
       <div class="res-arrow">${ARROW}</div>
     </a>`;
 
+  document.getElementById('escalate-list').innerHTML =
+    c.escalate.map(e=>`<div class="goal-item"><div class="goal-num">•</div><div>${e}</div></div>`).join('');
+
   const videos = c.resources.filter(r=>r.type==='video');
   const articles = c.resources.filter(r=>r.type==='article');
   document.getElementById('res-list').innerHTML =
@@ -1636,7 +1688,7 @@ function renderSleep(){
         <div class="sleep-icon">${s.icon}</div>
         <div><div class="sleep-title">${s.title}</div><div class="sleep-desc">${s.desc}</div></div>
       </div>
-      ${videoSlot(s.vid)}
+      ${mediaSlot(s.img, s.vid)}
     </div>`).join('');
 }
 function renderSOS(){
@@ -1644,8 +1696,6 @@ function renderSOS(){
   document.getElementById('flag-list').innerHTML =
     `<div class="flag-section-label">${c.flagsHardLabel}</div>` +
     c.flagsHard.map(f=>`<div class="flag-item"><div class="flag-dot"></div><div class="flag-text">${f}</div></div>`).join('');
-  document.getElementById('escalate-list').innerHTML =
-    c.escalate.map(e=>`<div class="goal-item"><div class="goal-num">•</div><div>${e}</div></div>`).join('');
   document.getElementById('call-btn').href = 'tel:' + CLINIC_PHONE.replace(/\s/g,'');
   document.getElementById('call-btn-text').textContent = c.callBtnPrefix + CLINIC_PHONE;
 }
@@ -1669,6 +1719,12 @@ function openMeasure(){
   renderMeasure();
 }
 function closeMeasure(){ document.getElementById('measure-modal').classList.add('hidden'); }
+/* Nothing is written to STATE until the final step, so cancelling is safe.
+   Only blocked before the very first assessment, which the app needs. */
+function cancelMeasure(){
+  if(!latestMeasure()) return;
+  draft = null; measureStep = 0; closeMeasure();
+}
 
 function renderMeasure(){
   const c = CONTENT[STATE.lang];
@@ -1679,6 +1735,9 @@ function renderMeasure(){
   const back = document.getElementById('measure-back');
   back.textContent = c.measureBack;
   back.classList.toggle('hidden', measureStep === 0);
+  const cancel = document.getElementById('measure-cancel');
+  cancel.textContent = c.measureCancel;
+  cancel.classList.toggle('hidden', !latestMeasure());
 
   const body = document.getElementById('measure-body');
 
@@ -1773,11 +1832,11 @@ function bindArcDrag(){
 async function measureNext(){
   const c = CONTENT[STATE.lang];
   if(measureStep === 0){
-    if(draft.ucla.pain === null || draft.ucla.func === null){ alert(c.checkinValidationPain); return; }
+    if(draft.ucla.pain === null || draft.ucla.func === null){ alert(c.measureValidation); return; }
     measureStep = 1; renderMeasure(); return;
   }
   if(measureStep === 1){ measureStep = 2; renderMeasure(); return; }
-  if(draft.ucla.strength === null || draft.ucla.satisfaction === null){ alert(c.consentValidation); return; }
+  if(draft.ucla.strength === null || draft.ucla.satisfaction === null){ alert(c.measureValidation); return; }
 
   const entry = {
     recordedAt: new Date().toISOString(),
@@ -1787,8 +1846,15 @@ async function measureNext(){
     rom: draft.rom,
     flexionPts: flexionPoints(draft.rom.flexion),
     uclaTotal: uclaTotal(draft.ucla, draft.rom.flexion),
+    onsetMonthYear: (STATE.onsetMonth && STATE.onsetYear) ? (STATE.onsetYear + "-" + String(STATE.onsetMonth).padStart(2,'0')) : "",
+    monthsSinceOnset: monthsSinceOnset(),
     synced: false
   };
+  // exercise adherence over the past week travels with the assessment
+  const ad = adherenceSummary();
+  entry.daysExercisedThisWeek = ad.daysActive;
+  entry.exercisesDoneThisWeek = ad.doneSum;
+  entry.exercisesPossibleThisWeek = ad.totalSum;
   entry.uclaGrade = uclaGrade(entry.uclaTotal);
   STATE.measures.push(entry);
   entry.stage = CONTENT.en.phaseNames[currentStageIndex()] + " - " + CONTENT.en.phaseTitles[currentStageIndex()];
