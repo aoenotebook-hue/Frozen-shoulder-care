@@ -774,14 +774,14 @@ en: {
     "Pain often lessens and aches mainly when you push past your limit. Stiffness is at its maximum, restricting reaching out, up, and behind your back.",
     "Movement and flexibility return gradually and pain fades. Most people recover well, though a minority keep some stiffness or mild ache long term."
   ],
-  phaseTimingNote:"Your stage is set from these months, counted from when your symptoms started. Without an onset date, your symptoms decide it instead.",
+  phaseTimingNote:"Your stage is set from these months, counted from when your symptoms started. Without an onset date, your symptoms decide it instead. Your own recovery time may differ from this pattern and from other patients.",
   monthsTypicalPrefix:"you are in month ",
   stagesCardTitle:"The four stages of frozen shoulder",
   stagesCardIntro:"Frozen shoulder usually follows a recognisable course.",
   stagesCardOutcome:"Most people improve a great deal; serious long-term problems are uncommon. A little stiffness sometimes remains but rarely limits daily life. Ask your doctor what to expect in your case.",
   stageYouAreHere:"you are here",
   recoveredChip:"Recovered",
-  recoveredDesc:"Your score is in the excellent range. Keep a short maintenance routine going so the stiffness does not creep back.",
+  recoveredDesc:"Your movement is back to normal and your pain is minimal. Keep a short maintenance routine going so the stiffness does not creep back.",
   noBaselineChip:"Complete your first assessment",
   noBaselineDesc:"Tap \"Update my assessment\" so the app can show the right programme for where you are today.",
 
@@ -1073,14 +1073,14 @@ th: {
     "ความปวดมักลดลง และจะปวดเมื่อพยายามฝืนไปจนสุดพิสัย อาการติดรุนแรงที่สุด ทำให้กางแขน ยกขึ้น และเอื้อมไพล่หลังได้จำกัดมาก",
     "การเคลื่อนไหวและความยืดหยุ่นค่อย ๆ กลับมา ความปวดลดลง ผู้ป่วยส่วนใหญ่ฟื้นตัวได้ดี แม้ส่วนน้อยอาจยังมีอาการติดหรือปวดเล็กน้อยในระยะยาว"
   ],
-  phaseTimingNote:"ระยะของคุณกำหนดจากช่วงเดือนเหล่านี้ นับจากวันที่เริ่มมีอาการ หากไม่ได้ระบุวันเริ่มมีอาการ จะใช้อาการของคุณเป็นตัวกำหนดแทน",
+  phaseTimingNote:"ระยะของคุณกำหนดจากช่วงเดือนเหล่านี้ นับจากวันที่เริ่มมีอาการ หากไม่ได้ระบุวันเริ่มมีอาการ จะใช้อาการของคุณเป็นตัวกำหนดแทน ระยะเวลาการฟื้นตัวของคุณอาจแตกต่างจากรูปแบบนี้และแตกต่างจากผู้ป่วยรายอื่น",
   monthsTypicalPrefix:"คุณอยู่ในเดือนที่ ",
   stagesCardTitle:"4 ระยะของภาวะข้อไหล่ติด",
   stagesCardIntro:"ภาวะข้อไหล่ติดมักดำเนินไปตามรูปแบบที่พอคาดเดาได้",
   stagesCardOutcome:"ผู้ป่วยส่วนใหญ่ดีขึ้นมาก ปัญหารุนแรงระยะยาวพบได้ไม่บ่อย บางรายอาจมีอาการติดเล็กน้อยหลงเหลือแต่มักไม่รบกวนชีวิตประจำวัน สอบถามแพทย์เพื่อทราบแนวโน้มของคุณ",
   stageYouAreHere:"คุณอยู่ระยะนี้",
   recoveredChip:"ฟื้นตัวแล้ว",
-  recoveredDesc:"คะแนนของคุณอยู่ในเกณฑ์ดีเยี่ยม ให้คงท่าบริหารสั้น ๆ ไว้อย่างสม่ำเสมอ เพื่อไม่ให้อาการติดกลับมาอีก",
+  recoveredDesc:"การเคลื่อนไหวของคุณกลับมาเป็นปกติและความปวดเหลือน้อยมาก ให้คงท่าบริหารสั้น ๆ ไว้อย่างสม่ำเสมอ เพื่อไม่ให้อาการติดกลับมาอีก",
   noBaselineChip:"ทำแบบประเมินครั้งแรก",
   noBaselineDesc:"กด \"อัปเดตการประเมินของฉัน\" เพื่อให้แอปแสดงโปรแกรมที่เหมาะกับอาการของคุณในวันนี้",
 
@@ -1425,10 +1425,12 @@ function currentStageIndex(){
   return 3;                 // Thawing
 }
 
-/** Thawing complete: an excellent UCLA score with movement restored. */
+/** Recovered: full forward elevation and pain that is absent or mild
+    (UCLA pain domain 8 or 10 — "occasional and slight" or "none"),
+    regardless of what stage the calendar would otherwise suggest. */
 function isRecovered(){
-  const tot = currentTotal();
-  return tot !== null && tot >= 34 && currentStageIndex() === 3;
+  const e = effectiveUcla();
+  return e !== null && e.flexionDeg >= 150 && e.u.pain >= 8;
 }
 
 /* ============================= ARC DIAL ============================= */
