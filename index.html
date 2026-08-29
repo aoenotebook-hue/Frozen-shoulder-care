@@ -137,6 +137,9 @@
   .zone-chip.r{background:var(--danger-bg);color:var(--danger-dark);}
   .zone-text{font-size:13px;line-height:1.5;color:#3a3a3a;}
   .zone-text b{color:var(--text);}
+  .zone-text-g{color:var(--ok-text);} .zone-text-g b{color:inherit;}
+  .zone-text-y{color:var(--warn-text);} .zone-text-y b{color:inherit;}
+  .zone-text-r{color:var(--danger-dark);} .zone-text-r b{color:inherit;}
 
   /* arc dial (measurement input) */
   .arc-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
@@ -369,8 +372,6 @@
         <p class="muted" data-t="roadmapNote" style="margin-top:14px;line-height:1.55;"></p>
       </div>
 
-      <div id="weekly-reminder"></div>
-
       <div class="card">
         <h2 id="goals-title">Your goals right now</h2>
         <p class="muted" id="goals-sub" style="margin-bottom:12px;line-height:1.5;"></p>
@@ -387,11 +388,7 @@
         <div data-t="scopeNote"></div>
       </div>
 
-      <div class="privacy-card">
-        <h2 data-t="privacyTitle" style="margin:0 0 4px;font-size:15px;color:var(--navy);"></h2>
-        <p class="muted" data-t="privacyIntro" style="line-height:1.55;margin-bottom:6px;"></p>
-        <div id="privacy-rows"></div>
-      </div>
+      <div id="weekly-reminder"></div>
 
       <div class="home-footer">
         <div class="surgeon-credit"><span data-t="surgeonLabel">Your doctor</span>: <span id="surgeon-name"></span></div>
@@ -401,7 +398,6 @@
 
     <!-- EXERCISES -->
     <section class="view" id="view-exercises">
-      <div class="phase-tabs" id="ex-phase-tabs"></div>
       <div id="ex-phase-def"></div>
       <div id="ex-progress-wrap">
         <div class="progress-bar-track"><div class="progress-bar-fill" id="ex-progress-fill" style="width:0%"></div></div>
@@ -484,7 +480,7 @@
     </button>
     <button class="tab-btn" data-tab="resources" onclick="switchTab('resources')">
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 016.5 3H12v16H6.5A2.5 2.5 0 004 21.5z"/><path d="M20 5.5A2.5 2.5 0 0017.5 3H12v16h5.5a2.5 2.5 0 012.5 2.5z"/></svg>
-      <span data-t="tabResources">Learn</span>
+      <span data-t="tabResources">Resources</span>
     </button>
     <button class="tab-btn sos" data-tab="sos" onclick="switchTab('sos')">
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L2 18a1.5 1.5 0 001.3 2.2h17.4A1.5 1.5 0 0022 18L13.7 3.9a1.5 1.5 0 00-3.4 0z"/></svg>
@@ -676,7 +672,7 @@ en: {
   resetBtn:"Reset App Data",
   resetConfirm:"This will erase your HN, assessments, exercise progress and check-ins on this device. This can't be undone. Continue?",
   hnPrefix:"HN: ",
-  tabHome:"Home", tabExercises:"Exercises", tabProgress:"Progress", tabSleep:"Sleep", tabResources:"Learn", tabSOS:"Alert",
+  tabHome:"Home", tabExercises:"Exercises", tabProgress:"Progress", tabSleep:"Sleep", tabResources:"Resources", tabSOS:"Alert",
 
   /* ---- Resources ----
      Each entry shows a title and a one-line description, never the raw URL.
@@ -778,11 +774,11 @@ en: {
     "Pain often lessens and aches mainly when you push past your limit. Stiffness is at its maximum, restricting reaching out, up, and behind your back.",
     "Movement and flexibility return gradually and pain fades. Most people recover well, though a minority keep some stiffness or mild ache long term."
   ],
-  phaseTimingNote:"The months shown are a typical pattern, not a schedule. Stages overlap, they do not always follow in order, and their length varies a great deal between people. Your own symptoms decide which stage this app shows you, not the calendar.",
+  phaseTimingNote:"These months are typical, not a schedule — stages overlap and vary between people. Your symptoms decide your stage, not the calendar.",
   monthsTypicalPrefix:"you are in month ",
   stagesCardTitle:"The four stages of frozen shoulder",
-  stagesCardIntro:"Frozen shoulder usually follows a recognisable course. Knowing the shape of it makes a long recovery easier to sit with.",
-  stagesCardOutcome:"About recovery: most people improve a great deal, and serious long-term problems are uncommon. Studies following patients for several years found that a proportion still had some mild symptoms or slight stiffness, so do not be alarmed if a little remains — it rarely limits daily life. Your doctor can tell you what to expect in your own case.",
+  stagesCardIntro:"Frozen shoulder usually follows a recognisable course.",
+  stagesCardOutcome:"Most people improve a great deal; serious long-term problems are uncommon. A little stiffness sometimes remains but rarely limits daily life. Ask your doctor what to expect in your case.",
   stageYouAreHere:"you are here",
   recoveredChip:"Recovered",
   recoveredDesc:"Your score is in the excellent range. Keep a short maintenance routine going so the stiffness does not creep back.",
@@ -850,8 +846,8 @@ en: {
   chartEmpty:"One more entry and this graph appears. Frozen shoulder moves week to week, not day to day.",
   charts:{
     total:{title:"UCLA total", sub:"out of 35 — the headline number"},
-    pain:{title:"Pain", sub:"UCLA pain domain, out of 10 — higher is better"},
-    func:{title:"Function", sub:"UCLA function domain, out of 10 — higher is better"},
+    pain:{title:"Pain", sub:"0–10, higher is better"},
+    func:{title:"Function", sub:"0–10, higher is better"},
     flexdeg:{title:"Forward elevation", sub:"degrees you can raise the arm"},
     abduction:{title:"Abduction", sub:"degrees out to the side"},
     er:{title:"External rotation", sub:"degrees — usually the last to return"},
@@ -859,9 +855,9 @@ en: {
     strength:{title:"Strength", sub:"manual muscle grade, 0 to 5"}
   },
   deltaSince:"since you started",
-  chartUp:"Up <b>{d}</b> from <b>{a}</b> at your first assessment to <b>{b}</b> now. That is progress.",
-  chartDown:"Down from <b>{a}</b> at your first assessment to <b>{b}</b> now. Mention this at your next visit.",
-  chartFlat:"Unchanged at <b>{b}</b> since your first assessment.",
+  chartUp:"Up <b>{d}</b> — from <b>{a}</b> to <b>{b}</b>. That is progress.",
+  chartDown:"Down — from <b>{a}</b> to <b>{b}</b>. Mention this at your next visit.",
+  chartFlat:"Unchanged at <b>{b}</b>.",
   chartNeedTwo:"Two assessments and this graph appears.",
   mediaWatch:"Watch the video",
 
@@ -885,7 +881,7 @@ en: {
     "A new fall or injury to the shoulder"
   ],
   escalateTitle:"What your doctor might add",
-  escalateIntro:"These are decisions for your doctor, not options to choose here. They are listed so you know the conversation exists.",
+  escalateIntro:"Decisions for your doctor, not choices made in the app.",
   escalate:[
     "An injection into the joint, when pain is the thing blocking rehabilitation",
     "Injection combined with physiotherapy rather than either on its own",
@@ -980,7 +976,7 @@ th: {
   resetBtn:"ล้างข้อมูลแอป",
   resetConfirm:"การทำเช่นนี้จะลบ HN ผลการประเมิน ความก้าวหน้าการออกกำลังกาย และบันทึกประจำวันบนอุปกรณ์นี้ ไม่สามารถย้อนกลับได้ ต้องการดำเนินการต่อหรือไม่",
   hnPrefix:"HN: ",
-  tabHome:"หน้าแรก", tabExercises:"ท่าบริหาร", tabProgress:"ความก้าวหน้า", tabSleep:"การนอน", tabResources:"ความรู้", tabSOS:"สัญญาณเตือน",
+  tabHome:"หน้าแรก", tabExercises:"ท่าบริหาร", tabProgress:"ความก้าวหน้า", tabSleep:"การนอน", tabResources:"แหล่งข้อมูล", tabSOS:"สัญญาณเตือน",
 
   resTitle:"ความรู้เพิ่มเติม",
   resIntro:"แหล่งข้อมูลและวิดีโอที่เชื่อถือได้เกี่ยวกับภาวะข้อไหล่ติด ลิงก์เหล่านี้จะเปิดนอกแอป",
@@ -1077,11 +1073,11 @@ th: {
     "ความปวดมักลดลง และจะปวดเมื่อพยายามฝืนไปจนสุดพิสัย อาการติดรุนแรงที่สุด ทำให้กางแขน ยกขึ้น และเอื้อมไพล่หลังได้จำกัดมาก",
     "การเคลื่อนไหวและความยืดหยุ่นค่อย ๆ กลับมา ความปวดลดลง ผู้ป่วยส่วนใหญ่ฟื้นตัวได้ดี แม้ส่วนน้อยอาจยังมีอาการติดหรือปวดเล็กน้อยในระยะยาว"
   ],
-  phaseTimingNote:"ช่วงเดือนที่แสดงไว้เป็นรูปแบบโดยทั่วไป ไม่ใช่ตารางเวลาที่ตายตัว แต่ละระยะคาบเกี่ยวกัน ไม่ได้เรียงตามลำดับเสมอไป และมีระยะเวลาต่างกันมากในแต่ละคน แอปนี้ใช้อาการของคุณเป็นตัวกำหนดระยะ ไม่ใช่ปฏิทิน",
+  phaseTimingNote:"ช่วงเดือนเป็นเพียงรูปแบบทั่วไป ไม่ใช่ตารางตายตัว แต่ละระยะคาบเกี่ยวกันและแตกต่างกันในแต่ละคน อาการของคุณเป็นตัวกำหนดระยะ ไม่ใช่ปฏิทิน",
   monthsTypicalPrefix:"คุณอยู่ในเดือนที่ ",
   stagesCardTitle:"4 ระยะของภาวะข้อไหล่ติด",
-  stagesCardIntro:"ภาวะข้อไหล่ติดมักดำเนินไปตามรูปแบบที่พอคาดเดาได้ การเข้าใจภาพรวมจะช่วยให้ผ่านช่วงเวลาที่ยาวนานนี้ได้ง่ายขึ้น",
-  stagesCardOutcome:"เรื่องการฟื้นตัว ผู้ป่วยส่วนใหญ่ดีขึ้นมาก และปัญหารุนแรงในระยะยาวพบได้ไม่บ่อย การศึกษาที่ติดตามผู้ป่วยหลายปีพบว่ามีผู้ป่วยส่วนหนึ่งยังมีอาการเล็กน้อยหรือติดเล็กน้อยหลงเหลืออยู่ ดังนั้นหากยังมีอาการเหลืออยู่บ้างไม่ต้องตกใจ เพราะมักไม่รบกวนการใช้ชีวิตประจำวัน แพทย์ของคุณจะบอกได้ว่ากรณีของคุณควรคาดหวังอย่างไร",
+  stagesCardIntro:"ภาวะข้อไหล่ติดมักดำเนินไปตามรูปแบบที่พอคาดเดาได้",
+  stagesCardOutcome:"ผู้ป่วยส่วนใหญ่ดีขึ้นมาก ปัญหารุนแรงระยะยาวพบได้ไม่บ่อย บางรายอาจมีอาการติดเล็กน้อยหลงเหลือแต่มักไม่รบกวนชีวิตประจำวัน สอบถามแพทย์เพื่อทราบแนวโน้มของคุณ",
   stageYouAreHere:"คุณอยู่ระยะนี้",
   recoveredChip:"ฟื้นตัวแล้ว",
   recoveredDesc:"คะแนนของคุณอยู่ในเกณฑ์ดีเยี่ยม ให้คงท่าบริหารสั้น ๆ ไว้อย่างสม่ำเสมอ เพื่อไม่ให้อาการติดกลับมาอีก",
@@ -1158,9 +1154,9 @@ th: {
     strength:{title:"กำลัง", sub:"เกรดกำลังกล้ามเนื้อ 0 ถึง 5"}
   },
   deltaSince:"ตั้งแต่เริ่ม",
-  chartUp:"เพิ่มขึ้น <b>{d}</b> จาก <b>{a}</b> ในการประเมินครั้งแรก เป็น <b>{b}</b> ในปัจจุบัน ถือว่าดีขึ้น",
-  chartDown:"ลดลงจาก <b>{a}</b> ในการประเมินครั้งแรก เหลือ <b>{b}</b> ในปัจจุบัน ควรแจ้งแพทย์ในการนัดครั้งถัดไป",
-  chartFlat:"คงที่ที่ <b>{b}</b> ตั้งแต่การประเมินครั้งแรก",
+  chartUp:"เพิ่มขึ้น <b>{d}</b> จาก <b>{a}</b> เป็น <b>{b}</b> ถือว่าดีขึ้น",
+  chartDown:"ลดลงจาก <b>{a}</b> เหลือ <b>{b}</b> ควรแจ้งแพทย์ในการนัดถัดไป",
+  chartFlat:"คงที่ที่ <b>{b}</b>",
   chartNeedTwo:"เมื่อมีผลประเมินสองครั้ง กราฟนี้จะปรากฏขึ้น",
   mediaWatch:"ดูวิดีโอ",
 
@@ -1184,7 +1180,7 @@ th: {
     "เพิ่งหกล้มหรือได้รับบาดเจ็บที่ไหล่"
   ],
   escalateTitle:"สิ่งที่แพทย์อาจพิจารณาเพิ่มเติม",
-  escalateIntro:"สิ่งเหล่านี้เป็นการตัดสินใจของแพทย์ ไม่ใช่ตัวเลือกที่เลือกเองในแอป แสดงไว้เพื่อให้คุณทราบว่ามีทางเลือกเหล่านี้อยู่",
+  escalateIntro:"การตัดสินใจของแพทย์ ไม่ใช่ตัวเลือกในแอป",
   escalate:[
     "การฉีดยาเข้าข้อ เมื่อความปวดเป็นอุปสรรคต่อการทำกายภาพบำบัด",
     "การฉีดยาร่วมกับกายภาพบำบัด แทนการใช้อย่างใดอย่างหนึ่งเพียงอย่างเดียว",
@@ -1221,7 +1217,6 @@ let STATE = {
   lang:"th", hn:"", onsetMonth:null, onsetYear:null, consentGiven:false,
   logDate:null, doneIds:[], adherence:{}, measures:[], homeScreenPromptShown:false
 };
-let currentExPhase = 0;
 
 /* =====================================================================
    MEDIA MANIFEST
@@ -1325,6 +1320,7 @@ async function acceptAddHome(){
 function closeAddHomePrompt(){
   document.getElementById('addhome-modal').classList.add('hidden');
   STATE.homeScreenPromptShown = true; saveState();
+  if(!latestMeasure()) openMeasure();
 }
 
 /* ================== SYMPTOM-DRIVEN STAGE LOGIC ==================
@@ -1656,47 +1652,28 @@ function exerciseGroupsFor(stage){
   return (tot !== null && tot >= 29) ? [2,3] : [1,2];
 }
 
-function renderExercisePhaseTabs(){
-  const c = CONTENT[STATE.lang];
-  const stage = currentStageIndex();
-  document.getElementById('ex-phase-tabs').innerHTML = c.phaseShort.map((label,i)=>{
-    let cls = 'phase-tab';
-    if(i === currentExPhase) cls += ' active';
-    if(i === stage) cls += ' is-current';
-    return `<button class="${cls}" onclick="selectExPhase(${i})">${c.phaseNames[i]} · ${label}${i===stage?'<span class="phase-tab-dot"></span>':''}</button>`;
-  }).join('');
-}
-function selectExPhase(i){ currentExPhase = i; renderExerciseList(); renderExercisePhaseTabs(); }
-
 function renderExerciseList(){
   const c = CONTENT[STATE.lang];
-  const i = currentExPhase;
+  const i = currentStageIndex();
   document.getElementById('ex-phase-def').innerHTML =
-    `<div class="ex-phase-def"><strong>${c.exPhaseDefTitle}</strong>${c.phaseDesc[i]}</div>
-     <div class="ex-caution">⚠️ ${c.exCaution}</div>`;
+    `<div class="ex-caution">⚠️ ${c.exCaution}</div>`;
 
   const list = exerciseGroupsFor(i).flatMap(src => c.exercises[src]);
   const doneSet = new Set(STATE.doneIds);
   const doneCount = list.filter(x=>doneSet.has(x.id)).length;
-  const isCurrent = i === currentStageIndex();
 
-  document.getElementById('ex-progress-wrap').classList.toggle('hidden', !isCurrent);
-  if(isCurrent){
-    document.getElementById('ex-progress-fill').style.width = (list.length ? (doneCount/list.length*100) : 0) + '%';
-    document.getElementById('ex-progress-label').textContent = `${doneCount} / ${list.length}`;
-  }
+  document.getElementById('ex-progress-fill').style.width = (list.length ? (doneCount/list.length*100) : 0) + '%';
+  document.getElementById('ex-progress-label').textContent = `${doneCount} / ${list.length}`;
 
-  // Ticking is only offered for the stage the patient is actually in.
-  // Other stages are shown for reference, with no checkbox.
   document.getElementById('ex-list').innerHTML = list.map(x=>{
-    const done = isCurrent && doneSet.has(x.id);
+    const done = doneSet.has(x.id);
     return `<div class="ex-row">
-      ${isCurrent ? `<div class="ex-check ${done?'checked':''}" role="checkbox" tabindex="0"
+      <div class="ex-check ${done?'checked':''}" role="checkbox" tabindex="0"
         aria-checked="${done}" aria-label="${x.name}"
         onclick="toggleExercise('${x.id}')"
         onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();toggleExercise('${x.id}');}">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg>
-      </div>` : ''}
+      </div>
       <div class="ex-icon">${icon(x.ic)}</div>
       <div class="ex-body">
         <div class="ex-name ${done?'checked-text':''}">${x.name}</div>
@@ -1709,7 +1686,7 @@ function renderExerciseList(){
   }).join('');
 
   document.getElementById('zone-list').innerHTML = c.zones.map(z=>
-    `<div class="zone-row"><div class="zone-chip ${z[0]}">${z[1]}</div><div class="zone-text">${z[2]}</div></div>`
+    `<div class="zone-row"><div class="zone-text zone-text-${z[0]}">${z[2]}</div></div>`
   ).join('');
 }
 function toggleExercise(id){
@@ -1871,8 +1848,7 @@ function renderProgress(){
     ${scoreCard}
     <div class="card">
       <h2>${c.phaseNames[stage]} · ${c.phaseTitles[stage]}</h2>
-      <p class="muted" style="line-height:1.55;margin-top:6px;">${c.phaseDesc[stage]}</p>
-      <p class="muted" style="margin-top:12px;font-size:12px;">${c.progCount.replace('{n}', ms.length)}</p>
+      <p class="muted" style="margin-top:6px;font-size:12px;">${c.progCount.replace('{n}', ms.length)}</p>
       <button class="primary-btn" onclick="openMeasure()">${c.remeasureBtn}</button>
     </div>
     ${chart({ ...CH.total, vals: ms.map(m=>uclaTotal(m.ucla, m.rom.flexion)), max:35, suffix:' / 35', color:'#1F3864' })}
@@ -2116,7 +2092,7 @@ function switchTab(tab){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+tab).classList.add('active');
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
-  if(tab === 'exercises'){ currentExPhase = currentStageIndex(); renderExercisePhaseTabs(); renderExerciseList(); }
+  if(tab === 'exercises'){ renderExerciseList(); }
   if(tab === 'progress') renderProgress();
   // The shell grows with its content, so <main> never overflows — the window is
   // the scroller. Reset both so a new tab always opens at the top.
@@ -2160,14 +2136,15 @@ function saveOnboard(){
   saveState();
   document.getElementById('onboard').classList.add('hidden');
   renderAll();
-  if(!latestMeasure()) openMeasure(); else maybeShowAddHomePrompt();
+  const willPromptAddHome = !IS_STANDALONE && !STATE.homeScreenPromptShown;
+  maybeShowAddHomePrompt();
+  if(!willPromptAddHome && !latestMeasure()) openMeasure();
 }
 
 /* ============================= INIT ============================= */
 function renderAll(){
   applyStaticI18n();
   renderHome();
-  renderExercisePhaseTabs();
   renderExerciseList();
   renderProgress();
   renderSleep();
@@ -2176,7 +2153,6 @@ function renderAll(){
 }
 (async function init(){
   await loadState();
-  currentExPhase = currentStageIndex();
   buildOnsetSelects();
   renderAll();
   if(!STATE.consentGiven) openOnboard(true);
