@@ -306,12 +306,23 @@
   .media{margin-top:11px;}
   .media img{width:100%;border-radius:10px;display:block;background:var(--bg);}
   .media video{width:100%;border-radius:10px;background:#000;display:block;}
-  .media-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:none;background:var(--care);color:#fff;border-radius:10px;padding:11px 12px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);margin-top:8px;}
-  .media-btn svg{width:15px;height:15px;fill:#fff;flex-shrink:0;}
-  .media-placeholder{margin-top:11px;aspect-ratio:16/9;border-radius:10px;border:1.5px dashed var(--border);
-    background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--muted);}
-  .media-placeholder svg{width:26px;height:26px;stroke:var(--muted);fill:none;stroke-width:1.6;}
-  .media-placeholder span{font-size:11.5px;}
+  /* The thumbnail is the whole tap target, with the play badge sitting over
+     the still. Without a still it falls back to a plain 16:9 panel. */
+  .media-thumb{display:block;position:relative;width:100%;padding:0;border:none;
+    border-radius:10px;overflow:hidden;background:var(--bg);cursor:pointer;line-height:0;}
+  .media-thumb.no-still{aspect-ratio:16/9;background:var(--phase-soft,#EAF0F6);}
+  /* A near-solid white disc with a dark glyph and a drop shadow — the badge
+     has to stay legible over whatever photo gets uploaded behind it, light
+     or dark, and the shadow carries it on the pale video-only panel too. */
+  .media-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.95);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 2px 14px rgba(0,0,0,0.45);pointer-events:none;}
+  .media-play svg{width:23px;height:23px;fill:var(--navy);margin-left:3px;}
+  .media-thumb:active .media-play{background:#fff;}
+  @media (prefers-reduced-motion:no-preference){
+    .media-play{transition:background 0.15s ease;}
+  }
 
   /* chart axis + plain-language read-out */
   .chart-axis{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin-top:5px;}
@@ -908,7 +919,6 @@ en: {
   chartFlat:"Unchanged at <b>{b}</b>.",
   chartNeedTwo:"Two assessments and this graph appears.",
   mediaWatch:"Watch the video",
-  mediaComingSoon:"Photo & video guide coming soon",
 
   sleepTitle:"Sleeping With a Frozen Shoulder",
   sleepIntro:"Night pain is the hardest part of the painful stage for most people. These positions help while it settles.",
@@ -1218,7 +1228,6 @@ th: {
   chartFlat:"คงที่ที่ <b>{b}</b>",
   chartNeedTwo:"เมื่อมีผลประเมินสองครั้ง กราฟนี้จะปรากฏขึ้น",
   mediaWatch:"ดูวิดีโอ",
-  mediaComingSoon:"ภาพและวิดีโอสาธิตจะเพิ่มเข้ามาเร็ว ๆ นี้",
 
   sleepTitle:"การนอนเมื่อมีภาวะข้อไหล่ติด",
   sleepIntro:"สำหรับคนส่วนใหญ่ ความปวดตอนกลางคืนคือส่วนที่ยากที่สุดของระยะปวด ท่าเหล่านี้ช่วยได้ระหว่างรออาการสงบ",
@@ -1308,6 +1317,11 @@ const IMAGE_DIR = "media/";
 const VIDEO_DIR = "media/";
 const hasImage = f => !!f && MEDIA.images.indexOf(f) !== -1;
 const hasVideo = f => !!f && MEDIA.videos.indexOf(f) !== -1;
+/* For values dropped into an HTML attribute, including the inline onclick
+   that carries a filename through to the player. */
+const escapeAttr = s => String(s == null ? '' : s)
+  .replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')
+  .replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
 function todayISO(){ return new Date().toISOString().slice(0,10); }
 function checkDayRollover(){
@@ -1562,30 +1576,36 @@ function arcSvg(frac, key, max){
 function moveValueLabel(m, v){ return m.key === 'ir' ? t('irLandmarks')[v] : (v + m.unit); }
 
 /* ============================= MEDIA SLOTS =============================
-   Renders nothing unless the file is listed in MEDIA above, so an item
-   without media takes up no space at all — unless reserveSpace is set,
-   which keeps a placeholder box where the media will appear once added. */
-function mediaSlot(imgFile, vidFile, reserveSpace){
+   A topic only takes up room once its file has been uploaded and registered
+   in MEDIA. Nothing registered means nothing rendered — no placeholder, no
+   reserved space — so a half-filled library reads as a clean list rather
+   than a page of empty boxes.
+
+   With a video, the slot is a thumbnail carrying a play badge: the still if
+   one was uploaded, otherwise a plain panel. Tapping it swaps in the player.
+   An image on its own is just the image, with no badge to press. */
+const ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+
+function mediaSlot(imgFile, vidFile){
   const img = hasImage(imgFile), vid = hasVideo(vidFile);
-  if(!img && !vid){
-    if(!reserveSpace) return '';
-    return `<div class="media-placeholder">
-      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="14" height="13" rx="3"/><path d="M16.5 10l5-3.2v10.4l-5-3.2z"/></svg>
-      <span>${t('mediaComingSoon')}</span>
-    </div>`;
-  }
+  if(!img && !vid) return '';
+
+  const still = img ? `<img src="${IMAGE_DIR}${imgFile}" alt="" loading="lazy">` : '';
+  if(!vid) return `<div class="media">${still}</div>`;
+
   return `<div class="media">
-    ${img ? `<img src="${IMAGE_DIR}${imgFile}" alt="" loading="lazy">` : ''}
-    ${vid ? `<button class="media-btn" onclick="playVideo(this,'${vidFile}')">
-        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>${t('mediaWatch')}
-      </button>` : ''}
+    <button class="media-thumb ${img ? '' : 'no-still'}" type="button"
+            aria-label="${escapeAttr(t('mediaWatch'))}" onclick="playVideo(this,'${escapeAttr(vidFile)}')">
+      ${still}
+      <span class="media-play">${ICON_PLAY}</span>
+    </button>
   </div>`;
 }
+
 function playVideo(btn, file){
-  const wrap = btn.parentElement;
+  const wrap = btn.closest('.media');
   wrap.innerHTML = `<video controls playsinline preload="metadata" src="${VIDEO_DIR}${file}"></video>`;
-  const v = wrap.querySelector('video');
-  v.play().catch(()=>{});
+  wrap.querySelector('video').play().catch(()=>{});
 }
 
 /** Whole months elapsed since the recorded month/year of symptom onset. */
@@ -1797,7 +1817,7 @@ function renderExerciseList(){
     const done = doneSet.has(x.id);
     return `<div class="ex-row">
       <div class="ex-check ${done?'checked':''}" role="checkbox" tabindex="0"
-        aria-checked="${done}" aria-label="${x.name}"
+        aria-checked="${done}" aria-label="${escapeAttr(x.name)}"
         onclick="toggleExercise('${x.id}')"
         onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();toggleExercise('${x.id}');}">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg>
@@ -2043,7 +2063,7 @@ function renderSleep(){
         <div class="sleep-icon">${s.icon}</div>
         <div><div class="sleep-title">${s.title}</div><div class="sleep-desc">${s.desc}</div></div>
       </div>
-      ${mediaSlot(s.img, s.vid, !!(s.img || s.vid))}
+      ${mediaSlot(s.img, s.vid)}
     </div>`).join('');
 }
 function renderSelfCare(){
@@ -2053,7 +2073,7 @@ function renderSelfCare(){
         <div class="sleep-icon">${s.icon}</div>
         <div><div class="sleep-title">${s.title}</div><div class="sleep-desc">${s.desc}</div></div>
       </div>
-      ${mediaSlot(s.img, s.vid, !!(s.img || s.vid))}
+      ${mediaSlot(s.img, s.vid)}
     </div>`).join('');
 }
 function renderSOS(){
@@ -2069,13 +2089,17 @@ function renderSOS(){
 let measureStep = 0;
 let draft = null;
 
+/* Last month's range is a sensible place to leave the dials — the patient
+   drags from where they were. Last month's answers are not: carrying them
+   over pre-selects every option, which both leads the answer and lets the
+   whole assessment be clicked through without reading a single question,
+   filing a copy of last month as though it were new. They start empty, so
+   the validation in measureNext() means something. */
 function defaultDraft(){
   const prev = latestMeasure();
-  if(prev) return JSON.parse(JSON.stringify({ ucla:prev.ucla, rom:prev.rom }));
-  return {
-    ucla:{ pain:null, func:null, strength:null, satisfaction:null },
-    rom:{ flexion:95, abduction:80, er:20, ir:2 }
-  };
+  const rom = prev ? JSON.parse(JSON.stringify(prev.rom))
+                   : { flexion:95, abduction:80, er:20, ir:2 };
+  return { ucla:{ pain:null, func:null, strength:null, satisfaction:null }, rom };
 }
 function openMeasure(){
   if(!STATE.consentGiven){ openOnboard(true); return; }

@@ -2,13 +2,22 @@
 
 Upload the files below into this `media/` folder, then add the ones you have
 actually uploaded to the `MEDIA` list near the top of the script in
-`index.html`. Only registered filenames are displayed; anything not listed
-there keeps its "Photo & video guide coming soon" placeholder, so you can
-upload in batches rather than all at once.
+`index.html`. **A file is only shown once its name appears in that list.**
+
+A topic with nothing registered takes up no room at all — no placeholder, no
+empty box — so you can upload in batches and the app still reads as a clean
+list in the meantime.
 
 Images are stills (16:9, JPEG). Videos are short clips (16:9, MP4/H.264).
-Each topic can take an image, a video, or both — a topic with only one of
-the two still displays correctly.
+Each topic can take an image, a video, or both, and each combination is
+handled:
+
+| Uploaded | What the patient sees |
+|---|---|
+| Image and video | The still, with a play badge over it; tapping plays the video |
+| Video only | A plain panel with a play badge; tapping plays the video |
+| Image only | Just the photo, with no play badge |
+| Neither | Nothing — the topic shows text alone |
 
 ## Exercises tab — 18 topics, 36 files
 
