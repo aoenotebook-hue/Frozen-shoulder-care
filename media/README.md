@@ -1,13 +1,16 @@
 # Media files for the Frozen Shoulder Recovery app
 
-Upload every file below into this `media/` folder, then register the ones
-you have added in the `MEDIA` list near the top of the script in `index.html`.
-Only registered filenames are shown; anything not listed there keeps its
-"Photo & video guide coming soon" placeholder, so you can upload in batches.
+Upload the files below into this `media/` folder, then add the ones you have
+actually uploaded to the `MEDIA` list near the top of the script in
+`index.html`. Only registered filenames are displayed; anything not listed
+there keeps its "Photo & video guide coming soon" placeholder, so you can
+upload in batches rather than all at once.
 
-Images are stills (4:3 or 16:9, JPEG). Videos are short clips (16:9, MP4/H.264).
+Images are stills (16:9, JPEG). Videos are short clips (16:9, MP4/H.264).
+Each topic can take an image, a video, or both — a topic with only one of
+the two still displays correctly.
 
-## Exercises (18 topics, 36 files)
+## Exercises tab — 18 topics, 36 files
 
 | # | Topic | Image | Video |
 |--:|---|---|---|
@@ -30,7 +33,7 @@ Images are stills (4:3 or 16:9, JPEG). Videos are short clips (16:9, MP4/H.264).
 | 17 | Level 3 — load | `fs-17-level3-load.jpg` | `fs-17-level3-load.mp4` |
 | 18 | Level 4 — your life | `fs-18-level4-return-to-life.jpg` | `fs-18-level4-return-to-life.mp4` |
 
-## Sleep positions (4 topics, 8 files)
+## Sleep tab — 4 topics, 8 files
 
 | # | Topic | Image | Video |
 |--:|---|---|---|
@@ -39,6 +42,25 @@ Images are stills (4:3 or 16:9, JPEG). Videos are short clips (16:9, MP4/H.264).
 | 3 | Propped up | `fs-sleep-03-propped-upright.jpg` | `fs-sleep-03-propped-upright.mp4` |
 | 4 | If stiffness wakes you | `fs-sleep-04-night-waking-mobility.jpg` | `fs-sleep-04-night-waking-mobility.mp4` |
 
-**Total: 44 files** (22 images + 22 videos).
+## Self Care tab — 4 topics, 8 files
 
-The Self Care tab has no media slots, so nothing needs uploading for it.
+| # | Topic | Image | Video |
+|--:|---|---|---|
+| 1 | Ice or Heat | `fs-selfcare-01-ice-or-heat.jpg` | `fs-selfcare-01-ice-or-heat.mp4` |
+| 2 | Keep Moving, Gently | `fs-selfcare-02-gentle-movement.jpg` | `fs-selfcare-02-gentle-movement.mp4` |
+| 3 | Getting Dressed | `fs-selfcare-03-getting-dressed.jpg` | `fs-selfcare-03-getting-dressed.mp4` |
+| 4 | Showering | `fs-selfcare-04-showering.jpg` | `fs-selfcare-04-showering.mp4` |
+
+## Total
+
+| Tab | Topics | Images | Videos |
+|---|--:|--:|--:|
+| Exercises | 18 | 18 | 18 |
+| Sleep | 4 | 4 | 4 |
+| Self Care | 4 | 4 | 4 |
+| **All** | **26** | **26** | **26** |
+
+**52 files in total.**
+
+The Sleep tab also carries a "do not lie on the painful shoulder" card. It is
+a warning rather than a technique, so it has no media slot and needs no file.
