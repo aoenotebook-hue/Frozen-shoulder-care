@@ -1,10 +1,15 @@
 # Media files for the Frozen Shoulder Recovery app
 
-Upload the files below into this `media/` folder, then add the ones you have
-actually uploaded to the `MEDIA` list near the top of the script in
-`index.html`. **A file is only shown once its name appears in that list.**
+**Upload a file into this `media/` folder under the name its topic expects
+and it appears in the app. That is the whole procedure** — there is no list
+to edit and nothing to change in `index.html`. The page asks the server which
+files are present and shows the ones that are there.
 
-A topic with nothing registered takes up no room at all — no placeholder, no
+The name has to match exactly, including the `.jpg` or `.mp4` on the end. A
+name that does not match is simply not found, and the topic shows its text
+with no media.
+
+A topic with nothing uploaded takes up no room at all — no placeholder, no
 empty box — so you can upload in batches and the app still reads as a clean
 list in the meantime.
 
@@ -70,6 +75,13 @@ handled:
 | **All** | **26** | **26** | **26** |
 
 **52 files in total.**
+
+### Why an uploaded exercise file may not be on screen
+
+The Exercises tab only lists the exercises for the stage the patient is
+currently in, so a correctly uploaded file shows up only when that exercise
+is being prescribed. Sleep and Self Care always show every topic. If a file
+seems to be missing, check the stage before checking the filename.
 
 The Sleep tab also carries a "do not lie on the painful shoulder" card. It is
 a warning rather than a technique, so it has no media slot and needs no file.
