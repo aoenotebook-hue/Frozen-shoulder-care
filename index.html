@@ -774,7 +774,7 @@ en: {
     "Pain often lessens and aches mainly when you push past your limit. Stiffness is at its maximum, restricting reaching out, up, and behind your back.",
     "Movement and flexibility return gradually and pain fades. Most people recover well, though a minority keep some stiffness or mild ache long term."
   ],
-  phaseTimingNote:"These months are typical, not a schedule — stages overlap and vary between people. Your symptoms decide your stage, not the calendar.",
+  phaseTimingNote:"Your stage is set from these months, counted from when your symptoms started. Without an onset date, your symptoms decide it instead.",
   monthsTypicalPrefix:"you are in month ",
   stagesCardTitle:"The four stages of frozen shoulder",
   stagesCardIntro:"Frozen shoulder usually follows a recognisable course.",
@@ -1073,7 +1073,7 @@ th: {
     "ความปวดมักลดลง และจะปวดเมื่อพยายามฝืนไปจนสุดพิสัย อาการติดรุนแรงที่สุด ทำให้กางแขน ยกขึ้น และเอื้อมไพล่หลังได้จำกัดมาก",
     "การเคลื่อนไหวและความยืดหยุ่นค่อย ๆ กลับมา ความปวดลดลง ผู้ป่วยส่วนใหญ่ฟื้นตัวได้ดี แม้ส่วนน้อยอาจยังมีอาการติดหรือปวดเล็กน้อยในระยะยาว"
   ],
-  phaseTimingNote:"ช่วงเดือนเป็นเพียงรูปแบบทั่วไป ไม่ใช่ตารางตายตัว แต่ละระยะคาบเกี่ยวกันและแตกต่างกันในแต่ละคน อาการของคุณเป็นตัวกำหนดระยะ ไม่ใช่ปฏิทิน",
+  phaseTimingNote:"ระยะของคุณกำหนดจากช่วงเดือนเหล่านี้ นับจากวันที่เริ่มมีอาการ หากไม่ได้ระบุวันเริ่มมีอาการ จะใช้อาการของคุณเป็นตัวกำหนดแทน",
   monthsTypicalPrefix:"คุณอยู่ในเดือนที่ ",
   stagesCardTitle:"4 ระยะของภาวะข้อไหล่ติด",
   stagesCardIntro:"ภาวะข้อไหล่ติดมักดำเนินไปตามรูปแบบที่พอคาดเดาได้",
@@ -1397,10 +1397,19 @@ function everPastPreFreezing(){
   return STATE.measures.some(m => m.ucla.pain <= 4 || flexionPoints(m.rom.flexion) <= 2);
 }
 
-/* Stage is read from the patient's own symptoms, not from the calendar.
-   Pre-freezing and thawing look alike — mild pain, workable range — so
-   history and direction of travel are what separate them. */
+/* Stage is read primarily from time since symptom onset, following the
+   typical clinical course: pre-freezing months 1-3, freezing months 4-9,
+   frozen months 10-14, thawing month 15 on. When no onset date is on file
+   the stage falls back to an estimate from the patient's own symptoms. */
 function currentStageIndex(){
+  const mo = monthsSinceOnset();
+  if(mo !== null){
+    if(mo <= 2)  return 0;   // Pre-freezing: months 1-3
+    if(mo <= 8)  return 1;   // Freezing: months 4-9
+    if(mo <= 13) return 2;   // Frozen: months 10-14
+    return 3;                // Thawing: month 15 on
+  }
+
   const e = effectiveUcla();
   if(!e) return 0;
   const pain = e.u.pain, func = e.u.func, fx = flexionPoints(e.flexionDeg);
@@ -1411,12 +1420,8 @@ function currentStageIndex(){
   const nearNormal = fx >= 4 && func >= 8;
   const total = uclaTotal(e.u, e.flexionDeg);
   // Pre-freezing describes a shoulder that is sore and becoming touchy — not
-  // one that is essentially well. An excellent score rules it out, which also
-  // stops a recovered patient with no recorded onset date landing here.
-  if(nearNormal && total < 34 && !everPastPreFreezing() && romTrend() <= 0){
-    const mo = monthsSinceOnset();
-    if(mo === null || mo <= 6) return 0;   // Pre-freezing
-  }
+  // one that is essentially well. An excellent score rules it out.
+  if(nearNormal && total < 34 && !everPastPreFreezing() && romTrend() <= 0) return 0;
   return 3;                 // Thawing
 }
 
@@ -1534,8 +1539,8 @@ function renderHome(){
     ringFg.style.strokeDashoffset = 0;
   } else {
     chipEl.textContent = c.phaseNames[stage] + " · " + c.phaseTitles[stage];
-    // Typical timing is offered as context, immediately qualified, because the
-    // stage the patient is in is decided by symptoms rather than the calendar.
+    // The months are shown as context — currentStageIndex() already used them
+    // as the primary gate whenever an onset date is on file.
     descEl.innerHTML = `<b>${c.phaseHeadline[stage]}</b><br>${c.phaseDesc[stage]}`
       + `<br><span style="font-size:11.5px;color:var(--dim,#8a8a8a);">${c.phaseMonths[stage]}</span>`;
     ringFg.style.strokeDashoffset = CIRC * (1 - (stage + 1) / 4);
