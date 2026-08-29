@@ -22,7 +22,7 @@
      connect-src names that single destination, so even if something managed to
      inject a script here it could not post an HN or a score anywhere else.
      'unsafe-inline' is unavoidable while the markup uses onclick handlers. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src https://script.google.com https://script.googleusercontent.com; form-action 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; form-action 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'">
 <style>
   :root{
     --navy:#1F3864; --navy-2:#2b4a80; --teal:#2E7D6E; --teal-2:#3f9a89;
@@ -1297,26 +1297,64 @@ let STATE = {
 };
 
 /* =====================================================================
-   MEDIA MANIFEST
-   List only the files you have actually uploaded. Anything not listed
-   here shows no image and no video button at all — no empty boxes, no
-   broken players. Add a filename the moment you upload it.
+   MEDIA DISCOVERY
+   Upload a file into media/ under the name the topic expects and it
+   appears. There is no list to maintain: the page asks the server
+   whether each file is there and remembers the answer.
 
-   Images go in  images/   Videos go in  videos/
-   An item may have an image, a video, both, or neither.
+   A static page cannot read its own folder, so each candidate name gets
+   one HEAD request — a few hundred bytes of headers, not the file. The
+   answers are cached for the session, and the affected tabs re-render
+   once the replies arrive, so a topic never flashes an empty box while
+   a probe is in flight. Files are looked up under media/.
+
+   media/README.md lists the filename every topic expects.
    ===================================================================== */
-const MEDIA = {
-  images: [
-    // "fs-01-pendulum.jpg",
-  ],
-  videos: [
-    // "fs-01-pendulum.mp4",
-  ]
-};
 const IMAGE_DIR = "media/";
 const VIDEO_DIR = "media/";
-const hasImage = f => !!f && MEDIA.images.indexOf(f) !== -1;
-const hasVideo = f => !!f && MEDIA.videos.indexOf(f) !== -1;
+
+const MEDIA_FOUND = new Map();    // filename -> true | false, once known
+const MEDIA_ASKED = new Set();    // filename -> a probe is already in flight
+let mediaRepaintTimer = null;
+
+const hasImage = f => !!f && MEDIA_FOUND.get(f) === true;
+const hasVideo = f => !!f && MEDIA_FOUND.get(f) === true;
+
+/* HEAD is enough on any ordinary static host. A host that refuses it
+   (405) still answers a one-byte ranged GET, so fall back to that
+   rather than leaving the media invisible. */
+async function mediaProbe(url){
+  try{
+    const head = await fetch(url, {method:'HEAD'});
+    if(head.ok) return true;
+    if(head.status !== 405) return false;
+  }catch(e){ return false; }
+  try{
+    const ranged = await fetch(url, {headers:{Range:'bytes=0-0'}});
+    return ranged.ok;
+  }catch(e){ return false; }
+}
+
+function discoverMedia(file, dir){
+  if(!file || MEDIA_FOUND.has(file) || MEDIA_ASKED.has(file)) return;
+  MEDIA_ASKED.add(file);
+  mediaProbe(dir + file).then(found=>{
+    MEDIA_ASKED.delete(file);
+    MEDIA_FOUND.set(file, found);
+    if(found) scheduleMediaRepaint();
+  });
+}
+
+/* One repaint for a burst of replies, rather than one per file. Only the
+   tabs that carry media need it, and re-rendering them cannot start a
+   loop: by then every filename has a cached answer. */
+function scheduleMediaRepaint(){
+  if(mediaRepaintTimer) return;
+  mediaRepaintTimer = setTimeout(()=>{
+    mediaRepaintTimer = null;
+    renderExerciseList(); renderSleep(); renderSelfCare();
+  }, 80);
+}
 /* For values dropped into an HTML attribute, including the inline onclick
    that carries a filename through to the player. */
 const escapeAttr = s => String(s == null ? '' : s)
@@ -1576,10 +1614,10 @@ function arcSvg(frac, key, max){
 function moveValueLabel(m, v){ return m.key === 'ir' ? t('irLandmarks')[v] : (v + m.unit); }
 
 /* ============================= MEDIA SLOTS =============================
-   A topic only takes up room once its file has been uploaded and registered
-   in MEDIA. Nothing registered means nothing rendered — no placeholder, no
-   reserved space — so a half-filled library reads as a clean list rather
-   than a page of empty boxes.
+   A topic only takes up room once its file is actually on the server.
+   Nothing there means nothing rendered — no placeholder, no reserved
+   space — so a half-filled library reads as a clean list rather than a
+   page of empty boxes.
 
    With a video, the slot is a thumbnail carrying a play badge: the still if
    one was uploaded, otherwise a plain panel. Tapping it swaps in the player.
@@ -1587,6 +1625,11 @@ function moveValueLabel(m, v){ return m.key === 'ir' ? t('irLandmarks')[v] : (v 
 const ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
 
 function mediaSlot(imgFile, vidFile){
+  // Asking costs nothing once an answer is cached, so every render is also
+  // the point at which a newly uploaded file gets noticed.
+  discoverMedia(imgFile, IMAGE_DIR);
+  discoverMedia(vidFile, VIDEO_DIR);
+
   const img = hasImage(imgFile), vid = hasVideo(vidFile);
   if(!img && !vid) return '';
 
