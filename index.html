@@ -365,10 +365,19 @@
   .privacy-row .pi{flex-shrink:0;font-size:14px;line-height:1.4;}
   .hidden{display:none !important;}
   ::-webkit-scrollbar{width:0;height:0;}
+
+  /* Content-protection deterrents (see script comment for what this can and
+     can't actually stop). Selection/callout are re-enabled on real form
+     fields so typing the HN and answering assessments still works normally. */
+  html, body{-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-touch-callout:none;}
+  input, textarea, select{-webkit-user-select:text;-moz-user-select:text;user-select:text;-webkit-touch-callout:default;}
+  img, video{-webkit-user-select:none;user-select:none;}
+  #privacy-cover{position:fixed;inset:0;z-index:9999;background:var(--navy);}
 </style>
 </head>
 <body>
 
+<div id="privacy-cover" class="hidden"></div>
 <div id="app-shell">
   <header>
     <div class="brand">
@@ -614,6 +623,28 @@
 </div>
 
 <script>
+/* =====================================================================
+   CONTENT-PROTECTION DETERRENTS. A web page cannot actually refuse to be
+   copied or screen-captured: rendering it means handing the device real
+   pixels and, for typed fields, real text, and every OS provides a
+   screenshot/recording path and a camera outside this page's reach. What
+   follows only raises friction for the casual case (right-click save,
+   drag-out, long-press copy, the OS app-switcher thumbnail) — it is not
+   a security boundary and must not be represented as one.
+   ===================================================================== */
+document.addEventListener('contextmenu', e => {
+  if(!e.target.closest('input, textarea, select')) e.preventDefault();
+});
+document.addEventListener('dragstart', e => {
+  if(e.target.closest('img, video')) e.preventDefault();
+});
+document.addEventListener('copy', e => {
+  if(!e.target.closest('input, textarea, select')) e.preventDefault();
+});
+document.addEventListener('visibilitychange', () => {
+  document.getElementById('privacy-cover').classList.toggle('hidden', !document.hidden);
+});
+
 /* =====================================================================
    EXERCISE ICONS — inline SVG, stroked with currentColor.
    ===================================================================== */
@@ -1633,7 +1664,7 @@ function mediaSlot(imgFile, vidFile){
   const img = hasImage(imgFile), vid = hasVideo(vidFile);
   if(!img && !vid) return '';
 
-  const still = img ? `<img src="${IMAGE_DIR}${imgFile}" alt="" loading="lazy">` : '';
+  const still = img ? `<img src="${IMAGE_DIR}${imgFile}" alt="" loading="lazy" draggable="false" oncontextmenu="return false">` : '';
   if(!vid) return `<div class="media">${still}</div>`;
 
   return `<div class="media">
@@ -1647,7 +1678,9 @@ function mediaSlot(imgFile, vidFile){
 
 function playVideo(btn, file){
   const wrap = btn.closest('.media');
-  wrap.innerHTML = `<video controls playsinline preload="metadata" src="${VIDEO_DIR}${file}"></video>`;
+  wrap.innerHTML = `<video controls playsinline preload="metadata" src="${VIDEO_DIR}${file}"
+    controlsList="nodownload noremoteplayback" disablePictureInPicture
+    oncontextmenu="return false"></video>`;
   wrap.querySelector('video').play().catch(()=>{});
 }
 
