@@ -136,8 +136,9 @@
   .ex-check:focus-visible{outline:2px solid var(--care);outline-offset:2px;}
   .ex-check svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:3;opacity:0;transition:.15s;}
   .ex-check.checked svg{opacity:1;}
-  .ex-icon{width:46px;height:46px;border-radius:12px;background:#EAF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .ex-icon{position:relative;width:46px;height:46px;border-radius:12px;background:#EAF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .ex-icon svg{width:28px;height:28px;stroke:var(--care);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+  .ex-num,.sleep-num{position:absolute;top:-6px;left:-6px;width:19px;height:19px;border-radius:50%;background:var(--navy);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 2px rgba(0,0,0,0.25);}
   .ex-body{flex:1;min-width:0;}
   .ex-name{font-weight:700;font-size:14.5px;margin-bottom:2px;}
   .ex-name.checked-text{text-decoration:line-through;color:var(--muted);}
@@ -186,7 +187,7 @@
 
   .sleep-card{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(20,30,50,0.06);}
   .sleep-head{display:flex;gap:14px;}
-  .sleep-icon{width:52px;height:52px;border-radius:14px;background:#EAF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:24px;}
+  .sleep-icon{position:relative;width:52px;height:52px;border-radius:14px;background:#EAF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:24px;}
   .sleep-card.avoid .sleep-icon{background:var(--danger-bg);}
   .sleep-title{font-weight:700;font-size:14px;margin-bottom:3px;}
   .sleep-desc{font-size:13.5px;color:var(--muted);line-height:1.5;}
@@ -203,10 +204,10 @@
   .call-btn svg{width:18px;height:18px;fill:#fff;}
   .app-disclaimer{font-size:11px;color:var(--muted);text-align:center;line-height:1.55;margin-top:16px;padding:0 4px;}
 
-  nav.tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--border);display:flex;padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));z-index:30;}
-  .tab-btn{flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 1px;cursor:pointer;color:var(--muted);font-family:var(--font);min-width:0;}
-  .tab-btn svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.8;}
-  .tab-btn span{font-size:9.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+  nav.tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--border);display:flex;padding:5px 2px calc(5px + env(safe-area-inset-bottom,0px));z-index:30;}
+  .tab-btn{flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 1px;cursor:pointer;color:var(--muted);font-family:var(--font);min-width:0;}
+  .tab-btn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .tab-btn span{font-size:8.7px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
   .tab-btn.active{color:var(--navy);}
   .tab-btn.sos{color:var(--danger);}
   .tab-btn.sos.active{color:var(--danger-dark);}
@@ -349,11 +350,11 @@
   #view-home .step.done .dot{background:var(--phase);}
   #view-home .step.done::after{background:var(--phase);}
   #view-home .scope-note{background:var(--phase-soft);color:var(--phase-ink);}
-  #view-home .weekly.done{background:var(--phase-soft);border-color:var(--phase);}
-  #view-home .weekly.done .weekly-kicker,
-  #view-home .weekly.done .weekly-title,
-  #view-home .weekly.done .weekly-body{color:var(--phase-ink);}
-  #view-home .weekly.done .primary-btn{color:var(--phase-ink);border-color:var(--phase);}
+  #view-progress .weekly.done{background:var(--phase-soft);border-color:var(--phase);}
+  #view-progress .weekly.done .weekly-kicker,
+  #view-progress .weekly.done .weekly-title,
+  #view-progress .weekly.done .weekly-body{color:var(--phase-ink);}
+  #view-progress .weekly.done .primary-btn{color:var(--phase-ink);border-color:var(--phase);}
   #view-home .card h2{color:var(--phase-ink);}
   .privacy-card{background:var(--card);border-radius:var(--radius);padding:18px;margin-bottom:14px;
     box-shadow:0 1px 3px rgba(20,30,50,0.06);}
@@ -431,11 +432,34 @@
         <div data-t="scopeNote"></div>
       </div>
 
-      <div id="weekly-reminder"></div>
-
       <div class="home-footer">
         <div class="surgeon-credit"><span data-t="surgeonLabel">Your doctor</span>: <span id="surgeon-name"></span></div>
         <button class="reset-link" onclick="handleResetApp()" data-t="resetBtn">Reset App Data</button>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="view" id="view-about">
+      <div class="card" style="margin-bottom:16px;">
+        <h2 data-t="aboutTitle">What is frozen shoulder?</h2>
+        <p class="muted" data-t="aboutBody" style="line-height:1.6;"></p>
+      </div>
+      <div class="card" style="margin-bottom:18px;">
+        <h2 data-t="causesTitle">What causes it</h2>
+        <div id="causes-list" style="margin-top:10px;"></div>
+      </div>
+      <div class="card" style="margin-bottom:18px;">
+        <h2 data-t="stagesCardTitle">The four stages of frozen shoulder</h2>
+        <p class="muted" data-t="stagesCardIntro" style="line-height:1.55;"></p>
+        <div id="stages-list" style="margin-top:14px;"></div>
+        <div class="res-note" data-t="phaseTimingNote" style="margin:14px 0 0;"></div>
+        <p class="muted" data-t="stagesCardOutcome" style="line-height:1.6;margin-top:14px;"></p>
+      </div>
+      <div class="card">
+        <h2 data-t="escalateTitle">What your doctor might add</h2>
+        <p class="muted" data-t="escalateIntro" style="line-height:1.55;"></p>
+        <div id="escalate-list" style="margin-top:12px;"></div>
+        <p class="muted" data-t="escalateNoDose" style="margin-top:12px;font-size:11.5px;"></p>
       </div>
     </section>
 
@@ -454,7 +478,10 @@
     </section>
 
     <!-- PROGRESS -->
-    <section class="view" id="view-progress"><div id="progress-body"></div></section>
+    <section class="view" id="view-progress">
+      <div id="weekly-reminder"></div>
+      <div id="progress-body"></div>
+    </section>
 
     <!-- SLEEP -->
     <section class="view" id="view-sleep">
@@ -480,26 +507,8 @@
         <h2 data-t="resTitle">Learn more</h2>
         <p class="muted" data-t="resIntro"></p>
       </div>
-      <div class="card" style="margin-bottom:18px;">
-        <h2 data-t="stagesCardTitle">The four stages</h2>
-        <p class="muted" data-t="stagesCardIntro" style="line-height:1.55;"></p>
-        <div id="stages-list" style="margin-top:14px;"></div>
-        <div class="res-note" data-t="phaseTimingNote" style="margin:14px 0 0;"></div>
-        <p class="muted" data-t="stagesCardOutcome" style="line-height:1.6;margin-top:14px;"></p>
-      </div>
       <div class="res-note" data-t="resNote"></div>
       <div id="res-list"></div>
-      <div class="card" style="margin-top:22px;">
-        <h2 data-t="escalateTitle">What your doctor might add</h2>
-        <p class="muted" data-t="escalateIntro" style="line-height:1.55;"></p>
-        <div id="escalate-list" style="margin-top:12px;"></div>
-        <p class="muted" data-t="escalateNoDose" style="margin-top:12px;font-size:11.5px;"></p>
-      </div>
-      <div class="privacy-card" style="margin-top:22px;">
-        <h2 data-t="privacyTitle">Your privacy</h2>
-        <p class="muted" data-t="privacyIntro" style="margin-bottom:12px;"></p>
-        <div id="privacy-list"></div>
-      </div>
     </section>
 
     <!-- ALERT -->
@@ -515,6 +524,11 @@
         <span id="call-btn-text"></span>
       </a>
       <p class="app-disclaimer" data-t="appDisclaimer"></p>
+      <div class="privacy-card" style="margin-top:18px;">
+        <h2 data-t="privacyTitle">Your privacy</h2>
+        <p class="muted" data-t="privacyIntro" style="margin-bottom:12px;"></p>
+        <div id="privacy-list"></div>
+      </div>
     </section>
   </main>
 
@@ -522,6 +536,10 @@
     <button class="tab-btn active" data-tab="home" onclick="switchTab('home')">
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
       <span data-t="tabHome">Home</span>
+    </button>
+    <button class="tab-btn" data-tab="about" onclick="switchTab('about')">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01"/><path d="M11 11.5h1.2v5"/><path d="M10.8 16.5h2.6"/></svg>
+      <span data-t="tabAbout">About</span>
     </button>
     <button class="tab-btn" data-tab="exercises" onclick="switchTab('exercises')">
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12l2.5 2.5L16 9"/></svg>
@@ -757,7 +775,7 @@ en: {
   resetBtn:"Reset App Data",
   resetConfirm:"This will erase your HN, assessments, exercise progress and check-ins on this device. This can't be undone. Continue?",
   hnPrefix:"HN: ",
-  tabHome:"Home", tabExercises:"Exercises", tabProgress:"Progress", tabSleep:"Sleep", tabSelfCare:"Self Care", tabResources:"Resources", tabSOS:"Alert",
+  tabHome:"Home", tabAbout:"About", tabExercises:"Exercises", tabProgress:"Progress", tabSleep:"Sleep", tabSelfCare:"Self Care", tabResources:"Resources", tabSOS:"Alert",
 
   /* ---- Resources ----
      Each entry shows a title and a one-line description, never the raw URL.
@@ -861,6 +879,15 @@ en: {
   ],
   phaseTimingNote:"Your stage is set from these months, counted from when your symptoms started. Without an onset date, your symptoms decide it instead. Your own recovery time may differ from this pattern and from other patients.",
   monthsTypicalPrefix:"you are in month ",
+  aboutTitle:"What is frozen shoulder?",
+  aboutBody:"Frozen shoulder (adhesive capsulitis) happens when the capsule surrounding your shoulder joint thickens and tightens, so the joint stiffens and movement becomes painful and limited. It usually settles on its own over time, though recovery can take many months to a few years.",
+  causesTitle:"What causes it",
+  causesList:[
+    "Often no clear cause is found.",
+    "More common with diabetes and thyroid conditions.",
+    "Can follow a shoulder injury, surgery, or a period of not moving the arm — for example after a stroke or a fracture.",
+    "More common in women, and in people aged 40 to 60."
+  ],
   stagesCardTitle:"The four stages of frozen shoulder",
   stagesCardIntro:"Frozen shoulder usually follows a recognisable course.",
   stagesCardOutcome:"Most people improve a great deal; serious long-term problems are uncommon. A little stiffness sometimes remains but rarely limits daily life. Ask your doctor what to expect in your case.",
@@ -995,7 +1022,7 @@ en: {
   monthNamesShort:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
   selectMonth:"Month", selectYear:"Year",
   consentTitle:"Your Privacy",
-  consentText:"By continuing, you agree that your HN, monthly UCLA shoulder scores, movement measurements and exercise progress will be recorded and shared with your care team, in line with Thailand's Personal Data Protection Act (PDPA). This information is used only to show how your shoulder is progressing over time and to suggest the care that suits you — for nothing else. It is kept on this device, so please use your own phone and tap Reset App Data before letting anyone else use it.",
+  consentText:"By continuing, your HN, monthly shoulder scores and exercise progress are recorded and shared only with your care team, under Thailand's PDPA — used only to guide your care, nothing else. It stays on this device, so use your own phone.",
   consentCheckboxLabel:"I have read and agree to the above.",
   consentValidation:"Please confirm to continue.",
   onboardSave:"Save & Continue",
@@ -1071,7 +1098,7 @@ th: {
   resetBtn:"ล้างข้อมูลแอป",
   resetConfirm:"การทำเช่นนี้จะลบ HN ผลการประเมิน ความก้าวหน้าการออกกำลังกาย และบันทึกประจำวันบนอุปกรณ์นี้ ไม่สามารถย้อนกลับได้ ต้องการดำเนินการต่อหรือไม่",
   hnPrefix:"HN: ",
-  tabHome:"หน้าแรก", tabExercises:"ท่าบริหาร", tabProgress:"ความก้าวหน้า", tabSleep:"การนอน", tabSelfCare:"ดูแลตัวเอง", tabResources:"แหล่งข้อมูล", tabSOS:"สัญญาณเตือน",
+  tabHome:"หน้าแรก", tabAbout:"รู้จักโรค", tabExercises:"ท่าบริหาร", tabProgress:"ความก้าวหน้า", tabSleep:"การนอน", tabSelfCare:"ดูแลตัวเอง", tabResources:"แหล่งข้อมูล", tabSOS:"สัญญาณเตือน",
 
   resTitle:"ความรู้เพิ่มเติม",
   resIntro:"แหล่งข้อมูลและวิดีโอที่เชื่อถือได้เกี่ยวกับภาวะข้อไหล่ติด ลิงก์เหล่านี้จะเปิดนอกแอป",
@@ -1170,6 +1197,15 @@ th: {
   ],
   phaseTimingNote:"ระยะของคุณกำหนดจากช่วงเดือนเหล่านี้ นับจากวันที่เริ่มมีอาการ หากไม่ได้ระบุวันเริ่มมีอาการ จะใช้อาการของคุณเป็นตัวกำหนดแทน ระยะเวลาการฟื้นตัวของคุณอาจแตกต่างจากรูปแบบนี้และแตกต่างจากผู้ป่วยรายอื่น",
   monthsTypicalPrefix:"คุณอยู่ในเดือนที่ ",
+  aboutTitle:"ภาวะข้อไหล่ติดคืออะไร",
+  aboutBody:"ภาวะข้อไหล่ติด (adhesive capsulitis) เกิดจากเยื่อหุ้มข้อไหล่หนาตัวและตึงขึ้น ทำให้ข้อไหล่ติดขัด เคลื่อนไหวได้น้อยลงและรู้สึกเจ็บ อาการมักค่อย ๆ ดีขึ้นเองตามเวลา แต่การฟื้นตัวอาจใช้เวลาหลายเดือนถึงหลายปี",
+  causesTitle:"สาเหตุที่อาจเกี่ยวข้อง",
+  causesList:[
+    "ส่วนใหญ่ไม่พบสาเหตุที่ชัดเจน",
+    "พบได้บ่อยขึ้นในผู้ที่เป็นเบาหวานหรือโรคไทรอยด์",
+    "อาจเกิดตามหลังการบาดเจ็บที่ไหล่ การผ่าตัด หรือการไม่ได้ขยับแขนเป็นเวลานาน เช่น หลังโรคหลอดเลือดสมองหรือกระดูกหัก",
+    "พบได้บ่อยในผู้หญิง และในช่วงอายุ 40 ถึง 60 ปี"
+  ],
   stagesCardTitle:"4 ระยะของภาวะข้อไหล่ติด",
   stagesCardIntro:"ภาวะข้อไหล่ติดมักดำเนินไปตามรูปแบบที่พอคาดเดาได้",
   stagesCardOutcome:"ผู้ป่วยส่วนใหญ่ดีขึ้นมาก ปัญหารุนแรงระยะยาวพบได้ไม่บ่อย บางรายอาจมีอาการติดเล็กน้อยหลงเหลือแต่มักไม่รบกวนชีวิตประจำวัน สอบถามแพทย์เพื่อทราบแนวโน้มของคุณ",
@@ -1304,7 +1340,7 @@ th: {
   monthNamesShort:["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."],
   selectMonth:"เดือน", selectYear:"ปี",
   consentTitle:"ความเป็นส่วนตัวของคุณ",
-  consentText:"เมื่อดำเนินการต่อ ถือว่าคุณยินยอมให้บันทึก HN คะแนนไหล่ UCLA ประจำเดือน ผลการวัดการเคลื่อนไหว และความก้าวหน้าการออกกำลังกายของคุณ และแบ่งปันกับทีมผู้ดูแล ตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล (PDPA) ข้อมูลนี้ใช้เพื่อแสดงความก้าวหน้าของอาการไหล่ และแนะนำการดูแลที่เหมาะสมกับคุณเท่านั้น ไม่ใช้เพื่อวัตถุประสงค์อื่น ข้อมูลถูกเก็บไว้ในเครื่องนี้ จึงควรใช้โทรศัพท์ของคุณเอง และกด “ล้างข้อมูลแอป” ก่อนให้ผู้อื่นใช้เครื่อง",
+  consentText:"เมื่อดำเนินการต่อ ระบบจะบันทึก HN คะแนนไหล่ และความก้าวหน้าการออกกำลังกายของคุณ และแบ่งปันกับทีมผู้ดูแลเท่านั้น ตาม PDPA เพื่อใช้ติดตามการดูแลของคุณเท่านั้น ข้อมูลเก็บไว้ในเครื่องนี้ จึงควรใช้โทรศัพท์ของคุณเอง",
   consentCheckboxLabel:"ฉันได้อ่านและยอมรับข้อความข้างต้นแล้ว",
   consentValidation:"กรุณายืนยันเพื่อดำเนินการต่อ",
   onboardSave:"บันทึกและดำเนินการต่อ",
@@ -1770,8 +1806,6 @@ function renderHome(){
     c.todayReminders[stage].map(r=>`• ${r}`).join('<br><br>');
   document.getElementById('surgeon-name').textContent = c.surgeonName;
   renderIdBar();
-
-  renderWeeklyReminder();
 }
 
 /* The one nudge in the app: the weekly UCLA assessment. Green once it is
@@ -1884,7 +1918,7 @@ function renderExerciseList(){
   document.getElementById('ex-progress-fill').style.width = (list.length ? (doneCount/list.length*100) : 0) + '%';
   document.getElementById('ex-progress-label').textContent = `${doneCount} / ${list.length}`;
 
-  document.getElementById('ex-list').innerHTML = list.map(x=>{
+  document.getElementById('ex-list').innerHTML = list.map((x,idx)=>{
     const done = doneSet.has(x.id);
     return `<div class="ex-row">
       <div class="ex-check ${done?'checked':''}" role="checkbox" tabindex="0"
@@ -1893,7 +1927,7 @@ function renderExerciseList(){
         onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();toggleExercise('${x.id}');}">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg>
       </div>
-      <div class="ex-icon">${icon(x.ic)}</div>
+      <div class="ex-icon">${icon(x.ic)}<span class="ex-num">${idx+1}</span></div>
       <div class="ex-body">
         <div class="ex-name ${done?'checked-text':''}">${x.name}</div>
         <div class="ex-desc">${x.desc}</div>
@@ -2022,6 +2056,9 @@ function renderProgress(){
   const ms = STATE.measures;
 
   if(!ms.length){
+    // The no-data card below already offers the "start" call to action, so
+    // the assessment-due nudge stays out to avoid asking twice on one screen.
+    document.getElementById('weekly-reminder').innerHTML = '';
     wrap.innerHTML = `<div class="card">
       <h2>${c.progNoData}</h2>
       <p class="muted" style="line-height:1.55;margin-top:6px;">${c.progNoDataBody}</p>
@@ -2029,6 +2066,8 @@ function renderProgress(){
     </div>`;
     return;
   }
+
+  renderWeeklyReminder();
 
   const stage = currentStageIndex();
   const dates = ms.map(m=>m.date);
@@ -2101,7 +2140,21 @@ function renderResources(){
       <div class="res-arrow">${ARROW}</div>
     </a>`;
 
+  const videos = c.resources.filter(r=>r.type==='video');
+  const articles = c.resources.filter(r=>r.type==='article');
+  document.getElementById('res-list').innerHTML =
+    (videos.length ? `<div class="res-group">${c.resGroupVideo}</div>` + videos.map(card).join('') : '') +
+    (articles.length ? `<div class="res-group">${c.resGroupArticle}</div>` + articles.map(card).join('') : '');
+}
+
+/* ============================= ABOUT ============================= */
+function renderAbout(){
+  const c = CONTENT[STATE.lang];
   const stage = currentStageIndex();
+
+  document.getElementById('causes-list').innerHTML =
+    c.causesList.map(x=>`<div class="goal-item"><div class="goal-num">•</div><div>${x}</div></div>`).join('');
+
   document.getElementById('stages-list').innerHTML = c.phaseTitles.map((title,i)=>`
     <div class="stage-row ${i===stage?'now':''}">
       <div class="stage-num">${i+1}</div>
@@ -2115,27 +2168,23 @@ function renderResources(){
 
   document.getElementById('escalate-list').innerHTML =
     c.escalate.map(e=>`<div class="goal-item"><div class="goal-num">•</div><div>${e}</div></div>`).join('');
-
-  const videos = c.resources.filter(r=>r.type==='video');
-  const articles = c.resources.filter(r=>r.type==='article');
-  document.getElementById('res-list').innerHTML =
-    (videos.length ? `<div class="res-group">${c.resGroupVideo}</div>` + videos.map(card).join('') : '') +
-    (articles.length ? `<div class="res-group">${c.resGroupArticle}</div>` + articles.map(card).join('') : '');
-
-  document.getElementById('privacy-list').innerHTML =
-    c.privacyPoints.map(p=>`<div class="privacy-row"><span class="pi">${p[0]}</span><span>${p[1]}</span></div>`).join('');
 }
 
 /* ============================= SLEEP / ALERT ============================= */
 function renderSleep(){
-  document.getElementById('sleep-list').innerHTML = CONTENT[STATE.lang].sleep.map(s=>
-    `<div class="sleep-card ${s.avoid?'avoid':''}">
+  // The "avoid" card is a warning, not a technique to follow in sequence,
+  // so it is left out of the numbering rather than breaking the run 1-4.
+  let n = 0;
+  document.getElementById('sleep-list').innerHTML = CONTENT[STATE.lang].sleep.map(s=>{
+    const badge = s.avoid ? '' : `<span class="sleep-num">${++n}</span>`;
+    return `<div class="sleep-card ${s.avoid?'avoid':''}">
       <div class="sleep-head">
-        <div class="sleep-icon">${s.icon}</div>
+        <div class="sleep-icon">${s.icon}${badge}</div>
         <div><div class="sleep-title">${s.title}</div><div class="sleep-desc">${s.desc}</div></div>
       </div>
       ${mediaSlot(s.img, s.vid)}
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 function renderSelfCare(){
   document.getElementById('selfcare-list').innerHTML = CONTENT[STATE.lang].selfcare.map(s=>
@@ -2154,6 +2203,8 @@ function renderSOS(){
     c.flagsHard.map(f=>`<div class="flag-item"><div class="flag-dot"></div><div class="flag-text">${f}</div></div>`).join('');
   document.getElementById('call-btn').href = 'tel:' + CLINIC_PHONE.replace(/\s/g,'');
   document.getElementById('call-btn-text').textContent = c.callBtnPrefix + CLINIC_PHONE;
+  document.getElementById('privacy-list').innerHTML =
+    c.privacyPoints.map(p=>`<div class="privacy-row"><span class="pi">${p[0]}</span><span>${p[1]}</span></div>`).join('');
 }
 
 /* ============================= ASSESSMENT FLOW ============================= */
@@ -2381,6 +2432,7 @@ function saveOnboard(){
 function renderAll(){
   applyStaticI18n();
   renderHome();
+  renderAbout();
   renderExerciseList();
   renderProgress();
   renderSleep();
