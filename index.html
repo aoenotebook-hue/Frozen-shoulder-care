@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -791,7 +791,7 @@ en: {
   resGroupArticle:"Reading",
   resLangEn:"English", resLangTh:"ไทย",
   resources:[
-    { type:"article", lang:"th", src:"Rue Ortho",
+    { type:"article", lang:"th", src:"Rue Ortho", featured:true,
       url:"https://rueortho.vercel.app",
       title:"Rue Ortho — our clinic's website",
       desc:"More about our orthopaedic clinic and the care we offer." },
@@ -1114,7 +1114,7 @@ th: {
   resGroupArticle:"บทความ",
   resLangEn:"English", resLangTh:"ไทย",
   resources:[
-    { type:"article", lang:"th", src:"Rue Ortho",
+    { type:"article", lang:"th", src:"Rue Ortho", featured:true,
       url:"https://rueortho.vercel.app",
       title:"เว็บไซต์ของ Rue Ortho",
       desc:"ข้อมูลเพิ่มเติมเกี่ยวกับคลินิกออร์โธปิดิกส์และการดูแลของเรา" },
@@ -2151,9 +2151,14 @@ function renderResources(){
       <div class="res-arrow">${ARROW}</div>
     </a>`;
 
-  const videos = c.resources.filter(r=>r.type==='video');
-  const articles = c.resources.filter(r=>r.type==='article');
+  // Featured entries (our own site) are pinned above the video/article
+  // groups regardless of type, rather than sorting into "Reading" behind
+  // every video the way a plain type-grouped list would place them.
+  const featured = c.resources.filter(r=>r.featured);
+  const videos = c.resources.filter(r=>r.type==='video' && !r.featured);
+  const articles = c.resources.filter(r=>r.type==='article' && !r.featured);
   document.getElementById('res-list').innerHTML =
+    featured.map(card).join('') +
     (videos.length ? `<div class="res-group">${c.resGroupVideo}</div>` + videos.map(card).join('') : '') +
     (articles.length ? `<div class="res-group">${c.resGroupArticle}</div>` + articles.map(card).join('') : '');
 }
