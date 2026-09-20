@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -74,16 +74,20 @@
   .card h2,.privacy-card h2{margin:0 0 4px;font-size:15px;color:var(--navy);}
   .muted{color:var(--muted);font-size:13.5px;}
 
-  .ring-wrap{display:flex;flex-direction:column;align-items:center;padding:22px 18px 6px;}
+  /* .ring-center is absolutely positioned over the fixed 180x180 ring, so
+     its own text can never push .ring-phase-chip/.ring-phase-desc below it
+     out of place or overlap them — those sit in normal flow, right after
+     .ring-wrap ends, regardless of how long the day-count/label text gets. */
+  .ring-wrap{position:relative;display:flex;flex-direction:column;align-items:center;padding:22px 18px 6px;}
   .ring-svg{width:180px;height:180px;}
   .ring-bg{fill:none;stroke:#E9EDF3;stroke-width:12;}
   .ring-fg{fill:none;stroke:var(--teal);stroke-width:12;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset .6s ease;}
-  .ring-center{margin-top:-122px;text-align:center;pointer-events:none;}
+  .ring-center{position:absolute;top:22px;left:0;width:100%;height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none;}
   .ring-day{font-size:32px;font-weight:800;color:var(--navy);line-height:1;}
   .ring-day small{font-size:15px;color:var(--muted);font-weight:700;}
   .ring-daylabel{font-size:11px;color:var(--muted);margin-top:3px;padding:0 26px;line-height:1.35;}
   .ring-grade{font-size:11px;font-weight:800;margin-top:4px;letter-spacing:.03em;text-transform:uppercase;}
-  .ring-phase-chip{margin-top:14px;background:var(--teal);color:#fff;font-size:13px;font-weight:700;padding:7px 16px;border-radius:999px;text-align:center;}
+  .ring-phase-chip{margin:14px auto 0;width:max-content;max-width:100%;background:var(--teal);color:#fff;font-size:13px;font-weight:700;padding:7px 16px;border-radius:999px;text-align:center;}
   .ring-phase-desc{font-size:13px;color:var(--muted);text-align:center;margin-top:8px;padding:0 12px;line-height:1.5;}
   .edit-date{border:none;background:none;color:var(--care);font-size:12px;font-weight:600;margin-top:10px;cursor:pointer;text-decoration:underline;font-family:var(--font);}
   .goal-item{display:flex;gap:9px;font-size:14px;color:#262626;line-height:1.55;margin-bottom:8px;align-items:flex-start;}
@@ -284,7 +288,7 @@
   .res-arrow svg{width:17px;height:17px;stroke:#C6CDD8;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
   .res-note{background:#EAF0F6;color:var(--care);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:18px;font-size:12.5px;line-height:1.55;}
 
-  /* weekly assessment reminder */
+  /* monthly assessment reminder */
   .weekly{border-radius:var(--radius);padding:16px 18px;margin-bottom:14px;border-left:5px solid;}
   .weekly.due{background:var(--warn-bg);border-color:var(--warn-border);}
   .weekly.done{background:var(--ok-bg);border-color:var(--ok-border);}
@@ -349,7 +353,6 @@
   #view-home .step.current .dot{background:var(--phase);box-shadow:0 0 0 4px var(--phase-ring);}
   #view-home .step.done .dot{background:var(--phase);}
   #view-home .step.done::after{background:var(--phase);}
-  #view-home .scope-note{background:var(--phase-soft);color:var(--phase-ink);}
   #view-progress .weekly.done{background:var(--phase-soft);border-color:var(--phase);}
   #view-progress .weekly.done .weekly-kicker,
   #view-progress .weekly.done .weekly-title,
@@ -380,7 +383,7 @@
   <header>
     <div class="brand">
       <div>
-        <div class="brand-name" data-t="appName">Frozen shoulder recovery</div>
+        <div class="brand-name" data-t="appName">ฟื้นฟูไหล่ติด</div>
         <div class="brand-hn" id="header-hn"></div>
       </div>
     </div>
@@ -407,11 +410,13 @@
             <div class="ring-daylabel" id="ring-daylabel"></div>
             <div class="ring-grade" id="ring-grade"></div>
           </div>
-          <div class="ring-phase-chip" id="ring-phase-chip">—</div>
-          <div class="ring-phase-desc" id="ring-phase-desc"></div>
         </div>
-        <hr style="border:0;border-top:1px solid var(--border);margin:16px 0 14px;">
-        <h2 data-t="roadmapTitle">Your Recovery Roadmap</h2>
+        <div class="ring-phase-chip" id="ring-phase-chip">—</div>
+        <div class="ring-phase-desc" id="ring-phase-desc"></div>
+      </div>
+
+      <div class="card">
+        <h2 data-t="roadmapTitle">เส้นทางการฟื้นตัวของคุณ</h2>
         <div class="stepper" id="home-stepper" style="margin-top:14px;"></div>
         <p class="muted" data-t="roadmapNote" style="margin-top:14px;line-height:1.55;"></p>
       </div>
@@ -422,41 +427,31 @@
         <div id="goals-list"></div>
       </div>
 
-      <div class="card">
-        <h2 data-t="todayTitle">Today's Reminders</h2>
-        <p class="muted" id="today-reminders" style="line-height:1.6;font-size:13.5px;color:#3a3a3a;"></p>
-      </div>
-
-      <div class="scope-note">
-        <div class="scope-icon">ℹ️</div>
-        <div data-t="scopeNote"></div>
-      </div>
-
       <div class="home-footer">
-        <div class="surgeon-credit"><span data-t="surgeonLabel">Your doctor</span>: <span id="surgeon-name"></span></div>
-        <button class="reset-link" onclick="handleResetApp()" data-t="resetBtn">Reset App Data</button>
+        <div class="surgeon-credit"><span data-t="surgeonLabel">แพทย์ผู้ดูแล</span>: <span id="surgeon-name"></span></div>
+        <button class="reset-link" onclick="handleResetApp()" data-t="resetBtn">ล้างข้อมูลแอป</button>
       </div>
     </section>
 
     <!-- ABOUT -->
     <section class="view" id="view-about">
       <div class="card" style="margin-bottom:16px;">
-        <h2 data-t="aboutTitle">What is frozen shoulder?</h2>
+        <h2 data-t="aboutTitle">ภาวะข้อไหล่ติดคืออะไร</h2>
         <p class="muted" data-t="aboutBody" style="line-height:1.6;"></p>
       </div>
       <div class="card" style="margin-bottom:18px;">
-        <h2 data-t="causesTitle">What causes it</h2>
+        <h2 data-t="causesTitle">สาเหตุที่อาจเกี่ยวข้อง</h2>
         <div id="causes-list" style="margin-top:10px;"></div>
       </div>
       <div class="card" style="margin-bottom:18px;">
-        <h2 data-t="stagesCardTitle">The four stages of frozen shoulder</h2>
+        <h2 data-t="stagesCardTitle">4 ระยะของภาวะข้อไหล่ติด</h2>
         <p class="muted" data-t="stagesCardIntro" style="line-height:1.55;"></p>
         <div id="stages-list" style="margin-top:14px;"></div>
         <div class="res-note" data-t="phaseTimingNote" style="margin:14px 0 0;"></div>
         <p class="muted" data-t="stagesCardOutcome" style="line-height:1.6;margin-top:14px;"></p>
       </div>
       <div class="card">
-        <h2 data-t="escalateTitle">What your doctor might add</h2>
+        <h2 data-t="escalateTitle">สิ่งที่แพทย์อาจพิจารณาเพิ่มเติม</h2>
         <p class="muted" data-t="escalateIntro" style="line-height:1.55;"></p>
         <div id="escalate-list" style="margin-top:12px;"></div>
         <p class="muted" data-t="escalateNoDose" style="margin-top:12px;font-size:11.5px;"></p>
@@ -470,9 +465,13 @@
         <div class="progress-bar-track"><div class="progress-bar-fill" id="ex-progress-fill" style="width:0%"></div></div>
         <div class="progress-label" id="ex-progress-label"></div>
       </div>
+      <div class="card" style="margin-bottom:14px;">
+        <h2 data-t="todayTitle">สิ่งที่ต้องทำวันนี้</h2>
+        <p class="muted" id="today-reminders" style="line-height:1.6;font-size:13.5px;color:#3a3a3a;"></p>
+      </div>
       <div id="ex-list"></div>
       <div class="card">
-        <h2 data-t="zoneTitle">How hard should it feel?</h2>
+        <h2 data-t="zoneTitle">ควรรู้สึกตึงแค่ไหน</h2>
         <div id="zone-list" style="margin-top:8px;"></div>
       </div>
     </section>
@@ -486,7 +485,7 @@
     <!-- SLEEP -->
     <section class="view" id="view-sleep">
       <div class="card" style="margin-bottom:16px;">
-        <h2 data-t="sleepTitle">Sleeping With a Frozen Shoulder</h2>
+        <h2 data-t="sleepTitle">การนอนเมื่อมีภาวะข้อไหล่ติด</h2>
         <p class="muted" data-t="sleepIntro"></p>
       </div>
       <div id="sleep-list"></div>
@@ -495,7 +494,7 @@
     <!-- SELF CARE -->
     <section class="view" id="view-selfcare">
       <div class="card" style="margin-bottom:16px;">
-        <h2 data-t="selfcareTitle">Everyday Self-Care</h2>
+        <h2 data-t="selfcareTitle">การดูแลตัวเองในชีวิตประจำวัน</h2>
         <p class="muted" data-t="selfcareIntro"></p>
       </div>
       <div id="selfcare-list"></div>
@@ -504,7 +503,7 @@
     <!-- RESOURCES -->
     <section class="view" id="view-resources">
       <div class="card" style="margin-bottom:16px;">
-        <h2 data-t="resTitle">Learn more</h2>
+        <h2 data-t="resTitle">ความรู้เพิ่มเติม</h2>
         <p class="muted" data-t="resIntro"></p>
       </div>
       <div class="res-note" data-t="resNote"></div>
@@ -514,10 +513,14 @@
     <!-- ALERT -->
     <section class="view" id="view-sos">
       <div class="sos-banner">
-        <h2 data-t="sosTitle">When to Get Help</h2>
+        <h2 data-t="sosTitle">เมื่อไรควรขอความช่วยเหลือ</h2>
         <p data-t="sosSub"></p>
       </div>
       <div class="info-note" data-t="sosInfoNote"></div>
+      <div class="scope-note" style="margin-top:-4px;">
+        <div class="scope-icon">ℹ️</div>
+        <div data-t="scopeNote"></div>
+      </div>
       <div id="flag-list"></div>
       <a class="call-btn" id="call-btn" href="#">
         <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8z"/></svg>
@@ -525,7 +528,7 @@
       </a>
       <p class="app-disclaimer" data-t="appDisclaimer"></p>
       <div class="privacy-card" style="margin-top:18px;">
-        <h2 data-t="privacyTitle">Your privacy</h2>
+        <h2 data-t="privacyTitle">ความเป็นส่วนตัวของคุณ</h2>
         <p class="muted" data-t="privacyIntro" style="margin-bottom:12px;"></p>
         <div id="privacy-list"></div>
       </div>
@@ -535,35 +538,35 @@
   <nav class="tabbar">
     <button class="tab-btn active" data-tab="home" onclick="switchTab('home')">
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
-      <span data-t="tabHome">Home</span>
+      <span data-t="tabHome">หน้าแรก</span>
     </button>
     <button class="tab-btn" data-tab="about" onclick="switchTab('about')">
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01"/><path d="M11 11.5h1.2v5"/><path d="M10.8 16.5h2.6"/></svg>
-      <span data-t="tabAbout">About</span>
+      <span data-t="tabAbout">รู้จักโรค</span>
     </button>
     <button class="tab-btn" data-tab="exercises" onclick="switchTab('exercises')">
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12l2.5 2.5L16 9"/></svg>
-      <span data-t="tabExercises">Exercises</span>
+      <span data-t="tabExercises">ท่าบริหาร</span>
     </button>
     <button class="tab-btn" data-tab="progress" onclick="switchTab('progress')">
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M7 15l4-5 3 3 5-7"/></svg>
-      <span data-t="tabProgress">Progress</span>
+      <span data-t="tabProgress">ความก้าวหน้า</span>
     </button>
     <button class="tab-btn" data-tab="sleep" onclick="switchTab('sleep')">
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.5A8.5 8.5 0 1111.5 3 7 7 0 0021 12.5z"/></svg>
-      <span data-t="tabSleep">Sleep</span>
+      <span data-t="tabSleep">การนอน</span>
     </button>
     <button class="tab-btn" data-tab="selfcare" onclick="switchTab('selfcare')">
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5c-4-2.5-8-6-8-10a4.5 4.5 0 018-2.8A4.5 4.5 0 0120 10.5c0 4-4 7.5-8 10z"/></svg>
-      <span data-t="tabSelfCare">Self Care</span>
+      <span data-t="tabSelfCare">ดูแลตัวเอง</span>
     </button>
     <button class="tab-btn" data-tab="resources" onclick="switchTab('resources')">
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 016.5 3H12v16H6.5A2.5 2.5 0 004 21.5z"/><path d="M20 5.5A2.5 2.5 0 0017.5 3H12v16h5.5a2.5 2.5 0 012.5 2.5z"/></svg>
-      <span data-t="tabResources">Resources</span>
+      <span data-t="tabResources">แหล่งข้อมูล</span>
     </button>
     <button class="tab-btn sos" data-tab="sos" onclick="switchTab('sos')">
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L2 18a1.5 1.5 0 001.3 2.2h17.4A1.5 1.5 0 0022 18L13.7 3.9a1.5 1.5 0 00-3.4 0z"/></svg>
-      <span data-t="tabSOS">Alert</span>
+      <span data-t="tabSOS">สัญญาณเตือน</span>
     </button>
   </nav>
 </div>
@@ -788,6 +791,10 @@ en: {
   resGroupArticle:"Reading",
   resLangEn:"English", resLangTh:"ไทย",
   resources:[
+    { type:"article", lang:"th", src:"Rue Ortho", featured:true,
+      url:"https://rueortho.vercel.app",
+      title:"Rue Ortho — our clinic's website",
+      desc:"More about our orthopaedic clinic and the care we offer." },
     { type:"video", lang:"th", src:"YouTube",
       url:"https://www.youtube.com/watch?v=UNYZMvQLSKs",
       title:"Frozen shoulder explained — video 1",
@@ -1015,7 +1022,7 @@ en: {
   onboardTitle:"Welcome — let's set up your recovery",
   onboardLead:"Frozen shoulder improves at a different speed for everyone, so this app follows your symptoms rather than a fixed schedule.",
   onboardOnsetLabel:"When did the shoulder problem start?",
-  onboardOnsetHint:"The month and year is enough. This is for your record only — it does not decide your programme.",
+  onboardOnsetHint:"The month and year are enough. This is for your record only — it does not decide your programme.",
   onboardHNLabel:"Hospital Number (HN)",
   onboardHNHint:"Helps hospital staff find your records quickly.",
   monthNames:["January","February","March","April","May","June","July","August","September","October","November","December"],
@@ -1107,6 +1114,10 @@ th: {
   resGroupArticle:"บทความ",
   resLangEn:"English", resLangTh:"ไทย",
   resources:[
+    { type:"article", lang:"th", src:"Rue Ortho", featured:true,
+      url:"https://rueortho.vercel.app",
+      title:"เว็บไซต์ของ Rue Ortho",
+      desc:"ข้อมูลเพิ่มเติมเกี่ยวกับคลินิกออร์โธปิดิกส์และการดูแลของเรา" },
     { type:"video", lang:"th", src:"YouTube",
       url:"https://www.youtube.com/watch?v=UNYZMvQLSKs",
       title:"ทำความรู้จักภาวะข้อไหล่ติด — วิดีโอที่ 1",
@@ -1390,7 +1401,7 @@ async function mediaProbe(url){
     const head = await fetch(url, {method:'HEAD'});
     if(head.ok) return true;
     if(head.status !== 405) return false;
-  }catch(e){ return false; }
+  }catch(e){ /* host errored on HEAD itself — fall through to the ranged GET below */ }
   try{
     const ranged = await fetch(url, {headers:{Range:'bytes=0-0'}});
     return ranged.ok;
@@ -1554,8 +1565,8 @@ function closeAddHomePrompt(){
 function latestMeasure(){ return STATE.measures.length ? STATE.measures[STATE.measures.length-1] : null; }
 function baselineMeasure(){ return STATE.measures.length ? STATE.measures[0] : null; }
 
-/* The UCLA scale is completed once a week, not daily. Everything the app
-   shows comes from the most recent weekly assessment. */
+/* The UCLA scale is completed once a month, not daily. Everything the app
+   shows comes from the most recent monthly assessment. */
 function effectiveUcla(){
   const m = latestMeasure();
   if(!m) return null;
@@ -1802,14 +1813,12 @@ function renderHome(){
     return `<div class="${cls}"><div class="dot">${i+1}</div><div class="lbl">${label}</div></div>`;
   }).join('');
 
-  document.getElementById('today-reminders').innerHTML =
-    c.todayReminders[stage].map(r=>`• ${r}`).join('<br><br>');
   document.getElementById('surgeon-name').textContent = c.surgeonName;
   renderIdBar();
 }
 
-/* The one nudge in the app: the weekly UCLA assessment. Green once it is
-   done, amber once seven days have passed. */
+/* The one nudge in the app: the monthly UCLA assessment. Green once it is
+   done, amber once the interval has passed. */
 /* HN and current stage stay visible at the top of every tab. */
 function renderIdBar(){
   const c = CONTENT[STATE.lang];
@@ -1910,6 +1919,8 @@ function renderExerciseList(){
   const i = currentStageIndex();
   document.getElementById('ex-phase-def').innerHTML =
     `<div class="ex-caution">⚠️ ${c.exCaution}</div>`;
+  document.getElementById('today-reminders').innerHTML =
+    c.todayReminders[i].map(r=>`• ${r}`).join('<br><br>');
 
   const list = exerciseGroupsFor(i).flatMap(src => c.exercises[src]);
   const doneSet = new Set(STATE.doneIds);
@@ -1951,7 +1962,7 @@ function toggleExercise(id){
 }
 
 /* Daily exercise completion is kept on the device and summarised into the
-   weekly assessment, so the patient never has to submit anything daily. */
+   monthly assessment, so the patient never has to submit anything daily. */
 function recordAdherence(){
   const c = CONTENT[STATE.lang];
   const stage = currentStageIndex();
@@ -2140,9 +2151,14 @@ function renderResources(){
       <div class="res-arrow">${ARROW}</div>
     </a>`;
 
-  const videos = c.resources.filter(r=>r.type==='video');
-  const articles = c.resources.filter(r=>r.type==='article');
+  // Featured entries (our own site) are pinned above the video/article
+  // groups regardless of type, rather than sorting into "Reading" behind
+  // every video the way a plain type-grouped list would place them.
+  const featured = c.resources.filter(r=>r.featured);
+  const videos = c.resources.filter(r=>r.type==='video' && !r.featured);
+  const articles = c.resources.filter(r=>r.type==='article' && !r.featured);
   document.getElementById('res-list').innerHTML =
+    featured.map(card).join('') +
     (videos.length ? `<div class="res-group">${c.resGroupVideo}</div>` + videos.map(card).join('') : '') +
     (articles.length ? `<div class="res-group">${c.resGroupArticle}</div>` + articles.map(card).join('') : '');
 }
