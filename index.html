@@ -269,6 +269,8 @@
   .ucla-bar-fill{height:100%;border-radius:3px;background:#7FE3C4;}
   .ucla-bar-val{font-size:11.5px;font-weight:700;width:38px;text-align:right;flex-shrink:0;}
   .ucla-score-foot{font-size:11px;opacity:.7;line-height:1.5;margin-top:12px;}
+  .ucla-sync-status{font-size:11.5px;line-height:1.5;margin-top:8px;color:var(--muted);}
+  .ucla-sync-status.synced{color:var(--ok-text,var(--care));}
 
   .res-group{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:4px 0 10px;}
   .res-group:not(:first-child){margin-top:22px;}
@@ -731,6 +733,8 @@ en: {
   uclaCardTitle:"UCLA shoulder score",
   uclaDomains:["Pain","Function","Elevation","Strength","Satisfaction"],
   uclaCardFoot:"Out of 35. Above 33 is excellent, 29 to 33 is good. Recorded once a month.",
+  syncStatusDone:"✓ Shared with your care team.",
+  syncStatusPending:"Not shared yet — the app will keep trying quietly, no action needed.",
   gradeNames:{excellent:"Excellent", good:"Good", poor:"Needs work"},
   remeasureBtn:"Update my assessment",
   roadmapTitle:"Your Recovery Roadmap",
@@ -1058,6 +1062,8 @@ th: {
   uclaCardTitle:"คะแนนไหล่ UCLA",
   uclaDomains:["ความปวด","การใช้งาน","การยกแขน","กำลัง","ความพึงพอใจ"],
   uclaCardFoot:"เต็ม 35 คะแนน มากกว่า 33 คือดีเยี่ยม 29 ถึง 33 คือดี บันทึกเดือนละครั้ง",
+  syncStatusDone:"✓ ส่งถึงทีมผู้ดูแลแล้ว",
+  syncStatusPending:"ยังไม่ได้ส่ง — แอปจะลองส่งอีกให้เองเงียบ ๆ ไม่ต้องทำอะไรเพิ่ม",
   gradeNames:{excellent:"ดีเยี่ยม", good:"ดี", poor:"ต้องปรับปรุง"},
   remeasureBtn:"ทำแบบประเมินใหม่",
   roadmapTitle:"เส้นทางการฟื้นตัวของคุณ",
@@ -1502,10 +1508,11 @@ function handleResetApp(){
   location.reload();
 }
 document.addEventListener('visibilitychange', ()=>{
-  if(!document.hidden && checkDayRollover()){
-    saveState(); renderAll();
-  }
+  if(document.hidden) return;
+  if(checkDayRollover()){ saveState(); renderAll(); }
+  trySyncPending();
 });
+window.addEventListener('online', trySyncPending);
 
 function t(key){ return CONTENT[STATE.lang][key]; }
 function applyStaticI18n(){
@@ -1891,22 +1898,51 @@ function uclaOptionList(opts, selected, handler, locked){
   ).join('') + `</div>`;
 }
 
+function makeRecordId(){
+  if(window.crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+  // Fallback for older WebViews without crypto.randomUUID: not
+  // cryptographically strong, but only needs to be unique per device, not
+  // unguessable — it is a dedupe key, not a credential.
+  return 'r-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+}
+
+/* No `mode:'no-cors'` here on purpose: that mode makes the response opaque,
+   so the old code had no way to tell a real save from a dropped request and
+   marked every attempt "synced" regardless. Without it, a cross-origin POST
+   only resolves readably if the backend answers with a CORS-allowed body —
+   anything else (offline, a thrown network error, a non-2xx status, a
+   same-origin-policy rejection because the backend hasn't been updated to
+   send Access-Control-Allow-Origin yet) is caught below and leaves the
+   record pending for the next retry instead of guessing that it worked.
+   clientRecordId travels with every attempt so a backend that dedupes on it
+   can safely accept a retried record without creating a second row. */
 async function syncOne(bucket, key){
   const entry = STATE.measures[key];
   if(!entry || entry.synced) return;
   if(!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL.indexOf("PASTE_YOUR") === 0) return;
+  if(!entry.clientRecordId) entry.clientRecordId = makeRecordId();
+  entry.syncAttempts = (entry.syncAttempts || 0) + 1;
   try{
-    await fetch(SHEET_WEBHOOK_URL, {
-      method:'POST', mode:'no-cors',
+    const res = await fetch(SHEET_WEBHOOK_URL, {
+      method:'POST',
       headers:{'Content-Type':'text/plain;charset=utf-8'},
       body: JSON.stringify(Object.assign({token:APP_TOKEN, recordType:bucket}, entry))
     });
-    entry.synced = true;   // optimistic: no-cors hides the real response
+    if(!res.ok){ saveState(); return; }
+    const body = await res.json().catch(()=>null);
+    if(body && body.ok){
+      entry.synced = true;
+      entry.syncedAt = new Date().toISOString();
+    }
     saveState();
-  }catch(err){ console.warn('Sync failed, will retry next app load:', err); }
+  }catch(err){
+    console.warn('Sync failed, will retry:', err);
+    saveState();
+  }
 }
 async function trySyncPending(){
   for(let i=0;i<STATE.measures.length;i++){ if(!STATE.measures[i].synced) await syncOne('measures', i); }
+  renderProgress();
 }
 
 /* ============================= EXERCISES =============================
@@ -2117,6 +2153,7 @@ function renderProgress(){
           <div class="ucla-bar-val">${val} / ${max}</div>
         </div>`).join('')}</div>
       <div class="ucla-score-foot">${c.uclaCardFoot}</div>
+      <div class="ucla-sync-status ${latestMeasure().synced?'synced':'pending'}">${latestMeasure().synced?c.syncStatusDone:c.syncStatusPending}</div>
     </div>`;
   }
 
@@ -2373,6 +2410,7 @@ async function measureNext(){
   if(draft.ucla.strength === null || draft.ucla.satisfaction === null){ alert(c.measureValidation); return; }
 
   const entry = {
+    clientRecordId: makeRecordId(),
     recordedAt: new Date().toISOString(),
     date: todayISO(),
     hn: STATE.hn || "",
