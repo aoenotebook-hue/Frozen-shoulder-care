@@ -22,7 +22,10 @@
  *     → Version: "New version" → Deploy.
  *     Do NOT use "New deployment": that creates a different URL and the app
  *     would keep sending to the old one.
- *  4. Complete one assessment in the app with a test HN (e.g. TEST-1), check
+ *  4. Check: open the deployment's Web app URL in a browser. It should say
+ *     "✓ Working … (readable-sheet v2)". If it says something else, the old
+ *     version is still live — repeat step 3.
+ *  5. Complete one assessment in the app with a test HN (e.g. TEST-1), check
  *     the two tabs, then delete the test row.
  *
  * Set SHEET_LANG below to 'en' for English headers and labels.
@@ -98,7 +101,20 @@ const gradeKey = total => total >= 34 ? 'excellent' : total >= 29 ? 'good' : 'po
 // "HN-004512", "hn 004512" and "004512" are the same patient.
 const bareHN = s => String(s).trim().toUpperCase().replace(/^HN[\s:-]*/, '');
 
-// ---- Entry point ------------------------------------------------------------
+// ---- Entry points -----------------------------------------------------------
+
+const SCRIPT_VERSION = 'readable-sheet v2';
+
+// Opening the script's URL in a browser lands here. Results only ever arrive
+// from the app (doPost); this just confirms which version is deployed and
+// shows no patient data.
+function doGet() {
+  return ContentService.createTextOutput(
+    '✓ ทำงานปกติ — สคริปต์บันทึกผลฟื้นฟูไหล่ติด (' + SCRIPT_VERSION + ')\n' +
+    'ผลการประเมินจะส่งมาจากแอปโดยอัตโนมัติ ไม่ต้องเปิดหน้านี้\n\n' +
+    '✓ Working — frozen shoulder results script (' + SCRIPT_VERSION + ')\n' +
+    'Results are sent automatically by the app; this page is only a check.');
+}
 
 function doPost(e) {
   // One request at a time: the duplicate check and the append must be atomic,
