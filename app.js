@@ -818,7 +818,7 @@ const ACTIONS = new Set([
   'setLang', 'switchTab', 'handleResetApp', 'saveOnboard',
   'openMeasure', 'measureNext', 'measureBack', 'cancelMeasure',
   'setDraftUclaPain', 'setDraftUclaFunc', 'setDraftUclaStrength', 'setDraftUclaSat',
-  'acceptAddHome', 'closeAddHomePrompt', 'toggleExercise', 'playVideo', 'editHN'
+  'acceptAddHome', 'closeAddHomePrompt', 'toggleExercise', 'playVideo', 'editHN', 'closeOnboard'
 ]);
 function dispatchAction(el, action, arg){
   if(!ACTIONS.has(action)) return;
@@ -1896,6 +1896,8 @@ function openOnboard(prefill){
   buildOnsetSelects();
   document.getElementById('hn-validation').textContent = '';
   document.getElementById('consent-validation').textContent = '';
+  // Editing an existing setup can be abandoned; first-time setup can't.
+  document.getElementById('onboard-cancel').classList.toggle('hidden', !(STATE.consentGiven && isUsableHN(STATE.hn)));
   if(prefill){
     document.getElementById('input-hn').value = STATE.hn || '';
     document.getElementById('input-consent').checked = !!STATE.consentGiven;
@@ -1927,6 +1929,7 @@ function saveOnboard(){
   if(!willPromptAddHome && !latestMeasure()) openMeasure();
 }
 function editHN(){ openOnboard(true); }
+function closeOnboard(){ document.getElementById('onboard').classList.add('hidden'); }
 
 /* ============================= INIT ============================= */
 function renderAll(){

@@ -2,7 +2,7 @@
 
 **Upload a file into this `media/` folder under the name its topic expects
 and it appears in the app. That is the whole procedure** — there is no list
-to edit and nothing to change in `index.html`. The page asks the server which
+to edit and no code to change. The page asks the server which
 files are present and shows the ones that are there.
 
 The name has to match exactly, including the `.jpg` or `.mp4` on the end. A
@@ -85,3 +85,15 @@ seems to be missing, check the stage before checking the filename.
 
 The Sleep tab also carries a "do not lie on the painful shoulder" card. It is
 a warning rather than a technique, so it has no media slot and needs no file.
+
+### Fixed images (not part of the topic slots above)
+
+These three are loaded by exact name from the app's code, so keep the names
+as they are. Replacing a file with a new version under the same name is fine;
+renaming or deleting one leaves a gap on the page.
+
+| File | Where it appears |
+|---|---|
+| `fs-about-hero.jpg` | About tab, "What is frozen shoulder?" |
+| `fs-about-anatomy.jpg` | About tab, "Possible causes" |
+| `rueortho-logo.png` | Resources tab, clinic website card |
