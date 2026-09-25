@@ -14,10 +14,10 @@
  * before trusting it with real patients.
  *
  * What this addresses, from the security review:
- *  - Patient-scoped authorization: rejects any HN not on an enrolled-patient
- *    allowlist, instead of accepting whatever HN string the client sends.
- *  - Strict payload validation: every field is type/range/enum-checked; any
- *    unrecognised top-level key aborts the write.
+ *  - Open to every patient with an HN: any well-formed HN is accepted. There
+ *    is no patient list or enrollment code for clinic staff to maintain.
+ *  - Strict payload validation: every field is type/range/enum-checked;
+ *    unrecognised fields are ignored and never written.
  *  - Spreadsheet formula-injection safety: any string that could be
  *    interpreted as a formula is neutralised before it reaches a cell.
  *  - Abuse controls: per-HN and global rate limits via CacheService.
@@ -29,17 +29,15 @@
  * What this does NOT do, on purpose:
  *  - It does not add a new shared secret in place of APP_TOKEN. APP_TOKEN
  *    stays as a coarse, openly-documented abuse deterrent (see its comment
- *    in app.js); the real access control here is the allowlist check.
- *  - It does not *authenticate* the caller as that patient. Checking "is
- *    this HN enrolled" stops a random stranger from writing rows for HNs
- *    that don't exist, but it does not prove the phone submitting HN
- *    "004512" is actually patient 004512 rather than someone who saw that
- *    number on a form. True authentication needs a second factor you
- *    control the distribution of — e.g. requiring HN *and* date of birth to
- *    match your patient roster, or a one-time enrollment code handed out at
- *    intake. That is a product decision (how much friction is acceptable
- *    at onboarding for this patient population), not something to bake in
- *    unilaterally, so it is a recommendation here, not an implementation.
+ *    in app.js).
+ *  - It does not verify that the person submitting HN "004512" is that
+ *    patient. The clinic chose no patient list and no codes, so anyone who
+ *    knows or guesses an HN could submit results under it. Submissions are
+ *    write-only (nothing here lets anyone read a patient's data back), so
+ *    the exposure is misattributed or junk rows, not a data leak; rate
+ *    limits cap the volume. If that ever becomes a problem, the lightest
+ *    fix is asking for HN plus date of birth and checking both against the
+ *    hospital record.
  *  - It does not solve the CORS caveat below for you.
  *
  * KNOWN CAVEAT — Apps Script and CORS:
@@ -64,11 +62,6 @@
 // Same value as APP_TOKEN in app.js. Keep them in sync.
 const APP_TOKEN = 'mBXvt5FYGIgaShK6NNu8_dfTAs508xRD';
 
-// Tab that holds one row per enrolled patient, with an "HN" column.
-// Only clinic staff should have edit access to this tab.
-const PATIENTS_SHEET_NAME = 'Patients';
-const PATIENTS_HN_COLUMN = 'HN';
-
 // Tab that measurement rows are appended to.
 const MEASURES_SHEET_NAME = 'Measures';
 
@@ -87,7 +80,6 @@ function doPost(e) {
     lock.waitLock(10000);
     const payload = parseAndValidate(e);
     checkRateLimits(payload.hn);
-    assertPatientEnrolled(payload.hn);
     const result = writeMeasureIdempotently(payload);
     return jsonResponse({ ok: true, deduped: result.deduped });
   } catch (err) {
@@ -113,7 +105,9 @@ function parseAndValidate(e) {
   if (body.recordType !== 'measures') throw new Error('bad recordType');
 
   const hn = String(body.hn || '');
-  if (!/^[A-Za-z0-9-]{1,20}$/.test(hn)) throw new Error('bad hn');
+  // Same shape the app produces: letters, digits, "-" and "/" (some
+  // hospitals print "12345/66"), and it must contain a number.
+  if (!/^[A-Za-z0-9\/-]{1,20}$/.test(hn) || !/\d/.test(hn)) throw new Error('bad hn');
 
   const clientRecordId = String(body.clientRecordId || '');
   if (!/^[A-Za-z0-9-]{8,80}$/.test(clientRecordId)) throw new Error('bad clientRecordId');
@@ -164,26 +158,6 @@ function safeString(value, maxLen) {
   let s = String(value == null ? '' : value).slice(0, maxLen);
   if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
   return s;
-}
-
-// ---- Authorization -------------------------------------------------------
-
-function assertPatientEnrolled(hn) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(PATIENTS_SHEET_NAME);
-  if (!sheet) throw new Error('patients sheet missing');
-  const values = sheet.getDataRange().getValues();
-  const header = values[0];
-  const col = header.indexOf(PATIENTS_HN_COLUMN);
-  if (col === -1) throw new Error('HN column missing');
-  // Patients type the number as printed on their card ("HN-004512"); the
-  // roster may hold "004512" or "hn 004512". Compare the bare number. Format
-  // the roster's HN column as plain text, or Sheets drops leading zeros.
-  const bare = s => String(s).trim().toUpperCase().replace(/^HN[\s:-]*/, '');
-  const want = bare(hn);
-  for (let i = 1; i < values.length; i++) {
-    if (bare(values[i][col]) === want) return;
-  }
-  throw new Error('hn not enrolled');
 }
 
 // ---- Abuse controls --------------------------------------------------------
