@@ -36,6 +36,18 @@ Before this fix the client required exactly `{"ok":true}`, so against any
 other reply it re-sent the same record on every app focus (6 POSTs for one
 record in 5 re-focuses), and 3 overlapping triggers sent 3 POSTs.
 
+## HN entry (both languages) — 16/16 passed
+
+| Scenario | Result |
+|---|---|
+| Blank HN, or `HN` with no number | Blocked with a message |
+| Thai digits `HN-๐๐๔๕๑๒` | Saved as `HN-004512` |
+| `12345/66` | Slash kept |
+| Patient who set up earlier without an HN | Asked for it on next open; unsent assessment held until then, then sent with it |
+| Tap HN in the header | Form reopens prefilled; onset date kept |
+| Fix a typo in the HN | Unsent assessments re-labelled; already-sent ones untouched |
+| No page or console errors | ✓ |
+
 ## Client end-to-end (both languages) — 32/32 passed
 
 Fresh install → onboarding (HN, onset, consent) → add-to-home prompt →
@@ -48,16 +60,17 @@ externally, every tab, both language toggles, exercise toggle by click and by
 keyboard (Space), video play, context-menu suppression on media, score
 buttons producing numbers.
 
-## Reference backend (`apps-script-backend.gs`, run in Node against in-memory fakes of SpreadsheetApp / CacheService / LockService / ContentService) — 11/11 passed
+## Reference backend (`apps-script-backend.gs`, run in Node against in-memory fakes of SpreadsheetApp / CacheService / LockService / ContentService) — 12/12 passed
 
 | Scenario | Result |
 |---|---|
 | First write to a header-only sheet | Row written |
 | Same `clientRecordId` twice | Second deduped, no extra row |
 | `rom.abduction` of 0 | Stored as 0, not blank |
-| HN `HN-004512` vs roster `004512`; `777` vs `HN-777` | Both match |
-| Unenrolled HN | Rejected, nothing written |
-| Bad token vs unknown HN | Identical replies (no HN enumeration) |
+| Any HN, with no patient list in the sheet | Accepted |
+| HN with a slash (`12345/66`) | Accepted |
+| HN with no number (`HN`), or formula characters (`=1+1`) | Rejected, nothing written |
+| Bad token vs bad HN | Identical generic replies |
 | Out-of-range score | Rejected |
 | Text starting `=HYPERLINK(...)` | Written with a leading `'` (not a live formula) |
 | 11+ requests for one HN in an hour | Throttled after 10 |
@@ -81,8 +94,8 @@ on it, run the checklist below against a copy of the real sheet.
   then one a day). If that happens, deploy the reference backend (it dedupes
   on `clientRecordId`) or put a small proxy in front that adds
   `Access-Control-Allow-Origin`.
-- [ ] Deploy the reference backend against a **copy** of the sheet, create
-  the `Patients` tab (HN column formatted as plain text), and repeat the
-  backend table above with fake HNs.
+- [ ] Deploy the reference backend against a **copy** of the sheet and
+  repeat the backend table above with fake HNs. No patient list is needed:
+  any HN containing a number is accepted.
 - [ ] Confirm the live sheet's row layout matches `appendRow` in the reference
   script before switching the real deployment over.

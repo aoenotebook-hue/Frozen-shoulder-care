@@ -51,7 +51,9 @@
   /* The HN sits inside the sticky header so it stays on screen while the
      patient scrolls, and so it is the one thing a nurse can read at a glance. */
   .brand-hn{font-size:11.5px;font-weight:600;letter-spacing:0.02em;
-    color:rgba(255,255,255,0.82);line-height:1.3;margin-top:2px;}
+    color:rgba(255,255,255,0.82);line-height:1.3;margin-top:2px;
+    display:block;background:none;border:0;padding:3px 0;font-family:inherit;text-align:left;cursor:pointer;
+    text-decoration:underline dotted rgba(255,255,255,0.5);text-underline-offset:3px;}
   .brand-hn:empty{display:none;}
   /* Not sticky: it would otherwise slide under the header, which sits at the
      same offset with a higher stacking order, and disappear on the first scroll. */
@@ -392,7 +394,7 @@
     <div class="brand">
       <div>
         <div class="brand-name" data-t="appName">ฟื้นฟูไหล่ติด</div>
-        <div class="brand-hn" id="header-hn"></div>
+        <button type="button" class="brand-hn" id="header-hn" data-action="editHN"></button>
       </div>
     </div>
     <div class="lang-toggle">
@@ -608,6 +610,7 @@
              inputmode="text" autocomplete="off" autocorrect="off"
              autocapitalize="characters" spellcheck="false">
       <div class="hint" data-t="onboardHNHint"></div>
+      <div class="checkin-validation" id="hn-validation"></div>
     </div>
     <div class="field consent-block">
       <div class="consent-title" data-t="consentTitle"></div>

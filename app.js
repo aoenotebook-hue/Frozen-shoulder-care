@@ -385,7 +385,9 @@ en: {
   onboardOnsetLabel:"When did the shoulder problem start?",
   onboardOnsetHint:"The month and year are enough. This is for your record only — it does not decide your programme.",
   onboardHNLabel:"Hospital Number (HN)",
-  onboardHNHint:"Helps hospital staff find your records quickly.",
+  onboardHNHint:"Printed on your hospital card or appointment slip. Your doctor uses it to see your results.",
+  hnValidation:"Please enter your HN — it's on your hospital card.",
+  editHNLabel:"Change HN",
   monthNames:["January","February","March","April","May","June","July","August","September","October","November","December"],
   monthNamesShort:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
   selectMonth:"Month", selectYear:"Year",
@@ -709,7 +711,9 @@ th: {
   onboardOnsetLabel:"ไหล่เริ่มมีอาการเมื่อไร",
   onboardOnsetHint:"ระบุเดือนและปีก็เพียงพอ ข้อมูลนี้ใช้เป็นบันทึกเท่านั้น ไม่ได้เป็นตัวกำหนดโปรแกรมของคุณ",
   onboardHNLabel:"เลขประจำตัวผู้ป่วย (HN)",
-  onboardHNHint:"ช่วยให้เจ้าหน้าที่ค้นหาเวชระเบียนของคุณได้เร็วขึ้น",
+  onboardHNHint:"ดูได้จากบัตรโรงพยาบาลหรือใบนัดของคุณ แพทย์ใช้เลขนี้เพื่อดูผลของคุณ",
+  hnValidation:"กรุณากรอก HN ของคุณ — ดูได้จากบัตรโรงพยาบาล",
+  editHNLabel:"แก้ไข HN",
   monthNames:["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"],
   monthNamesShort:["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."],
   selectMonth:"เดือน", selectYear:"ปี",
@@ -814,7 +818,7 @@ const ACTIONS = new Set([
   'setLang', 'switchTab', 'handleResetApp', 'saveOnboard',
   'openMeasure', 'measureNext', 'measureBack', 'cancelMeasure',
   'setDraftUclaPain', 'setDraftUclaFunc', 'setDraftUclaStrength', 'setDraftUclaSat',
-  'acceptAddHome', 'closeAddHomePrompt', 'toggleExercise', 'playVideo'
+  'acceptAddHome', 'closeAddHomePrompt', 'toggleExercise', 'playVideo', 'editHN'
 ]);
 function dispatchAction(el, action, arg){
   if(!ACTIONS.has(action)) return;
@@ -851,12 +855,17 @@ function checkDayRollover(){
    Stripping everything else keeps stray input out of the record and, because
    the HN is written into a spreadsheet cell downstream, also drops the leading
    =, +, - and @ that a spreadsheet would otherwise read as a formula. */
+// Thai keyboards type Thai digits (๐–๙); convert them rather than strip them,
+// or the HN silently loses its number. "/" is kept because some hospitals
+// print HNs as "12345/66".
 function sanitiseHN(value){
   return String(value || '')
-    .replace(/[^A-Za-z0-9-]/g, '')
-    .replace(/^[-]+/, '')
+    .replace(/[๐-๙]/g, d => String(d.charCodeAt(0) - 0x0E50))
+    .replace(/[^A-Za-z0-9\/-]/g, '')
+    .replace(/^[-\/]+/, '')
     .slice(0, 20);
 }
+const isUsableHN = hn => /\d/.test(hn || '');
 
 /* Saved state is read back into a live object, so a half-written or edited
    entry could otherwise throw on the first render and leave the patient with a
@@ -1235,8 +1244,9 @@ function renderIdBar(){
   applyPhaseTheme(stage);
   // Most patients type the number as it is printed on the card, "HN-004512",
   // so prefixing it again would read "HN: HN-004512".
-  document.getElementById('header-hn').textContent =
-    !STATE.hn ? '' : (/^HN/i.test(STATE.hn) ? STATE.hn : c.hnPrefix + STATE.hn);
+  const hnEl = document.getElementById('header-hn');
+  hnEl.textContent = !STATE.hn ? '' : (/^HN/i.test(STATE.hn) ? STATE.hn : c.hnPrefix + STATE.hn);
+  hnEl.setAttribute('aria-label', hnEl.textContent + ' — ' + c.editHNLabel);
   const ph = document.getElementById('header-phase');
   if(!latestMeasure()){
     ph.textContent = c.noBaselineChip;
@@ -1328,6 +1338,7 @@ async function syncOne(bucket, key){
   if(!entry || entry.synced) return;
   if(!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL.indexOf("PASTE_YOUR") === 0) return;
   if(navigator.onLine === false) return;
+  if(!isUsableHN(entry.hn)) return;   // unmatchable without an HN; sent once one is entered
   if(!entry.clientRecordId) entry.clientRecordId = makeRecordId();
   if(syncInFlight.has(entry.clientRecordId)) return;
   if(entry.lastSyncAttemptAt &&
@@ -1883,6 +1894,8 @@ function buildOnsetSelects(){
 
 function openOnboard(prefill){
   buildOnsetSelects();
+  document.getElementById('hn-validation').textContent = '';
+  document.getElementById('consent-validation').textContent = '';
   if(prefill){
     document.getElementById('input-hn').value = STATE.hn || '';
     document.getElementById('input-consent').checked = !!STATE.consentGiven;
@@ -1891,20 +1904,29 @@ function openOnboard(prefill){
 }
 function saveOnboard(){
   const c = CONTENT[STATE.lang];
-  if(!document.getElementById('input-consent').checked){
-    document.getElementById('consent-validation').textContent = c.consentValidation; return;
-  }
+  const hn = sanitiseHN(document.getElementById('input-hn').value);
+  document.getElementById('hn-validation').textContent = isUsableHN(hn) ? '' : c.hnValidation;
+  document.getElementById('consent-validation').textContent =
+    document.getElementById('input-consent').checked ? '' : c.consentValidation;
+  if(!isUsableHN(hn) || !document.getElementById('input-consent').checked) return;
+  const wasSetUp = STATE.consentGiven;
   STATE.onsetMonth = document.getElementById('input-onset-month').value || null;
   STATE.onsetYear  = document.getElementById('input-onset-year').value || null;
-  STATE.hn = sanitiseHN(document.getElementById('input-hn').value);
+  STATE.hn = hn;
+  // Assessments not yet sent go out under the HN as it is now, so a typo
+  // fixed later still reaches the right record.
+  STATE.measures.forEach(m => { if(!m.synced) m.hn = hn; });
   STATE.consentGiven = true;
   saveState();
   document.getElementById('onboard').classList.add('hidden');
   renderAll();
+  trySyncPending();
+  if(wasSetUp) return;
   const willPromptAddHome = !IS_STANDALONE && !STATE.homeScreenPromptShown;
   maybeShowAddHomePrompt();
   if(!willPromptAddHome && !latestMeasure()) openMeasure();
 }
+function editHN(){ openOnboard(true); }
 
 /* ============================= INIT ============================= */
 function renderAll(){
@@ -1922,7 +1944,7 @@ function renderAll(){
   await loadState();
   buildOnsetSelects();
   renderAll();
-  if(!STATE.consentGiven) openOnboard(true);
+  if(!STATE.consentGiven || !isUsableHN(STATE.hn)) openOnboard(true);
   else if(!latestMeasure()) openMeasure();
   else maybeShowAddHomePrompt();
   trySyncPending();
