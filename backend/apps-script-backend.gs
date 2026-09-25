@@ -3,7 +3,7 @@
  * REFERENCE ONLY — NOT DEPLOYED, NOT VERIFIED AGAINST YOUR LIVE BACKEND
  * ============================================================================
  * This file does not exist anywhere in this repository's history. The real
- * Apps Script project behind SHEET_WEBHOOK_URL in index.html lives in your
+ * Apps Script project behind SHEET_WEBHOOK_URL in app.js lives in your
  * Google account, not in GitHub, so it was never reviewable from here and
  * nothing in this file has replaced it.
  *
@@ -29,7 +29,7 @@
  * What this does NOT do, on purpose:
  *  - It does not add a new shared secret in place of APP_TOKEN. APP_TOKEN
  *    stays as a coarse, openly-documented abuse deterrent (see its comment
- *    in index.html); the real access control here is the allowlist check.
+ *    in app.js); the real access control here is the allowlist check.
  *  - It does not *authenticate* the caller as that patient. Checking "is
  *    this HN enrolled" stops a random stranger from writing rows for HNs
  *    that don't exist, but it does not prove the phone submitting HN
@@ -49,7 +49,7 @@
  *  serve GET responses readably cross-origin in most cases, but POST
  *  responses are inconsistently readable depending on account/deployment
  *  specifics, and this cannot be verified from this environment (its
- *  network egress cannot reach script.google.com at all). index.html's
+ *  network egress cannot reach script.google.com at all). app.js's
  *  syncOne() already fails safe either way — if the response can't be read,
  *  the record simply stays "pending" and retries later, it is never marked
  *  synced on a guess. But if you find POST responses aren't readable for
@@ -61,7 +61,7 @@
 
 // ---- Configuration -------------------------------------------------------
 
-// Same value as APP_TOKEN in index.html. Keep them in sync.
+// Same value as APP_TOKEN in app.js. Keep them in sync.
 const APP_TOKEN = 'mBXvt5FYGIgaShK6NNu8_dfTAs508xRD';
 
 // Tab that holds one row per enrolled patient, with an "HN" column.
@@ -79,7 +79,12 @@ const MAX_REQUESTS_GLOBAL_PER_MINUTE = 60;
 // ---- Entry point -----------------------------------------------------------
 
 function doPost(e) {
+  // One request at a time: the duplicate check and the append below must be
+  // atomic, or two concurrent retries of the same record both pass the check
+  // and both append. The rate-limit counters need the same protection.
+  const lock = LockService.getScriptLock();
   try {
+    lock.waitLock(10000);
     const payload = parseAndValidate(e);
     checkRateLimits(payload.hn);
     assertPatientEnrolled(payload.hn);
@@ -89,8 +94,12 @@ function doPost(e) {
     // Deliberately generic message: do not echo back which check failed
     // (unknown-HN vs bad-token vs malformed payload) — that would let an
     // attacker enumerate valid HNs by watching which rejection they get.
+    // ContentService cannot set an HTTP status, so this still arrives as a
+    // 200; the client treats an explicit ok:false as "not delivered".
     console.error(err);
-    return jsonResponse({ ok: false, error: 'rejected' }, 400);
+    return jsonResponse({ ok: false, error: 'rejected' });
+  } finally {
+    lock.releaseLock();
   }
 }
 
@@ -166,8 +175,13 @@ function assertPatientEnrolled(hn) {
   const header = values[0];
   const col = header.indexOf(PATIENTS_HN_COLUMN);
   if (col === -1) throw new Error('HN column missing');
+  // Patients type the number as printed on their card ("HN-004512"); the
+  // roster may hold "004512" or "hn 004512". Compare the bare number. Format
+  // the roster's HN column as plain text, or Sheets drops leading zeros.
+  const bare = s => String(s).trim().toUpperCase().replace(/^HN[\s:-]*/, '');
+  const want = bare(hn);
   for (let i = 1; i < values.length; i++) {
-    if (String(values[i][col]) === hn) return;
+    if (bare(values[i][col]) === want) return;
   }
   throw new Error('hn not enrolled');
 }
@@ -198,10 +212,15 @@ function writeMeasureIdempotently(payload) {
   // clinic-scale volumes (thousands of rows); if this sheet grows past
   // that, replace this scan with a CacheService/PropertiesService index
   // keyed on clientRecordId instead of re-reading the whole column.
-  const existingIds = sheet.getRange(2, 1, Math.max(sheet.getLastRow() - 1, 0), 1).getValues();
-  for (let i = 0; i < existingIds.length; i++) {
-    if (existingIds[i][0] === payload.clientRecordId) {
-      return { deduped: true };
+  // getRange() throws on a zero-row range, which is what a header-only sheet
+  // would ask for — so skip the scan until there is at least one data row.
+  const dataRows = sheet.getLastRow() - 1;
+  if (dataRows > 0) {
+    const existingIds = sheet.getRange(2, 1, dataRows, 1).getValues();
+    for (let i = 0; i < existingIds.length; i++) {
+      if (existingIds[i][0] === payload.clientRecordId) {
+        return { deduped: true };
+      }
     }
   }
 
@@ -211,7 +230,7 @@ function writeMeasureIdempotently(payload) {
     payload.date,
     payload.recordedAt,
     payload.ucla.pain, payload.ucla.func, payload.ucla.strength, payload.ucla.satisfaction,
-    payload.rom.flexion, payload.rom.abduction || '', payload.rom.externalRotation || '',
+    payload.rom.flexion, payload.rom.abduction ?? '', payload.rom.externalRotation ?? '',
     payload.flexionPts,
     payload.uclaTotal,
     safeString(payload.uclaGrade, 20),
