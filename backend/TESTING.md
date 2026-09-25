@@ -60,42 +60,34 @@ externally, every tab, both language toggles, exercise toggle by click and by
 keyboard (Space), video play, context-menu suppression on media, score
 buttons producing numbers.
 
-## Reference backend (`apps-script-backend.gs`, run in Node against in-memory fakes of SpreadsheetApp / CacheService / LockService / ContentService) — 12/12 passed
+## Sheet script (`apps-script-backend.gs`, run in Node against a strict fake of SpreadsheetApp / CacheService / LockService / ContentService that only exposes real Apps Script method names) — 31/31 passed
 
 | Scenario | Result |
 |---|---|
-| First write to a header-only sheet | Row written |
-| Same `clientRecordId` twice | Second deduped, no extra row |
-| `rom.abduction` of 0 | Stored as 0, not blank |
-| Any HN, with no patient list in the sheet | Accepted |
-| HN with a slash (`12345/66`) | Accepted |
-| HN with no number (`HN`), or formula characters (`=1+1`) | Rejected, nothing written |
-| Bad token vs bad HN | Identical generic replies |
-| Out-of-range score | Rejected |
-| Text starting `=HYPERLINK(...)` | Written with a leading `'` (not a live formula) |
-| 11+ requests for one HN in an hour | Throttled after 10 |
-| Malformed `clientRecordId` | Rejected |
+| First submission | Creates "ผลการประเมิน" and "สรุปผู้ป่วย" tabs; header bold and frozen, date + HN columns frozen, filter on, Record ID column hidden, grade colours + overdue rule |
+| Row content | Real date; stage, grade and satisfaction in words; external rotation and internal-rotation landmark kept; adherence as `18/24 (75%)`; onset as `เม.ย. 2026` |
+| App sends a wrong total/grade | Ignored — total and grade recomputed from the answers |
+| Second visit, HN typed `004512` vs `HN-004512` | Same patient; change `+16`; summary shows first → latest, 2 assessments, next due date |
+| Older assessment arrives late | Becomes "first"; every row's change recomputed |
+| Same Record ID twice | Written once |
+| Odd optional value (e.g. negative months) | Left blank; assessment still saved |
+| Two patients | Summary sorted by most recent assessment |
+| Bad token, formula-looking HN, out-of-range score | Rejected, nothing written |
+| 12 submissions for one HN in an hour | 10 written, rest rejected |
+| `SHEET_LANG = 'en'` | English tabs, headers and labels |
 
-Run against the earlier draft of this file, the suite shows it rejected
-**every** write on a fresh sheet (a zero-row `getRange` threw).
+Plus a real payload captured from the app (full assessment in a browser)
+fed into the script: accepted, every column filled, and the sheet's
+recomputed UCLA total and grade match the app's.
 
-These fakes check the script's logic, not Google's runtime. Before relying
-on it, run the checklist below against a copy of the real sheet.
+The fake checks the script's logic and API usage, not Google's runtime —
+do the one-row test in the install steps before relying on it.
 
-## Not executed — needs the real deployment
+## Checks on the real deployment
 
-- [ ] **Most important — is the POST reply readable?** On the live site, open
-  DevTools → Network, complete an assessment, and check that the request to
-  `script.google.com` returns a readable response (not a CORS error in the
-  console). If it is readable, each record is sent once. If it is **not**,
-  the request still reaches the sheet but the app can't confirm it, so it
-  retries on the backoff schedule — and the currently deployed backend, which
-  does not dedupe, would get a duplicate row per retry (several on day one,
-  then one a day). If that happens, deploy the reference backend (it dedupes
-  on `clientRecordId`) or put a small proxy in front that adds
-  `Access-Control-Allow-Origin`.
-- [ ] Deploy the reference backend against a **copy** of the sheet and
-  repeat the backend table above with fake HNs. No patient list is needed:
-  any HN containing a number is accepted.
-- [ ] Confirm the live sheet's row layout matches `appendRow` in the reference
-  script before switching the real deployment over.
+- [x] **Is the POST reply readable?** Confirmed on the live site (25 Sep
+  2026): the app showed "✓ ส่งถึงทีมผู้ดูแลแล้ว" after a real assessment, so
+  each record is acknowledged and sent once.
+- [ ] After installing the sheet script (steps at the top of the file),
+  submit one assessment with a test HN, check both tabs, delete the test
+  row. The previous tab is left untouched.

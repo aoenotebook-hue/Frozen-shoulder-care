@@ -1,93 +1,119 @@
 /**
+ * Frozen shoulder recovery — Google Sheets backend (Apps Script)
  * ============================================================================
- * REFERENCE ONLY — NOT DEPLOYED, NOT VERIFIED AGAINST YOUR LIVE BACKEND
- * ============================================================================
- * This file does not exist anywhere in this repository's history. The real
- * Apps Script project behind SHEET_WEBHOOK_URL in app.js lives in your
- * Google account, not in GitHub, so it was never reviewable from here and
- * nothing in this file has replaced it.
+ * Receives each monthly assessment from the app and writes it to the
+ * spreadsheet in a form a clinician can read at a glance:
  *
- * To use this: open your Apps Script project (script.google.com), compare
- * it against this file, adapt the sheet/column names to match your actual
- * spreadsheet, test it against a COPY of your sheet first, and only then
- * redeploy. Re-run the test plan in TESTING.md against the real endpoint
- * before trusting it with real patients.
+ *   "ผลการประเมิน" (Assessments)  one row per assessment, one labelled column
+ *                                 per score, grades and stages in words, and
+ *                                 the change since the patient's first visit.
+ *   "สรุปผู้ป่วย" (Patient summary) one row per patient: first vs latest score,
+ *                                 change, number of assessments, and when the
+ *                                 next monthly assessment is due (turns red
+ *                                 once overdue).
  *
- * What this addresses, from the security review:
+ * Both tabs are created and formatted automatically on the first submission.
+ * Any tab the previous script wrote to is left exactly as it is.
+ *
+ * INSTALL (replaces the script currently deployed — keep the same URL):
+ *  1. Open the spreadsheet → Extensions → Apps Script.
+ *  2. Select everything in the editor, delete it, paste this whole file, Save.
+ *  3. Deploy → Manage deployments → the existing deployment → Edit (pencil)
+ *     → Version: "New version" → Deploy.
+ *     Do NOT use "New deployment": that creates a different URL and the app
+ *     would keep sending to the old one.
+ *  4. Complete one assessment in the app with a test HN (e.g. TEST-1), check
+ *     the two tabs, then delete the test row.
+ *
+ * Set SHEET_LANG below to 'en' for English headers and labels.
+ *
+ * Design notes:
  *  - Open to every patient with an HN: any well-formed HN is accepted. There
  *    is no patient list or enrollment code for clinic staff to maintain.
- *  - Strict payload validation: every field is type/range/enum-checked;
- *    unrecognised fields are ignored and never written.
- *  - Spreadsheet formula-injection safety: any string that could be
- *    interpreted as a formula is neutralised before it reaches a cell.
- *  - Abuse controls: per-HN and global rate limits via CacheService.
- *  - Idempotency: a repeated clientRecordId updates/no-ops instead of
- *    appending a duplicate row, so client-side retries are safe.
- *  - A real, readable JSON response, so the client can tell success from
- *    failure instead of guessing.
- *
- * What this does NOT do, on purpose:
- *  - It does not add a new shared secret in place of APP_TOKEN. APP_TOKEN
- *    stays as a coarse, openly-documented abuse deterrent (see its comment
- *    in app.js).
- *  - It does not verify that the person submitting HN "004512" is that
- *    patient. The clinic chose no patient list and no codes, so anyone who
- *    knows or guesses an HN could submit results under it. Submissions are
- *    write-only (nothing here lets anyone read a patient's data back), so
- *    the exposure is misattributed or junk rows, not a data leak; rate
- *    limits cap the volume. If that ever becomes a problem, the lightest
- *    fix is asking for HN plus date of birth and checking both against the
- *    hospital record.
- *  - It does not solve the CORS caveat below for you.
- *
- * KNOWN CAVEAT — Apps Script and CORS:
- *  ContentService responses have no public API to set arbitrary response
- *  headers (no setHeader for Access-Control-Allow-Origin). Web app
- *  deployments ("Execute as: Me", "Who has access: Anyone") are reported to
- *  serve GET responses readably cross-origin in most cases, but POST
- *  responses are inconsistently readable depending on account/deployment
- *  specifics, and this cannot be verified from this environment (its
- *  network egress cannot reach script.google.com at all). app.js's
- *  syncOne() already fails safe either way — if the response can't be read,
- *  the record simply stays "pending" and retries later, it is never marked
- *  synced on a guess. But if you find POST responses aren't readable for
- *  your deployment, the standard fix is a small proxy you control (a Vercel
- *  Edge Function or Cloudflare Worker) that forwards to this script and
- *  adds the CORS header itself; ask for that as a separate follow-up if
- *  you hit this.
+ *    The trade-off: nothing verifies that the person submitting HN "004512"
+ *    is that patient. Submissions are write-only, so the exposure is wrong
+ *    or junk rows, not a data leak; rate limits cap the volume.
+ *  - The UCLA total and grade are recomputed here from the individual
+ *    answers rather than trusting the totals the app sends.
+ *  - A retried submission (same Record ID) is recognised and not written
+ *    twice. Text that could run as a spreadsheet formula is neutralised.
+ *  - APP_TOKEN is a coarse abuse deterrent, not a secret: it ships inside
+ *    the public app.js.
  */
 
-// ---- Configuration -------------------------------------------------------
+// ---- Configuration ----------------------------------------------------------
 
-// Same value as APP_TOKEN in app.js. Keep them in sync.
-const APP_TOKEN = 'mBXvt5FYGIgaShK6NNu8_dfTAs508xRD';
-
-// Tab that measurement rows are appended to.
-const MEASURES_SHEET_NAME = 'Measures';
-
-// Rate limits (tune to your real patient volume).
+const SHEET_LANG = 'th';                       // 'th' or 'en'
+const APP_TOKEN = 'mBXvt5FYGIgaShK6NNu8_dfTAs508xRD';   // same value as in app.js
+const ASSESS_INTERVAL_DAYS = 30;               // same cadence as the app
 const MAX_REQUESTS_PER_HN_PER_HOUR = 10;
 const MAX_REQUESTS_GLOBAL_PER_MINUTE = 60;
 
-// ---- Entry point -----------------------------------------------------------
+const L = {
+  th: {
+    resultsTab: 'ผลการประเมิน', summaryTab: 'สรุปผู้ป่วย',
+    results: ['วันที่ประเมิน', 'HN', 'ระยะของโรค', 'ป่วยมา (เดือน)',
+      'UCLA รวม (เต็ม 35)', 'ผล UCLA', 'เปลี่ยนจากครั้งแรก',
+      'ปวด (0–10)', 'การใช้งาน (0–10)', 'ยกแขนไปข้างหน้า (°)', 'คะแนนยกแขน (0–5)',
+      'กำลังกล้ามเนื้อ (0–5)', 'ความพึงพอใจ', 'กางแขนด้านข้าง (°)',
+      'หมุนแขนออก (°)', 'เอื้อมไปด้านหลังถึง', 'วันที่ออกกำลังกายเดือนนี้',
+      'ท่าบริหารที่ทำ (ทำ/ทั้งหมด)', 'เริ่มมีอาการ', 'ส่งเมื่อ', 'Record ID'],
+    summary: ['HN', 'ประเมินครั้งแรก', 'UCLA ครั้งแรก', 'ประเมินล่าสุด', 'UCLA ล่าสุด',
+      'ผลล่าสุด', 'เปลี่ยนแปลง', 'จำนวนครั้ง', 'ระยะล่าสุด', 'ครบกำหนดครั้งถัดไป'],
+    grade: { excellent: 'ดีเยี่ยม', good: 'ดี', poor: 'ต้องปรับปรุง' },
+    stage: ['ระยะที่ 1 · ก่อนข้อติด', 'ระยะที่ 2 · ระยะเริ่มติด', 'ระยะที่ 3 · ระยะข้อติด', 'ระยะที่ 4 · ระยะคลายตัว'],
+    satisfied: 'พอใจ (5)', notSatisfied: 'ไม่พอใจ (0)', first: 'ครั้งแรก',
+    months: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
+    ir: ['ต้นขาด้านนอก', 'สะโพก', 'กระเป๋ากางเกงหลัง', 'กระเบนเหน็บ', 'ขอบเอว',
+      'หลังส่วนล่าง', 'กลางหลัง', 'สะบัก', 'ระหว่างสะบัก']
+  },
+  en: {
+    resultsTab: 'Assessments', summaryTab: 'Patient summary',
+    results: ['Assessment date', 'HN', 'Stage', 'Months since onset',
+      'UCLA total (of 35)', 'UCLA result', 'Change since first',
+      'Pain (0–10)', 'Function (0–10)', 'Forward elevation (°)', 'Elevation points (0–5)',
+      'Strength (0–5)', 'Satisfaction', 'Abduction (°)',
+      'External rotation (°)', 'Reaches behind back to', 'Days exercised this month',
+      'Exercises done (done/possible)', 'Symptom onset', 'Submitted', 'Record ID'],
+    summary: ['HN', 'First assessment', 'First UCLA', 'Latest assessment', 'Latest UCLA',
+      'Latest result', 'Change', 'Assessments', 'Latest stage', 'Next assessment due'],
+    grade: { excellent: 'Excellent', good: 'Good', poor: 'Needs work' },
+    stage: ['Stage 1 · Pre-freezing', 'Stage 2 · Freezing', 'Stage 3 · Frozen', 'Stage 4 · Thawing'],
+    satisfied: 'Satisfied (5)', notSatisfied: 'Not satisfied (0)', first: 'First',
+    months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    ir: ['Outer thigh', 'Buttock', 'Back pocket', 'Sacrum', 'Waistband',
+      'Low back', 'Mid back', 'Shoulder blade', 'Between blades']
+  }
+}[SHEET_LANG];
+
+// Results-tab column positions (1-based), in the order of L.results.
+const COL = { date: 1, hn: 2, total: 5, grade: 6, change: 7, id: 21 };
+const RESULT_COLS = 21;
+const GRADE_COLORS = { excellent: '#D8F0E3', good: '#FFF1C9', poor: '#FBDAD7' };
+
+// Same bands the app uses to turn forward elevation into UCLA points.
+const FLEXION_BANDS = [[150, 5], [120, 4], [90, 3], [45, 2], [30, 1], [0, 0]];
+const flexionPoints = deg => FLEXION_BANDS.find(([min]) => deg >= min)[1];
+const gradeKey = total => total >= 34 ? 'excellent' : total >= 29 ? 'good' : 'poor';
+// "HN-004512", "hn 004512" and "004512" are the same patient.
+const bareHN = s => String(s).trim().toUpperCase().replace(/^HN[\s:-]*/, '');
+
+// ---- Entry point ------------------------------------------------------------
 
 function doPost(e) {
-  // One request at a time: the duplicate check and the append below must be
-  // atomic, or two concurrent retries of the same record both pass the check
-  // and both append. The rate-limit counters need the same protection.
+  // One request at a time: the duplicate check and the append must be atomic,
+  // and so must the rate-limit counters.
   const lock = LockService.getScriptLock();
   try {
     lock.waitLock(10000);
-    const payload = parseAndValidate(e);
-    checkRateLimits(payload.hn);
-    const result = writeMeasureIdempotently(payload);
+    const p = parseAndValidate(e);
+    checkRateLimits(p.hn);
+    const result = writeAssessment(p);
     return jsonResponse({ ok: true, deduped: result.deduped });
   } catch (err) {
-    // Deliberately generic message: do not echo back which check failed
-    // (unknown-HN vs bad-token vs malformed payload) — that would let an
-    // attacker enumerate valid HNs by watching which rejection they get.
-    // ContentService cannot set an HTTP status, so this still arrives as a
-    // 200; the client treats an explicit ok:false as "not delivered".
+    // Deliberately generic: don't reveal which check failed. ContentService
+    // can't set an HTTP status, so this arrives as a 200; the app treats an
+    // explicit ok:false as "not delivered" and retries later.
     console.error(err);
     return jsonResponse({ ok: false, error: 'rejected' });
   } finally {
@@ -95,131 +121,227 @@ function doPost(e) {
   }
 }
 
-// ---- Validation --------------------------------------------------------
+// ---- Validation -------------------------------------------------------------
 
 function parseAndValidate(e) {
   if (!e || !e.postData || !e.postData.contents) throw new Error('no body');
-  const body = JSON.parse(e.postData.contents);
+  const b = JSON.parse(e.postData.contents);
 
-  if (body.token !== APP_TOKEN) throw new Error('bad token');
-  if (body.recordType !== 'measures') throw new Error('bad recordType');
+  if (b.token !== APP_TOKEN) throw new Error('bad token');
+  if (b.recordType !== 'measures') throw new Error('bad recordType');
 
-  const hn = String(body.hn || '');
-  // Same shape the app produces: letters, digits, "-" and "/" (some
-  // hospitals print "12345/66"), and it must contain a number.
+  const hn = String(b.hn || '');
+  // Letters, digits, "-" and "/" (some hospitals print "12345/66"), and it
+  // must contain a number — the same shape the app produces.
   if (!/^[A-Za-z0-9\/-]{1,20}$/.test(hn) || !/\d/.test(hn)) throw new Error('bad hn');
 
-  const clientRecordId = String(body.clientRecordId || '');
-  if (!/^[A-Za-z0-9-]{8,80}$/.test(clientRecordId)) throw new Error('bad clientRecordId');
+  const id = String(b.clientRecordId || '');
+  if (!/^[A-Za-z0-9-]{8,80}$/.test(id)) throw new Error('bad clientRecordId');
 
-  const date = String(body.date || '');
+  const date = String(b.date || '');
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error('bad date');
 
-  const ucla = body.ucla || {};
-  const rom = body.rom || {};
-  const numInRange = (v, lo, hi) => typeof v === 'number' && isFinite(v) && v >= lo && v <= hi;
-  if (!numInRange(ucla.pain, 0, 10)) throw new Error('bad ucla.pain');
-  if (!numInRange(ucla.func, 0, 10)) throw new Error('bad ucla.func');
-  if (!numInRange(ucla.strength, 0, 5)) throw new Error('bad ucla.strength');
-  if (!numInRange(ucla.satisfaction, 0, 5)) throw new Error('bad ucla.satisfaction');
-  if (!numInRange(rom.flexion, 0, 180)) throw new Error('bad rom.flexion');
-  if (rom.abduction !== undefined && !numInRange(rom.abduction, 0, 180)) throw new Error('bad rom.abduction');
-  if (rom.externalRotation !== undefined && !numInRange(rom.externalRotation, -90, 90)) throw new Error('bad rom.externalRotation');
+  const u = b.ucla || {}, r = b.rom || {};
+  const num = (v, lo, hi) => typeof v === 'number' && isFinite(v) && v >= lo && v <= hi;
+  // Optional extras: an odd value is left blank rather than costing the
+  // patient their whole assessment.
+  const opt = (v, lo, hi) => num(v, lo, hi) ? v : null;
 
-  const uclaTotal = body.uclaTotal;
-  if (!numInRange(uclaTotal, 0, 35)) throw new Error('bad uclaTotal');
+  if (!num(u.pain, 0, 10) || !num(u.func, 0, 10)) throw new Error('bad pain/function');
+  if (!num(u.strength, 0, 5) || !num(u.satisfaction, 0, 5)) throw new Error('bad strength/satisfaction');
+  if (!num(r.flexion, 0, 180)) throw new Error('bad flexion');
+
+  const flexPts = flexionPoints(r.flexion);
+  const total = u.pain + u.func + flexPts + u.strength + u.satisfaction;
+
+  const onset = /^\d{4}-\d{2}$/.test(String(b.onsetMonthYear || '')) ? b.onsetMonthYear : '';
+  const stageNum = Number((String(b.stage || '').match(/Stage\s*([1-4])/) || [])[1]) || null;
 
   return {
-    hn: hn,
-    clientRecordId: clientRecordId,
-    date: date,
-    recordedAt: safeString(body.recordedAt, 40),
-    ucla: ucla,
-    rom: rom,
-    flexionPts: numInRange(body.flexionPts, 0, 5) ? body.flexionPts : 0,
-    uclaTotal: uclaTotal,
-    uclaGrade: safeString(body.uclaGrade, 20),
-    stage: safeString(body.stage, 60),
-    onsetMonthYear: safeString(body.onsetMonthYear, 10),
-    monthsSinceOnset: typeof body.monthsSinceOnset === 'number' ? body.monthsSinceOnset : null,
-    daysExercisedThisMonth: typeof body.daysExercisedThisMonth === 'number' ? body.daysExercisedThisMonth : null,
-    exercisesDoneThisMonth: typeof body.exercisesDoneThisMonth === 'number' ? body.exercisesDoneThisMonth : null,
-    exercisesPossibleThisMonth: typeof body.exercisesPossibleThisMonth === 'number' ? body.exercisesPossibleThisMonth : null
+    hn, id, date, onset, stageNum,
+    pain: u.pain, func: u.func, strength: u.strength, satisfaction: u.satisfaction,
+    flexion: r.flexion, flexPts, total,
+    abduction: opt(r.abduction, 0, 180),
+    er: opt(r.er, 0, 90),
+    ir: opt(r.ir, 0, 8),
+    months: opt(b.monthsSinceOnset, 0, 600),
+    days: opt(b.daysExercisedThisMonth, 0, 31),
+    done: opt(b.exercisesDoneThisMonth, 0, 10000),
+    possible: opt(b.exercisesPossibleThisMonth, 0, 10000)
   };
 }
 
-// Defuses spreadsheet formula injection: any string that could be
-// interpreted as a formula (or a formula-adjacent CSV/DDE trick) when a
-// human later opens the sheet gets a leading apostrophe, which forces
-// Sheets to treat it as literal text. Client-side sanitiseHN() already
-// restricts HN to [A-Za-z0-9-], but the server must never trust that —
-// this endpoint can be hit directly, bypassing the client entirely.
+// Defuses spreadsheet formula injection: text starting with = + - @ (or a
+// tab/CR) gets a leading apostrophe so Sheets shows it as plain text. The
+// app already restricts HNs, but this endpoint can be called directly.
 function safeString(value, maxLen) {
   let s = String(value == null ? '' : value).slice(0, maxLen);
   if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
   return s;
 }
 
-// ---- Abuse controls --------------------------------------------------------
+// ---- Abuse controls ---------------------------------------------------------
 
 function checkRateLimits(hn) {
   const cache = CacheService.getScriptCache();
-
   const globalKey = 'rl-global-' + Math.floor(Date.now() / 60000);
   const globalCount = Number(cache.get(globalKey) || 0) + 1;
   cache.put(globalKey, String(globalCount), 90);
   if (globalCount > MAX_REQUESTS_GLOBAL_PER_MINUTE) throw new Error('global rate limit');
 
-  const hnKey = 'rl-hn-' + hn + '-' + Math.floor(Date.now() / 3600000);
+  const hnKey = 'rl-hn-' + bareHN(hn) + '-' + Math.floor(Date.now() / 3600000);
   const hnCount = Number(cache.get(hnKey) || 0) + 1;
   cache.put(hnKey, String(hnCount), 3660);
   if (hnCount > MAX_REQUESTS_PER_HN_PER_HOUR) throw new Error('per-hn rate limit');
 }
 
-// ---- Idempotent write -----------------------------------------------------
+// ---- Writing ----------------------------------------------------------------
 
-function writeMeasureIdempotently(payload) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(MEASURES_SHEET_NAME);
-  if (!sheet) throw new Error('measures sheet missing');
+function writeAssessment(p) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ensureResultsSheet(ss);
 
-  // clientRecordId lives in column A. Scanning the column is fine at
-  // clinic-scale volumes (thousands of rows); if this sheet grows past
-  // that, replace this scan with a CacheService/PropertiesService index
-  // keyed on clientRecordId instead of re-reading the whole column.
-  // getRange() throws on a zero-row range, which is what a header-only sheet
-  // would ask for — so skip the scan until there is at least one data row.
-  const dataRows = sheet.getLastRow() - 1;
-  if (dataRows > 0) {
-    const existingIds = sheet.getRange(2, 1, dataRows, 1).getValues();
-    for (let i = 0; i < existingIds.length; i++) {
-      if (existingIds[i][0] === payload.clientRecordId) {
-        return { deduped: true };
-      }
+  const rows = sheet.getLastRow() - 1;
+  if (rows > 0) {
+    const ids = sheet.getRange(2, COL.id, rows, 1).getValues();
+    for (let i = 0; i < ids.length; i++) {
+      if (ids[i][0] === p.id) return { deduped: true };
     }
   }
 
+  const [y, m, d] = p.date.split('-').map(Number);
+  const blank = v => v === null ? '' : v;
   sheet.appendRow([
-    payload.clientRecordId,
-    safeString(payload.hn, 20),
-    payload.date,
-    payload.recordedAt,
-    payload.ucla.pain, payload.ucla.func, payload.ucla.strength, payload.ucla.satisfaction,
-    payload.rom.flexion, payload.rom.abduction ?? '', payload.rom.externalRotation ?? '',
-    payload.flexionPts,
-    payload.uclaTotal,
-    safeString(payload.uclaGrade, 20),
-    safeString(payload.stage, 60),
-    payload.onsetMonthYear,
-    payload.monthsSinceOnset,
-    payload.daysExercisedThisMonth,
-    payload.exercisesDoneThisMonth,
-    payload.exercisesPossibleThisMonth,
-    new Date()
+    new Date(y, m - 1, d),
+    safeString(p.hn, 20),
+    p.stageNum ? L.stage[p.stageNum - 1] : '',
+    blank(p.months),
+    p.total,
+    L.grade[gradeKey(p.total)],
+    '',                                   // change: filled in below
+    p.pain, p.func, p.flexion, p.flexPts, p.strength,
+    p.satisfaction >= 5 ? L.satisfied : p.satisfaction === 0 ? L.notSatisfied : p.satisfaction,
+    blank(p.abduction),
+    blank(p.er),
+    p.ir === null ? '' : (L.ir[Math.round(p.ir)] || ''),
+    blank(p.days),
+    p.possible === null || p.done === null ? ''
+      : p.possible ? `${p.done}/${p.possible} (${Math.round(100 * p.done / p.possible)}%)` : `${p.done}/0`,
+    p.onset ? L.months[Number(p.onset.slice(5)) - 1] + ' ' + p.onset.slice(0, 4) : '',
+    new Date(),
+    p.id
   ]);
+
+  refreshChangeColumn(sheet, p.hn);
+  rebuildSummary(ss, sheet);
   return { deduped: false };
 }
 
-// ---- Response helper -----------------------------------------------------
+// "Change since first" for every row of this patient, measured from their
+// earliest assessment date. Recomputed for all their rows, so it stays right
+// even when an older assessment arrives late (e.g. sent after being offline).
+function refreshChangeColumn(sheet, hn) {
+  const n = sheet.getLastRow() - 1;
+  const data = sheet.getRange(2, 1, n, COL.total).getValues();
+  const key = bareHN(hn);
+  let first = null;                         // earliest date; ties go to the earlier row
+  data.forEach((row, i) => {
+    if (bareHN(row[COL.hn - 1]) !== key) return;
+    const t = new Date(row[COL.date - 1]).getTime();
+    if (!first || t < first.t) first = { t, i, total: row[COL.total - 1] };
+  });
+  data.forEach((row, i) => {
+    if (bareHN(row[COL.hn - 1]) !== key) return;
+    const diff = row[COL.total - 1] - first.total;
+    sheet.getRange(i + 2, COL.change).setValue(
+      i === first.i ? L.first : (diff > 0 ? '+' : '') + diff);
+  });
+}
+
+function rebuildSummary(ss, results) {
+  const sheet = ensureSummarySheet(ss);
+  const n = results.getLastRow() - 1;
+  const data = n > 0 ? results.getRange(2, 1, n, RESULT_COLS).getValues() : [];
+
+  const byPatient = {};
+  data.forEach(row => {
+    const key = bareHN(row[COL.hn - 1]);
+    const r = { date: new Date(row[COL.date - 1]), hn: row[COL.hn - 1], total: row[COL.total - 1],
+                grade: row[COL.grade - 1], stage: row[2] };
+    const g = byPatient[key] || (byPatient[key] = { first: r, latest: r, count: 0 });
+    g.count++;
+    if (r.date < g.first.date) g.first = r;
+    if (r.date >= g.latest.date) g.latest = r;
+  });
+
+  const out = Object.keys(byPatient).map(k => {
+    const g = byPatient[k];
+    const diff = g.latest.total - g.first.total;
+    const due = new Date(g.latest.date.getTime() + ASSESS_INTERVAL_DAYS * 86400000);
+    return [g.latest.hn, g.first.date, g.first.total, g.latest.date, g.latest.total,
+            g.latest.grade, g.count > 1 ? (diff > 0 ? '+' : '') + diff : L.first,
+            g.count, g.latest.stage, due];
+  }).sort((a, b) => b[3] - a[3]);           // most recently assessed first
+
+  const old = sheet.getLastRow() - 1;
+  if (old > 0) sheet.getRange(2, 1, old, L.summary.length).clearContent();
+  if (out.length) sheet.getRange(2, 1, out.length, L.summary.length).setValues(out);
+}
+
+// ---- Tab setup (runs once, when a tab doesn't exist yet) ---------------------
+
+function ensureResultsSheet(ss) {
+  let sheet = ss.getSheetByName(L.resultsTab);
+  if (sheet) return sheet;
+  sheet = ss.insertSheet(L.resultsTab);
+  styleHeader(sheet, L.results);
+  sheet.setFrozenColumns(2);                       // date + HN stay visible
+  sheet.getRange('A2:A').setNumberFormat('dd/MM/yyyy');
+  sheet.getRange('T2:T').setNumberFormat('dd/MM/yyyy HH:mm');
+  sheet.getRange('D2:R').setHorizontalAlignment('center');
+  sheet.getRange(1, 1, 1, RESULT_COLS).createFilter();
+  sheet.setColumnWidth(1, 105); sheet.setColumnWidth(2, 110); sheet.setColumnWidth(3, 170);
+  sheet.hideColumns(COL.id);                       // Record ID: used to skip duplicates only
+  addGradeColors(sheet, sheet.getRange('F2:F'));
+  return sheet;
+}
+
+function ensureSummarySheet(ss) {
+  let sheet = ss.getSheetByName(L.summaryTab);
+  if (sheet) return sheet;
+  sheet = ss.insertSheet(L.summaryTab);
+  styleHeader(sheet, L.summary);
+  sheet.getRange('B2:B').setNumberFormat('dd/MM/yyyy');
+  sheet.getRange('D2:D').setNumberFormat('dd/MM/yyyy');
+  sheet.getRange('J2:J').setNumberFormat('dd/MM/yyyy');
+  sheet.getRange('B2:J').setHorizontalAlignment('center');
+  sheet.setColumnWidth(1, 110); sheet.setColumnWidth(9, 170);
+  addGradeColors(sheet, sheet.getRange('F2:F'));
+  const overdue = SpreadsheetApp.newConditionalFormatRule()
+    .whenFormulaSatisfied('=AND($J2<>"",$J2<TODAY())')
+    .setBackground('#FBDAD7').setFontColor('#9B1C1C')
+    .setRanges([sheet.getRange('J2:J')]).build();
+  sheet.setConditionalFormatRules(sheet.getConditionalFormatRules().concat([overdue]));
+  return sheet;
+}
+
+function styleHeader(sheet, headers) {
+  sheet.getRange(1, 1, 1, headers.length).setValues([headers])
+    .setFontWeight('bold').setBackground('#1F3864').setFontColor('#FFFFFF')
+    .setWrap(true).setVerticalAlignment('middle').setHorizontalAlignment('center');
+  sheet.setFrozenRows(1);
+  sheet.setRowHeight(1, 48);
+  for (let c = 4; c <= headers.length; c++) sheet.setColumnWidth(c, 120);
+}
+
+function addGradeColors(sheet, range) {
+  const rules = Object.keys(GRADE_COLORS).map(k =>
+    SpreadsheetApp.newConditionalFormatRule().whenTextEqualTo(L.grade[k])
+      .setBackground(GRADE_COLORS[k]).setRanges([range]).build());
+  sheet.setConditionalFormatRules(sheet.getConditionalFormatRules().concat(rules));
+}
+
+// ---- Response ---------------------------------------------------------------
 
 function jsonResponse(obj) {
   return ContentService
