@@ -807,7 +807,17 @@ const escapeAttr = s => String(s == null ? '' : s)
    renderMeasure() uses to highlight the selected option, and would corrupt
    the score math). playVideo(btn, file) is special-cased because its first
    argument is the button element itself, not something data-arg can carry. */
+// Only these may be triggered from markup. Looking names up on `window`
+// without a list would let injected HTML (no script needed) call any global
+// function — e.g. <button data-action="close">.
+const ACTIONS = new Set([
+  'setLang', 'switchTab', 'handleResetApp', 'saveOnboard',
+  'openMeasure', 'measureNext', 'measureBack', 'cancelMeasure',
+  'setDraftUclaPain', 'setDraftUclaFunc', 'setDraftUclaStrength', 'setDraftUclaSat',
+  'acceptAddHome', 'closeAddHomePrompt', 'toggleExercise', 'playVideo'
+]);
 function dispatchAction(el, action, arg){
+  if(!ACTIONS.has(action)) return;
   if(action === 'playVideo'){ playVideo(el, arg); return; }
   const fn = window[action];
   if(typeof fn !== 'function') return;
@@ -1292,37 +1302,60 @@ function makeRecordId(){
 }
 
 /* No `mode:'no-cors'` here on purpose: that mode makes the response opaque,
-   so the old code had no way to tell a real save from a dropped request and
-   marked every attempt "synced" regardless. Without it, a cross-origin POST
-   only resolves readably if the backend answers with a CORS-allowed body —
-   anything else (offline, a thrown network error, a non-2xx status, a
-   same-origin-policy rejection because the backend hasn't been updated to
-   send Access-Control-Allow-Origin yet) is caught below and leaves the
-   record pending for the next retry instead of guessing that it worked.
-   clientRecordId travels with every attempt so a backend that dedupes on it
-   can safely accept a retried record without creating a second row. */
+   so there is no way to tell a real save from a dropped request.
+
+   A record counts as delivered only on a *readable* 2xx reply that is not an
+   Apps Script HTML error page and not an explicit {"ok":false}. Requiring an
+   exact {"ok":true} instead would be wrong for the deployed backend, whose
+   reply format predates this code: any other reply ("OK", {"status":...})
+   would leave the record pending, and every retry would append the same
+   assessment to the sheet again, since that backend does not dedupe.
+
+   Retries are the other duplicate risk: a request can reach the backend and
+   still fail on the way back (e.g. the connection drops mid-response). So a
+   record is never sent twice at once, and after a failed attempt it waits
+   before trying again (1 min, doubling, capped at a day) rather than
+   re-sending on every app focus. While the device reports itself offline no
+   attempt is made or counted, so reconnecting still retries straight away.
+   clientRecordId lets a backend that dedupes on it (see
+   backend/apps-script-backend.gs) absorb whatever duplicates remain. */
+const syncInFlight = new Set();
+const SYNC_FIELDS_LOCAL_ONLY = ['syncAttempts', 'lastSyncAttemptAt', 'syncedAt'];
+function syncBackoffMs(attempts){ return Math.min(60000 * 2 ** Math.max(attempts - 1, 0), DAY_MS); }
+
 async function syncOne(bucket, key){
   const entry = STATE.measures[key];
   if(!entry || entry.synced) return;
   if(!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL.indexOf("PASTE_YOUR") === 0) return;
+  if(navigator.onLine === false) return;
   if(!entry.clientRecordId) entry.clientRecordId = makeRecordId();
+  if(syncInFlight.has(entry.clientRecordId)) return;
+  if(entry.lastSyncAttemptAt &&
+     Date.now() - Date.parse(entry.lastSyncAttemptAt) < syncBackoffMs(entry.syncAttempts || 0)) return;
+
+  syncInFlight.add(entry.clientRecordId);
   entry.syncAttempts = (entry.syncAttempts || 0) + 1;
+  entry.lastSyncAttemptAt = new Date().toISOString();
+  saveState();
+  const payload = Object.assign({token:APP_TOKEN, recordType:bucket}, entry);
+  SYNC_FIELDS_LOCAL_ONLY.forEach(f => delete payload[f]);
   try{
     const res = await fetch(SHEET_WEBHOOK_URL, {
       method:'POST',
       headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body: JSON.stringify(Object.assign({token:APP_TOKEN, recordType:bucket}, entry))
+      body: JSON.stringify(payload)
     });
-    if(!res.ok){ saveState(); return; }
+    const isHtml = (res.headers.get('Content-Type') || '').includes('text/html');
     const body = await res.json().catch(()=>null);
-    if(body && body.ok){
+    if(res.ok && !isHtml && !(body && body.ok === false)){
       entry.synced = true;
       entry.syncedAt = new Date().toISOString();
+      saveState();
     }
-    saveState();
   }catch(err){
-    console.warn('Sync failed, will retry:', err);
-    saveState();
+    console.warn('Sync failed, will retry later:', err);
+  }finally{
+    syncInFlight.delete(entry.clientRecordId);
   }
 }
 async function trySyncPending(){
