@@ -86,7 +86,15 @@ en: {
   syncStatusDone:"✓ Shared with your care team.",
   syncStatusPending:"Not shared yet — the app will keep trying quietly, no action needed.",
   gradeNames:{excellent:"Excellent", good:"Good", poor:"Needs work"},
-  remeasureBtn:"Update my assessment",
+  careTitle:"Your care suggestions",
+  careTrendFirst:"This is your starting point. Next month's questionnaire will show how you are changing.",
+  careTrendUp:"Your score is up {n} points since last time — what you are doing is working. Keep the same routine.",
+  careTrendSteady:"Your score is about the same as last time. Frozen shoulder often holds steady for a while — keep up your daily exercises.",
+  careTrendDown:"Your score is down {n} points since last time. This can happen, especially in the painful stage. Ease your stretches back to a comfortable level, protect your sleep, and mention it at your next visit — sooner if you notice any warning sign in the Alert tab.",
+  careFocusPain:"Pain is your biggest problem right now. See the Self Care tab for ice or heat, and the Sleep tab for night pain.",
+  careFocusFunc:"Everyday tasks are hard right now. The Self Care tab has easier ways to dress and wash.",
+  careFocusReach:"Reaching up is still limited. Keep doing this stage's exercises in the Exercises tab every day.",
+  careFocusGood:"Your shoulder is doing well. Keep a short daily routine so the stiffness does not come back.",
   roadmapTitle:"Your Recovery Roadmap",
   roadmapNote:"You move between stages when your shoulder changes, not on a fixed timetable. Some people move faster, some slower — both are normal.",
   todayTitle:"Today's Reminders",
@@ -119,7 +127,6 @@ en: {
   weeklyDoneKicker:"Monthly assessment",
   weeklyDoneTitle:"Done for this month",
   weeklyDoneBody:"Recorded {d}. Your next one is due {next}. Keep doing your exercises daily in the meantime.",
-  weeklyDoneBtn:"Update it anyway",
   weeklyNoneTitle:"Start with your first assessment",
   weeklyNoneBody:"The app needs one assessment before it can show you the right programme.",
   measureValidation:"Please answer both questions before continuing.",
@@ -211,8 +218,8 @@ en: {
     {v:5, t:"Satisfied and better"},
     {v:0, t:"Not satisfied and worse"}
   ],
-  uclaFlexQ:"Active forward flexion",
-  uclaFlexSub:"Raise the arm forward and up as far as you can without sharp pain, then drag the arc to match.",
+  uclaFlexQ:"Try each movement with your painful arm",
+  uclaFlexSub:"Follow the picture, go as far as you can without sharp pain, then drag the arc underneath to match.",
   ptsSuffix:" pt",
 
   phaseShort:["Pre-freezing","Freezing","Frozen","Thawing"],
@@ -263,7 +270,7 @@ en: {
   recoveredChip:"Recovered",
   recoveredDesc:"Your movement is back to normal and your pain is minimal. Keep a short maintenance routine going so the stiffness does not creep back.",
   noBaselineChip:"Complete your first assessment",
-  noBaselineDesc:"Tap \"Update my assessment\" so the app can show the right programme for where you are today.",
+  noBaselineDesc:"Open the Progress tab and answer this month's questionnaire, so the app can show the right programme for you.",
 
   exPhaseDefTitle:"What this stage is for",
   exCaution:"Stretch to tension, not to pain. If it is still worse the next morning, you went too far.",
@@ -310,10 +317,10 @@ en: {
     "Two last questions and your score is complete."
   ],
   moves:[
-    {key:"flexion",   name:"Reach forward and up", clin:"Forward elevation", max:180, unit:"°", scored:true},
-    {key:"abduction", name:"Reach out to the side", clin:"Abduction", max:180, unit:"°", scored:false},
-    {key:"er",        name:"Rotate outward", clin:"External rotation", max:90, unit:"°", scored:false},
-    {key:"ir",        name:"Reach behind your back", clin:"Internal rotation", max:8, unit:"", scored:false}
+    {key:"flexion",   name:"Reach forward and up", clin:"Forward elevation", cue:"Arm straight, raise it in front of you", max:180, unit:"°", scored:true},
+    {key:"abduction", name:"Reach out to the side", clin:"Abduction", cue:"Arm straight, raise it out to the side", max:180, unit:"°", scored:false},
+    {key:"er",        name:"Rotate outward", clin:"External rotation", cue:"Elbow tucked at your side, turn the hand outward", max:90, unit:"°", scored:false},
+    {key:"ir",        name:"Reach behind your back", clin:"Internal rotation", cue:"Hand behind your back, slide it up", max:8, unit:"", scored:false}
   ],
   irLandmarks:["Outer thigh","Buttock","Back pocket","Sacrum","Waistband","Low back","Mid back","Shoulder blade","Between blades"],
   measureNext:"Next", measureFinish:"Save my assessment", measureBack:"Back", measureCancel:"Close without saving",
@@ -417,7 +424,15 @@ th: {
   syncStatusDone:"✓ ส่งถึงทีมผู้ดูแลแล้ว",
   syncStatusPending:"ยังไม่ได้ส่ง — แอปจะลองส่งอีกให้เองเงียบ ๆ ไม่ต้องทำอะไรเพิ่ม",
   gradeNames:{excellent:"ดีเยี่ยม", good:"ดี", poor:"ต้องปรับปรุง"},
-  remeasureBtn:"ทำแบบประเมินใหม่",
+  careTitle:"คำแนะนำสำหรับคุณ",
+  careTrendFirst:"นี่คือจุดเริ่มต้นของคุณ แบบประเมินเดือนหน้าจะแสดงให้เห็นว่าอาการเปลี่ยนไปอย่างไร",
+  careTrendUp:"คะแนนของคุณเพิ่มขึ้น {n} คะแนนจากครั้งก่อน แสดงว่าสิ่งที่ทำอยู่ได้ผล ทำต่อไปแบบเดิม",
+  careTrendSteady:"คะแนนใกล้เคียงกับครั้งก่อน ภาวะข้อไหล่ติดมักคงที่ไปช่วงหนึ่ง ให้ทำท่าบริหารทุกวันต่อไป",
+  careTrendDown:"คะแนนของคุณลดลง {n} คะแนนจากครั้งก่อน ซึ่งเกิดขึ้นได้ โดยเฉพาะในระยะที่ปวดมาก ให้ลดความแรงของการยืดลงให้อยู่ในระดับที่สบาย ดูแลการนอนให้ดี และแจ้งแพทย์ในการนัดครั้งถัดไป หรือเร็วกว่านั้นหากพบสัญญาณเตือนในแท็บสัญญาณเตือน",
+  careFocusPain:"ตอนนี้ความปวดเป็นปัญหาหลัก ดูวิธีประคบเย็นหรือร้อนในแท็บดูแลตัวเอง และวิธีรับมือกับอาการปวดตอนกลางคืนในแท็บการนอน",
+  careFocusFunc:"ตอนนี้การทำกิจวัตรประจำวันยังลำบาก แท็บดูแลตัวเองมีวิธีแต่งตัวและอาบน้ำที่ง่ายขึ้น",
+  careFocusReach:"การยกแขนขึ้นยังทำได้จำกัด ให้ทำท่าบริหารของระยะนี้ในแท็บท่าบริหารทุกวัน",
+  careFocusGood:"ไหล่ของคุณดีขึ้นมาก ทำท่าบริหารสั้น ๆ ทุกวันต่อไป เพื่อไม่ให้กลับมาติดอีก",
   roadmapTitle:"เส้นทางการฟื้นตัวของคุณ",
   roadmapNote:"คุณจะเลื่อนไปยังระยะถัดไปเมื่ออาการของไหล่เปลี่ยนแปลง ไม่ใช่ตามตารางเวลาที่ตายตัว บางคนเร็วกว่า บางคนช้ากว่า ซึ่งเป็นเรื่องปกติทั้งคู่",
   todayTitle:"สิ่งที่ต้องทำวันนี้",
@@ -450,7 +465,6 @@ th: {
   weeklyDoneKicker:"แบบประเมินประจำเดือน",
   weeklyDoneTitle:"ทำครบแล้วสำหรับเดือนนี้",
   weeklyDoneBody:"บันทึกเมื่อ {d} ครั้งถัดไปกำหนด {next} ระหว่างนี้ให้ทำท่าบริหารทุกวันตามปกติ",
-  weeklyDoneBtn:"แก้ไขผลประเมิน",
   weeklyNoneTitle:"เริ่มจากแบบประเมินครั้งแรก",
   weeklyNoneBody:"แอปต้องมีผลประเมินหนึ่งครั้งก่อน จึงจะแสดงโปรแกรมที่เหมาะกับคุณได้",
   measureValidation:"กรุณาตอบทั้งสองคำถามก่อนไปต่อ",
@@ -537,8 +551,8 @@ th: {
     {v:5, t:"พอใจ และดีขึ้นกว่าเดิม"},
     {v:0, t:"ไม่พอใจ และแย่ลงกว่าเดิม"}
   ],
-  uclaFlexQ:"การยกแขนไปข้างหน้าด้วยตนเอง",
-  uclaFlexSub:"ยกแขนไปข้างหน้าและขึ้นบนให้สูงที่สุดเท่าที่ไม่ปวดแปลบ แล้วลากส่วนโค้งให้ตรงกับที่ทำได้",
+  uclaFlexQ:"ลองขยับแขนข้างที่มีอาการตามภาพทีละท่า",
+  uclaFlexSub:"ขยับตามภาพให้ได้มากที่สุดโดยไม่ปวดแปลบ แล้วลากเส้นโค้งด้านล่างภาพให้ตรงกับที่ทำได้",
   ptsSuffix:" คะแนน",
 
   phaseShort:["ก่อนข้อติด","เริ่มติด","ข้อติด","คลายตัว"],
@@ -589,7 +603,7 @@ th: {
   recoveredChip:"ฟื้นตัวแล้ว",
   recoveredDesc:"การเคลื่อนไหวของคุณกลับมาเป็นปกติและความปวดเหลือน้อยมาก ให้คงท่าบริหารสั้น ๆ ไว้อย่างสม่ำเสมอ เพื่อไม่ให้อาการติดกลับมาอีก",
   noBaselineChip:"ทำแบบประเมินครั้งแรก",
-  noBaselineDesc:"กด \"ทำแบบประเมินใหม่\" เพื่อให้แอปแสดงโปรแกรมที่เหมาะกับอาการของคุณในวันนี้",
+  noBaselineDesc:"เปิดแท็บความก้าวหน้าแล้วทำแบบประเมินประจำเดือน เพื่อให้แอปแสดงโปรแกรมที่เหมาะกับอาการของคุณ",
 
   exPhaseDefTitle:"ระยะนี้มีไว้เพื่ออะไร",
   exCaution:"ยืดจนรู้สึกตึง ไม่ใช่จนปวด ถ้าเช้าวันถัดไปยังแย่กว่าเดิม แสดงว่าทำมากเกินไป",
@@ -636,10 +650,10 @@ th: {
     "อีกสองคำถามก็จะได้คะแนนครบ"
   ],
   moves:[
-    {key:"flexion",   name:"เอื้อมไปข้างหน้าและขึ้นบน", clin:"ยกแขนไปข้างหน้า", max:180, unit:"°", scored:true},
-    {key:"abduction", name:"กางแขนออกด้านข้าง", clin:"กางแขน", max:180, unit:"°", scored:false},
-    {key:"er",        name:"หมุนแขนออกด้านนอก", clin:"หมุนออก", max:90, unit:"°", scored:false},
-    {key:"ir",        name:"เอื้อมไพล่หลัง", clin:"หมุนเข้า", max:8, unit:"", scored:false}
+    {key:"flexion",   name:"เอื้อมไปข้างหน้าและขึ้นบน", clin:"ยกแขนไปข้างหน้า", cue:"แขนเหยียดตรง ยกขึ้นทางด้านหน้า", max:180, unit:"°", scored:true},
+    {key:"abduction", name:"กางแขนออกด้านข้าง", clin:"กางแขน", cue:"แขนเหยียดตรง ยกออกทางด้านข้าง", max:180, unit:"°", scored:false},
+    {key:"er",        name:"หมุนแขนออกด้านนอก", clin:"หมุนออก", cue:"ข้อศอกแนบลำตัว หมุนมือออกด้านนอก", max:90, unit:"°", scored:false},
+    {key:"ir",        name:"เอื้อมไพล่หลัง", clin:"หมุนเข้า", cue:"วางมือไว้ด้านหลัง แล้วเลื่อนขึ้นให้สูงที่สุด", max:8, unit:"", scored:false}
   ],
   irLandmarks:["ต้นขาด้านนอก","สะโพก","กระเป๋ากางเกงหลัง","กระเบนเหน็บ","ขอบเอว","หลังส่วนล่าง","กลางหลัง","สะบัก","ระหว่างสะบัก"],
   measureNext:"ถัดไป", measureFinish:"บันทึกผลการประเมิน", measureBack:"ย้อนกลับ", measureCancel:"ปิดโดยไม่บันทึก",
@@ -846,7 +860,11 @@ document.addEventListener('contextmenu', e=>{
   if(e.target.closest('[data-no-contextmenu]')) e.preventDefault();
 });
 
-function todayISO(){ return new Date().toISOString().slice(0,10); }
+// Local calendar date, not UTC: in Thailand (UTC+7) the UTC date is still
+// "yesterday" until 7 a.m., which would misdate early-morning assessments
+// and reset the daily checklist at 7 a.m. instead of midnight.
+function localISO(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+function todayISO(){ return localISO(new Date()); }
 function checkDayRollover(){
   if(STATE.logDate !== todayISO()){ STATE.logDate = todayISO(); STATE.doneIds = []; return true; }
   return false;
@@ -972,7 +990,7 @@ async function acceptAddHome(){
 function closeAddHomePrompt(){
   document.getElementById('addhome-modal').classList.add('hidden');
   STATE.homeScreenPromptShown = true; saveState();
-  if(!latestMeasure()) openMeasure();
+  goToFirstAssessment();
 }
 
 /* ================== SYMPTOM-DRIVEN STAGE LOGIC ==================
@@ -1023,8 +1041,8 @@ function formatDate(iso){
 function nextDueDate(){
   const m = latestMeasure();
   if(!m) return '';
-  const dt = new Date(new Date(m.date + 'T00:00:00').getTime() + ASSESS_INTERVAL_DAYS*DAY_MS);
-  return formatDate(dt.toISOString().slice(0,10));
+  const d = new Date(m.date + 'T00:00:00');
+  return formatDate(localISO(new Date(d.getFullYear(), d.getMonth(), d.getDate() + ASSESS_INTERVAL_DAYS)));
 }
 function currentTotal(){
   const e = effectiveUcla();
@@ -1091,6 +1109,16 @@ function arcPath(cx, cy, r, frac){
   const a = frac * Math.PI;
   return `M ${cx.toFixed(2)} ${(cy+r).toFixed(2)} A ${r} ${r} 0 0 0 ${(cx + r*Math.sin(a)).toFixed(2)} ${(cy + r*Math.cos(a)).toFixed(2)}`;
 }
+/* Direction pictures for the Movement step, one per movement: the faint arm is
+   where to start, the green arm is where to move to, the arrow is the way.
+   Inline SVG so they stay sharp, need no extra files and pass the CSP. */
+const MOVE_ART = {
+  flexion:'<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="46" cy="15" r="8" fill="#8E9BB0"/><path d="M53 13 l4 3 l-4 1z" fill="#8E9BB0"/><rect x="42" y="25" width="14" height="34" rx="7" fill="#8E9BB0"/><line x1="49.0" y1="57.0" x2="48.0" y2="92.0" stroke="#8E9BB0" stroke-width="8" stroke-linecap="round"/><line x1="48.0" y1="92.0" x2="56.0" y2="92.0" stroke="#8E9BB0" stroke-width="6" stroke-linecap="round"/><path d="M68.6 62.4 L70.8 60.9 L72.9 59.2 L74.9 57.4 L76.8 55.4 L78.5 53.4 L80.0 51.2 L81.4 48.8 L82.6 46.4 L83.7 44.0 L84.5 41.4 L85.2 38.8 L85.6 36.1 L85.9 33.5 L86.0 30.8 L85.9 28.1 L85.6 25.4 L85.1 22.8 L84.4 20.2 L83.5 17.6 L82.4 15.2 L81.2 12.8 L79.8 10.5 L78.2 8.3 L76.5 6.2" fill="none" stroke="#2E7D6E" stroke-width="2.4" stroke-linecap="round"/><path d="M82.2 8.2 L76.5 6.2 L77.4 12.2" fill="none" stroke="#2E7D6E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><line x1="49.0" y1="31.0" x2="56.4" y2="57.0" stroke="#C3CAD6" stroke-width="7" stroke-linecap="round" stroke-dasharray="3 4"/><line x1="49.0" y1="31.0" x2="64.5" y2="8.9" stroke="#2E7D6E" stroke-width="7" stroke-linecap="round"/><circle cx="64.5" cy="8.9" r="4.2" fill="#2E7D6E"/></svg>',
+  abduction:'<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="15" r="8" fill="#8E9BB0"/><rect x="39" y="25" width="22" height="34" rx="8" fill="#8E9BB0"/><line x1="45.0" y1="57.0" x2="43.0" y2="93.0" stroke="#8E9BB0" stroke-width="8" stroke-linecap="round"/><line x1="55.0" y1="57.0" x2="57.0" y2="93.0" stroke="#8E9BB0" stroke-width="8" stroke-linecap="round"/><line x1="41.0" y1="30.0" x2="35.0" y2="57.0" stroke="#8E9BB0" stroke-width="7" stroke-linecap="round"/><path d="M77.5 60.3 L79.9 58.8 L82.1 57.1 L84.2 55.3 L86.1 53.3 L87.9 51.1 L89.5 48.8 L90.9 46.4 L92.1 43.9 L93.1 41.3 L93.9 38.6 L94.5 35.8 L94.9 33.1 L95.0 30.3 L94.9 27.5 L94.6 24.7 L94.1 21.9 L93.3 19.2 L92.3 16.6 L91.2 14.1 L89.8 11.6 L88.2 9.3 L86.5 7.1 L84.6 5.1 L82.5 3.2" fill="none" stroke="#2E7D6E" stroke-width="2.4" stroke-linecap="round"/><path d="M88.4 4.4 L82.5 3.2 L84.2 8.9" fill="none" stroke="#2E7D6E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><line x1="60.0" y1="30.0" x2="65.6" y2="56.4" stroke="#C3CAD6" stroke-width="7" stroke-linecap="round" stroke-dasharray="3 4"/><line x1="60.0" y1="30.0" x2="69.2" y2="4.6" stroke="#2E7D6E" stroke-width="7" stroke-linecap="round"/><circle cx="69.2" cy="4.6" r="4.2" fill="#2E7D6E"/></svg>',
+  er:'<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="15" r="8" fill="#8E9BB0"/><rect x="39" y="25" width="22" height="34" rx="8" fill="#8E9BB0"/><line x1="45.0" y1="57.0" x2="43.0" y2="93.0" stroke="#8E9BB0" stroke-width="8" stroke-linecap="round"/><line x1="55.0" y1="57.0" x2="57.0" y2="93.0" stroke="#8E9BB0" stroke-width="8" stroke-linecap="round"/><line x1="41.0" y1="30.0" x2="35.0" y2="57.0" stroke="#8E9BB0" stroke-width="7" stroke-linecap="round"/><line x1="60.0" y1="30.0" x2="62.0" y2="50.0" stroke="#8E9BB0" stroke-width="7" stroke-linecap="round"/><line x1="62.0" y1="50.0" x2="47.0" y2="55.0" stroke="#C3CAD6" stroke-width="6" stroke-linecap="round" stroke-dasharray="3 4"/><line x1="62.0" y1="50.0" x2="84.0" y2="55.0" stroke="#2E7D6E" stroke-width="6" stroke-linecap="round"/><circle cx="84.0" cy="55.0" r="4.2" fill="#2E7D6E"/><path d="M41.1 61.3 L41.0 62.3 L41.3 63.3 L41.9 64.3 L42.8 65.3 L44.1 66.2 L45.6 67.0 L47.4 67.8 L49.5 68.4 L51.7 69.0 L54.1 69.4 L56.6 69.7 L59.3 69.9 L61.9 70.0 L64.6 69.9 L67.2 69.7 L69.8 69.4 L72.2 69.0 L74.4 68.5 L76.5 67.8 L78.3 67.1 L79.8 66.2 L81.1 65.3 L82.1 64.4 L82.7 63.4" fill="none" stroke="#2E7D6E" stroke-width="2.4" stroke-linecap="round"/><path d="M82.5 69.4 L82.7 63.4 L77.3 66.1" fill="none" stroke="#2E7D6E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  ir:'<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="15" r="8" fill="#8E9BB0"/><path d="M42 12 a8 8 0 0 1 16 0z" fill="#6F7E96"/><rect x="39" y="25" width="22" height="34" rx="8" fill="#8E9BB0"/><line x1="45.0" y1="57.0" x2="43.0" y2="93.0" stroke="#8E9BB0" stroke-width="8" stroke-linecap="round"/><line x1="55.0" y1="57.0" x2="57.0" y2="93.0" stroke="#8E9BB0" stroke-width="8" stroke-linecap="round"/><line x1="41.0" y1="30.0" x2="35.0" y2="57.0" stroke="#8E9BB0" stroke-width="7" stroke-linecap="round"/><line x1="50" y1="27" x2="50" y2="58" stroke="#fff" stroke-width="1.2" stroke-dasharray="2 3" opacity=".8"/><line x1="60.0" y1="30.0" x2="67.0" y2="54.0" stroke="#C3CAD6" stroke-width="6" stroke-linecap="round" stroke-dasharray="3 4"/><line x1="67.0" y1="54.0" x2="53.0" y2="62.0" stroke="#C3CAD6" stroke-width="6" stroke-linecap="round" stroke-dasharray="3 4"/><line x1="60.0" y1="30.0" x2="69.0" y2="47.0" stroke="#2E7D6E" stroke-width="6" stroke-linecap="round"/><line x1="69.0" y1="47.0" x2="53.0" y2="38.0" stroke="#2E7D6E" stroke-width="6" stroke-linecap="round"/><circle cx="53.0" cy="38.0" r="4.2" fill="#2E7D6E"/><path d="M45 66 L45 36 M40 42 L45 36 L50 42" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M45 66 L45 36 M40 42 L45 36 L50 42" fill="none" stroke="#2E7D6E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+};
+
 function arcSvg(frac, key, max){
   const cx=60, cy=60, r=44, a=frac*Math.PI;
   const hx = cx + r*Math.sin(a), hy = cy + r*Math.cos(a);
@@ -1290,7 +1318,6 @@ function renderWeeklyReminder(){
     <div class="weekly-kicker">${c.weeklyDoneKicker}</div>
     <div class="weekly-title">${c.weeklyDoneTitle}</div>
     <div class="weekly-body">${c.weeklyDoneBody.replace('{d}', formatDate(m.date)).replace('{next}', nextDueDate())}</div>
-    <button class="primary-btn" data-action="openMeasure">${c.weeklyDoneBtn}</button>
   </div>`;
 }
 
@@ -1532,6 +1559,33 @@ function chartCard(cfg){
   </div>`;
 }
 
+/* Suggestions drawn from this patient's own results: how the score moved
+   since the last questionnaire, and the one area that most needs attention.
+   Each points to guidance the app already has (Self Care, Sleep, Exercises,
+   Alert) rather than introducing new clinical advice. */
+function careCard(stage){
+  const c = CONTENT[STATE.lang];
+  const ms = STATE.measures, m = ms[ms.length-1], prev = ms[ms.length-2];
+  const total = uclaTotal(m.ucla, m.rom.flexion);
+  const tips = [];
+  if(!prev) tips.push(c.careTrendFirst);
+  else {
+    const diff = total - uclaTotal(prev.ucla, prev.rom.flexion);
+    tips.push(diff >= 2 ? c.careTrendUp.replace('{n}', diff)
+            : diff <= -2 ? c.careTrendDown.replace('{n}', -diff)
+            : c.careTrendSteady);
+  }
+  if(m.ucla.pain <= 4) tips.push(c.careFocusPain);
+  else if(m.ucla.func <= 4) tips.push(c.careFocusFunc);
+  else if(m.rom.flexion < 120) tips.push(c.careFocusReach);
+  else if(uclaGrade(total) === 'excellent') tips.push(c.careFocusGood);
+  return `<div class="card care-card">
+    <h2>${c.careTitle}</h2>
+    <div class="care-stage">${c.phaseNames[stage]} · ${c.phaseTitles[stage]}</div>
+    <ul class="care-list">${tips.map(x=>`<li>${x}</li>`).join('')}</ul>
+  </div>`;
+}
+
 function renderProgress(){
   const c = CONTENT[STATE.lang];
   const wrap = document.getElementById('progress-body');
@@ -1587,11 +1641,8 @@ function renderProgress(){
 
   wrap.innerHTML = `
     ${scoreCard}
-    <div class="card">
-      <h2>${c.phaseNames[stage]} · ${c.phaseTitles[stage]}</h2>
-      <p class="muted" style="margin-top:6px;font-size:12px;">${c.progCount.replace('{n}', ms.length)}</p>
-      <button class="primary-btn" data-action="openMeasure">${c.remeasureBtn}</button>
-    </div>
+    ${careCard(stage)}
+    <p class="muted prog-count">${c.progCount.replace('{n}', ms.length)}</p>
     ${chart({ ...CH.total, vals: ms.map(m=>uclaTotal(m.ucla, m.rom.flexion)), max:35, suffix:' / 35', color:'#1F3864' })}
     ${chart({ ...CH.pain, vals: ms.map(m=>m.ucla.pain), max:10, suffix:' / 10', color:'#E8B860' })}
     ${chart({ ...CH.func, vals: ms.map(m=>m.ucla.func), max:10, suffix:' / 10', color:'#2C5F8A' })}
@@ -1711,6 +1762,20 @@ function defaultDraft(){
                    : { flexion:95, abduction:80, er:20, ir:2 };
   return { ucla:{ pain:null, func:null, strength:null, satisfaction:null }, rom };
 }
+/* The monthly questionnaire pops up on the Progress tab, not over Home, and
+   only when one is due (none yet, or 30+ days since the last). At most once
+   per app open, so closing it isn't followed by it reappearing on every tab
+   switch; the due card on Progress still offers it. */
+let measurePromptShown = false;
+function maybePromptMeasure(){
+  if(measurePromptShown || !assessmentDue() || !STATE.consentGiven || !isUsableHN(STATE.hn)) return;
+  if(!document.getElementById('addhome-modal').classList.contains('hidden')) return;
+  measurePromptShown = true;
+  openMeasure();
+}
+// After first-time setup, take a new patient to Progress for their baseline.
+function goToFirstAssessment(){ if(!latestMeasure()) switchTab('progress'); }
+
 function openMeasure(){
   if(!STATE.consentGiven){ openOnboard(true); return; }
   draft = defaultDraft(); measureStep = 0;
@@ -1718,10 +1783,8 @@ function openMeasure(){
   renderMeasure();
 }
 function closeMeasure(){ document.getElementById('measure-modal').classList.add('hidden'); }
-/* Nothing is written to STATE until the final step, so cancelling is safe.
-   Only blocked before the very first assessment, which the app needs. */
+/* Nothing is written to STATE until the final step, so closing is safe. */
 function cancelMeasure(){
-  if(!latestMeasure()) return;
   draft = null; measureStep = 0; closeMeasure();
 }
 
@@ -1736,7 +1799,6 @@ function renderMeasure(){
   back.classList.toggle('hidden', measureStep === 0);
   const cancel = document.getElementById('measure-cancel');
   cancel.textContent = c.measureCancel;
-  cancel.classList.toggle('hidden', !latestMeasure());
 
   const body = document.getElementById('measure-body');
 
@@ -1760,8 +1822,10 @@ function renderMeasure(){
       <div class="arc-grid">` + c.moves.map(m=>{
         const v = draft.rom[m.key];
         return `<div class="arc-cell">
-          ${arcSvg(v/m.max, m.key, m.max)}
           <div class="arc-name">${m.name}</div>
+          <div class="arc-cue">${m.cue}</div>
+          <div class="arc-art" role="img" aria-label="${escapeAttr(m.name + ' — ' + m.cue)}">${MOVE_ART[m.key]}</div>
+          ${arcSvg(v/m.max, m.key, m.max)}
           <div class="arc-val">${moveValueLabel(m, v)}</div>
           <div class="arc-pts">${m.scored ? flexionPoints(v) + c.ptsSuffix : '&nbsp;'}</div>
         </div>`;
@@ -1869,7 +1933,7 @@ function switchTab(tab){
   document.getElementById('view-'+tab).classList.add('active');
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
   if(tab === 'exercises'){ renderExerciseList(); }
-  if(tab === 'progress') renderProgress();
+  if(tab === 'progress'){ renderProgress(); maybePromptMeasure(); }
   // The shell grows with its content, so <main> never overflows — the window is
   // the scroller. Reset both so a new tab always opens at the top.
   document.querySelector('main').scrollTop = 0;
@@ -1926,7 +1990,7 @@ function saveOnboard(){
   if(wasSetUp) return;
   const willPromptAddHome = !IS_STANDALONE && !STATE.homeScreenPromptShown;
   maybeShowAddHomePrompt();
-  if(!willPromptAddHome && !latestMeasure()) openMeasure();
+  if(!willPromptAddHome) goToFirstAssessment();
 }
 function editHN(){ openOnboard(true); }
 function closeOnboard(){ document.getElementById('onboard').classList.add('hidden'); }
@@ -1948,7 +2012,6 @@ function renderAll(){
   buildOnsetSelects();
   renderAll();
   if(!STATE.consentGiven || !isUsableHN(STATE.hn)) openOnboard(true);
-  else if(!latestMeasure()) openMeasure();
   else maybeShowAddHomePrompt();
   trySyncPending();
 })();
