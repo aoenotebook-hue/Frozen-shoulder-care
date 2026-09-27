@@ -48,6 +48,21 @@ record in 5 re-focuses), and 3 overlapping triggers sent 3 POSTs.
 | Fix a typo in the HN | Unsent assessments re-labelled; already-sent ones untouched |
 | No page or console errors | ✓ |
 
+## Monthly questionnaire on the Progress tab — 26/26 passed
+
+Run in Bangkok time (`Asia/Bangkok`) with a fixed clock.
+
+| Scenario | Result |
+|---|---|
+| Fresh install | Setup → add-to-home prompt → taken to Progress, questionnaire pops up there (never over Home); it can be closed |
+| Set up, no questionnaire yet | Opens on Home with no pop-up; Home points to the Progress tab; Progress pops it up once per app open, then offers a Start button |
+| Done this month | No pop-up and no re-take buttons anywhere; shows result, care suggestions, progress charts, next due date |
+| Due again (30+ days) | Pops up on Progress; previous results and care suggestions still shown |
+| Care suggestions | First / up / steady / down wording from the score change, plus pain, daily-task, reaching-up or doing-well focus |
+| 06:00 in Bangkok | Today is the 27th (was the 26th in UTC); assessment dated the 27th |
+| 1 Sep questionnaire | Next due shows 1 Oct (previously 30 Sep) |
+| No page or console errors | ✓ |
+
 ## Client end-to-end (both languages) — 32/32 passed
 
 Fresh install → onboarding (HN, onset, consent) → add-to-home prompt →
