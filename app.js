@@ -406,8 +406,11 @@ en: {
   addHomeTitle:"Add to Home Screen?",
   addHomeBody:"Add this app to your home screen for one-tap access anytime, just like a regular app.",
   addHomeAccept:"Add to Home Screen", addHomeDecline:"Not Now", addHomeGotIt:"Got it",
-  addHomeIOSSteps:"Tap the Share icon in your browser, then choose \"Add to Home Screen.\"",
-  addHomeGenericSteps:"Look for \"Add to Home Screen\" or \"Install App\" in your browser's menu."
+  addHomeEntry:"Add app to home screen",
+  addHomeOpenBrowser:"Open in browser",
+  inAppNoteLine:"Tip: open this in your phone's browser before setting up, so you can add the app to your home screen. Anything you enter inside LINE stays in LINE.",
+  inAppNoteSocial:"Tip: tap ⋯ at the top right and choose “Open in browser” before setting up, so you can add the app to your home screen.",
+  addHomeSteps:{"ios": ["Tap the Share button {share}<span class=\"note\">At the bottom of Safari, or at the top right in Chrome</span>", "Scroll down and tap “Add to Home Screen” {plus}", "Tap “Add” at the top right"], "android": ["Tap the menu {menu} at the top right of Chrome", "Tap “Install app” or “Add to Home screen”", "Tap “Install” or “Add”"], "line": ["LINE's own browser can't add apps to your home screen. Tap “Open in browser” below.", "In the browser that opens, tap “Add app to home screen” on the Home tab.<span class=\"note\">You'll enter your HN once more there.</span>"], "social": ["This app's own browser can't add apps to your home screen. Tap {dots} at the top right and choose “Open in browser”.", "In the browser that opens, tap “Add app to home screen” on the Home tab."], "other": ["Open your browser's menu", "Choose “Add to Home Screen” or “Install app”"]}
 },
 
 th: {
@@ -739,8 +742,11 @@ th: {
   addHomeTitle:"เพิ่มลงหน้าจอหลักหรือไม่",
   addHomeBody:"เพิ่มแอปนี้ลงหน้าจอหลักเพื่อเปิดใช้งานได้ในแตะเดียว เหมือนแอปทั่วไป",
   addHomeAccept:"เพิ่มลงหน้าจอหลัก", addHomeDecline:"ไว้ภายหลัง", addHomeGotIt:"เข้าใจแล้ว",
-  addHomeIOSSteps:"แตะไอคอนแชร์ในเบราว์เซอร์ แล้วเลือก \"เพิ่มไปยังหน้าจอโฮม\"",
-  addHomeGenericSteps:"มองหา \"เพิ่มลงหน้าจอหลัก\" หรือ \"ติดตั้งแอป\" ในเมนูของเบราว์เซอร์"
+  addHomeEntry:"เพิ่มแอปลงหน้าจอหลัก",
+  addHomeOpenBrowser:"เปิดในเบราว์เซอร์",
+  inAppNoteLine:"แนะนำ: เปิดในเบราว์เซอร์ของโทรศัพท์ก่อนตั้งค่า เพื่อให้เพิ่มแอปลงหน้าจอหลักได้ ข้อมูลที่กรอกใน LINE จะอยู่ใน LINE เท่านั้น",
+  inAppNoteSocial:"แนะนำ: แตะ ⋯ ที่มุมขวาบน แล้วเลือก “เปิดในเบราว์เซอร์” ก่อนตั้งค่า เพื่อให้เพิ่มแอปลงหน้าจอหลักได้",
+  addHomeSteps:{"ios": ["แตะปุ่มแชร์ {share}<span class=\"note\">อยู่ด้านล่างของ Safari หรือมุมขวาบนใน Chrome</span>", "เลื่อนลงแล้วแตะ “เพิ่มไปยังหน้าจอโฮม” {plus}", "แตะ “เพิ่ม” ที่มุมขวาบน"], "android": ["แตะเมนู {menu} ที่มุมขวาบนของ Chrome", "แตะ “ติดตั้งแอป” หรือ “เพิ่มลงในหน้าจอหลัก”", "แตะ “ติดตั้ง” หรือ “เพิ่ม”"], "line": ["เบราว์เซอร์ใน LINE เพิ่มแอปลงหน้าจอหลักไม่ได้ แตะ “เปิดในเบราว์เซอร์” ด้านล่าง", "ในเบราว์เซอร์ที่เปิดขึ้น แตะ “เพิ่มแอปลงหน้าจอหลัก” ในแท็บหน้าแรก<span class=\"note\">คุณจะต้องกรอก HN อีกครั้งในเบราว์เซอร์นั้น</span>"], "social": ["เบราว์เซอร์ในแอปนี้เพิ่มแอปลงหน้าจอหลักไม่ได้ แตะ {dots} ที่มุมขวาบน แล้วเลือก “เปิดในเบราว์เซอร์”", "ในเบราว์เซอร์ที่เปิดขึ้น แตะ “เพิ่มแอปลงหน้าจอหลัก” ในแท็บหน้าแรก"], "other": ["เปิดเมนูของเบราว์เซอร์", "เลือก “เพิ่มลงหน้าจอหลัก” หรือ “ติดตั้งแอป”"]}
 }
 };
 
@@ -832,7 +838,8 @@ const ACTIONS = new Set([
   'setLang', 'switchTab', 'handleResetApp', 'saveOnboard',
   'openMeasure', 'measureNext', 'measureBack', 'cancelMeasure',
   'setDraftUclaPain', 'setDraftUclaFunc', 'setDraftUclaStrength', 'setDraftUclaSat',
-  'acceptAddHome', 'closeAddHomePrompt', 'toggleExercise', 'playVideo', 'editHN', 'closeOnboard'
+  'acceptAddHome', 'closeAddHomePrompt', 'toggleExercise', 'playVideo', 'editHN', 'closeOnboard',
+  'openAddHome', 'openInExternalBrowser'
 ]);
 function dispatchAction(el, action, arg){
   if(!ACTIONS.has(action)) return;
@@ -955,6 +962,7 @@ function setLang(lang){
   buildOnsetSelects();
   renderAll();
   if(!document.getElementById('measure-modal').classList.contains('hidden')) renderMeasure();
+  if(IN_APP) document.getElementById('onboard-inapp-text').textContent = IN_APP === 'line' ? t('inAppNoteLine') : t('inAppNoteSocial');
 }
 
 /* ============================= CLINIC ============================= */
@@ -968,29 +976,78 @@ const CLINIC_PHONE = "02 839 6000";
 const APP_TOKEN = "mBXvt5FYGIgaShK6NNu8_dfTAs508xRD";
 const SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyJXgcm0q20rPqoYgjZaq3eelyku_BbXbn_xFWIypn5Kq4tDUVtuwjQmM-z44nztlyv/exec";
 
+/* ======================= ADD TO HOME SCREEN =======================
+   Android (Chrome, Edge, Samsung Internet): the manifest + service worker
+   make the browser fire beforeinstallprompt, so "Add" opens its one-tap
+   install dialog. iOS has no install API, so "Add" shows the Share → "Add to
+   Home Screen" steps with the same symbols the patient will see. Browsers
+   built into LINE / Facebook / Instagram can't install at all; those are
+   sent to the phone's real browser first. */
 let deferredInstallPrompt = null;
-const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+let installedThisVisit = false;
+let addHomeFromSetup = false;
+const UA = navigator.userAgent;
+// iPadOS 13+ reports itself as a Mac; touch support tells them apart.
+const IS_IOS = /iPad|iPhone|iPod/.test(UA) || (/Macintosh/.test(UA) && navigator.maxTouchPoints > 1);
+const IS_ANDROID = /Android/i.test(UA);
+const IN_APP = /\bLine\//i.test(UA) ? 'line' : /FBAN|FBAV|FB_IAB|Instagram|Messenger/i.test(UA) ? 'social' : null;
 const IS_STANDALONE = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredInstallPrompt = e; });
 
-function maybeShowAddHomePrompt(){
-  if(IS_STANDALONE || STATE.homeScreenPromptShown || !STATE.consentGiven) return;
+window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredInstallPrompt = e; });
+window.addEventListener('appinstalled', ()=>{
+  installedThisVisit = true; deferredInstallPrompt = null;
+  STATE.homeScreenPromptShown = true; saveState();
+  updateAddHomeEntry();
+});
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{ navigator.serviceWorker.register('/sw.js').catch(()=>{}); });
+}
+
+// Symbols drawn to match what the phone shows: iOS Share and "Add to Home
+// Screen", Android's ⋮ menu, and the ⋯ menu of in-app browsers.
+const ADDHOME_ICONS = {
+  share:'<span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M7 10H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-1"/></svg></span>',
+  plus:'<span class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/></svg></span>',
+  menu:'<span class="ico grey"><svg viewBox="0 0 24 24"><path d="M12 5h.01M12 12h.01M12 19h.01" stroke-width="3.4"/></svg></span>',
+  dots:'<span class="ico grey"><svg viewBox="0 0 24 24"><path d="M5 12h.01M12 12h.01M19 12h.01" stroke-width="3.4"/></svg></span>'
+};
+
+function updateAddHomeEntry(){
+  document.getElementById('addhome-entry').classList.toggle('hidden', IS_STANDALONE || installedThisVisit);
+}
+function showAddHomeModal(){
+  document.getElementById('addhome-buttons').classList.remove('hidden');
+  document.getElementById('addhome-steps').classList.add('hidden');
   document.getElementById('addhome-modal').classList.remove('hidden');
 }
+function maybeShowAddHomePrompt(){
+  if(IS_STANDALONE || STATE.homeScreenPromptShown || !STATE.consentGiven) return;
+  addHomeFromSetup = true;
+  showAddHomeModal();
+}
+function openAddHome(){ addHomeFromSetup = false; showAddHomeModal(); }
+
 async function acceptAddHome(){
-  if(deferredInstallPrompt){
-    deferredInstallPrompt.prompt();
-    try{ await deferredInstallPrompt.userChoice; }catch(e){}
-    deferredInstallPrompt = null; closeAddHomePrompt(); return;
+  if(deferredInstallPrompt && !IN_APP){
+    const prompt = deferredInstallPrompt; deferredInstallPrompt = null;
+    prompt.prompt();
+    try{ await prompt.userChoice; }catch(e){}
+    closeAddHomePrompt(); return;
   }
+  const kind = IN_APP || (IS_IOS ? 'ios' : IS_ANDROID ? 'android' : 'other');
+  document.getElementById('addhome-steps-list').innerHTML = t('addHomeSteps')[kind]
+    .map(x=>`<li><span>${x.replace(/\{(\w+)\}/g, (m,k)=>ADDHOME_ICONS[k] || m)}</span></li>`).join('');
+  document.getElementById('addhome-open-browser').classList.toggle('hidden', kind !== 'line');
   document.getElementById('addhome-buttons').classList.add('hidden');
-  document.getElementById('addhome-steps-text').textContent = IS_IOS ? t('addHomeIOSSteps') : t('addHomeGenericSteps');
   document.getElementById('addhome-steps').classList.remove('hidden');
 }
+// LINE opens a link in the phone's own browser when it carries this flag.
+function openInExternalBrowser(){ location.href = location.origin + '/?openExternalBrowser=1'; }
+
 function closeAddHomePrompt(){
   document.getElementById('addhome-modal').classList.add('hidden');
   STATE.homeScreenPromptShown = true; saveState();
-  goToFirstAssessment();
+  if(addHomeFromSetup){ addHomeFromSetup = false; goToFirstAssessment(); }
 }
 
 /* ================== SYMPTOM-DRIVEN STAGE LOGIC ==================
@@ -1960,6 +2017,14 @@ function openOnboard(prefill){
   buildOnsetSelects();
   document.getElementById('hn-validation').textContent = '';
   document.getElementById('consent-validation').textContent = '';
+  // Opened inside LINE/Facebook? Suggest the phone's browser before setup, as
+  // anything entered here stays in that app's browser and won't carry over.
+  const inApp = IN_APP && !STATE.consentGiven;
+  document.getElementById('onboard-inapp').classList.toggle('hidden', !inApp);
+  if(inApp){
+    document.getElementById('onboard-inapp-text').textContent = IN_APP === 'line' ? t('inAppNoteLine') : t('inAppNoteSocial');
+    document.getElementById('onboard-open-browser').classList.toggle('hidden', IN_APP !== 'line');
+  }
   // Editing an existing setup can be abandoned; first-time setup can't.
   document.getElementById('onboard-cancel').classList.toggle('hidden', !(STATE.consentGiven && isUsableHN(STATE.hn)));
   if(prefill){
@@ -2011,6 +2076,7 @@ function renderAll(){
   await loadState();
   buildOnsetSelects();
   renderAll();
+  updateAddHomeEntry();
   if(!STATE.consentGiven || !isUsableHN(STATE.hn)) openOnboard(true);
   else maybeShowAddHomePrompt();
   trySyncPending();
